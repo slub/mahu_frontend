@@ -1,0 +1,149 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+
+<f:comment>
+	Renders the search results area.
+</f:comment>
+
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/pages/SearchFormPage.js" name="sfpage"/>
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/pages/ResultsPage.js" name="rpage"/>
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/MaterialTaxonomy.js" name="taxononmy"/>
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/pages/GroupedResultsPage.js" name="grpage"/>
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/SettingsDialog.js" name="selDia"/>
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/ImageLinkResolver.js" name="ilr"/>
+
+<h1>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.heading')}</h1>
+
+<f:render partial="Form/Form" arguments="{_all}"/>
+<f:render partial="Form/ModifierArea" arguments="{_all}"/>
+
+<f:comment>Adds tabs between form area and results list for selecting the material type facet
+<section class="facets-typ">
+	<f:render
+		partial="Facets/Facet"
+		arguments="{
+			facetData: '{s:data.valueForKey(array:results.components.facetset.facets, key:config.facets.333.id)}',
+			facetInfo: config.facets.333,
+			config:config
+	}"/>
+</section></f:comment>
+
+<div class="results">
+	<script>
+		const resultCount = <s:format.json data="{results.numfound}"/>;
+	</script>
+	
+	<f:if condition="{arguments.group}=='1'">
+		<f:then>
+			<v:variable.set name="grouping" value="{v:variable.get(name:'results.components.grouping.groups.{settings.grouping.field}')}" />
+			
+			<f:if condition="{grouping}">
+			  	<f:then>
+			  	
+			  	<div id="searchResultsContainer">
+			  		<div class="navigation">
+						<h2 id="resultsCaption">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:results')}</h2>
+												
+						<div class="iconBar">
+							<a id="saveQuery" class="no-change" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:saveQuery')}"><i class="fa fa-save smallicon"></i></a>
+							<a id="exportResults" class="no-change" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:exportResults')}"><i class="fa fa-download smallicon"></i></a>
+							<a id="printResults" class="no-change" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:printResults')}"><i class="fa fa-print smallicon"></i></a>
+							<a id="expandCollapse" class="no-change" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:expandCollapseAll')}" class="fas fa-chevron-circle-up smallicon"></a>
+							<a id="configure" class="no-change" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:configure')}"><i class="fas fa-cogs smallicon"></i></a>
+							<a id="showFacets" class="no-change" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:showFacets')}"><i class="fas fa-filter smallicon"></i></a>
+							<s:data.newArray
+									name="linkArguments"
+									keys="{0: 'q'}"
+									values="{
+										0: { default : '*' }
+									}"
+									omitEmptyFields="1" >
+								<f:link.action
+									action="index"
+									arguments="{linkArguments}"
+									pageUid="{settings.mahu.materialSearchPageID}"
+									id="resetQuery"
+									class="no-change"
+									title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:resetQuery')}">
+									<i class="far fa-times-circle smallicon"></i>
+								</f:link.action>
+							</s:data.newArray>
+							
+							<f:render partial="Components/GroupedResultCount" arguments="{_all}"/>
+						</div>
+					</div>
+			  		
+			  		<f:render partial="mahu/ResultsPage/GroupedResults" arguments="{_all}"/>
+			  		
+			  		<div class="bottom">
+						<f:render partial="Pager/ListPager" arguments="{_all}"/>
+					</div>
+					</div>
+					<f:render partial="Facets/Facets" arguments="{_all}"/>
+				</f:then>
+			  	<f:else>
+			  		<f:render partial="mahu/ResultsPage/NoResultsMessage" arguments="{_all}"/>
+				</f:else>
+			</f:if>
+		</f:then>
+		<f:else>
+		<f:if condition="{results}">
+		  <f:then>
+			<div id="searchResultsContainer">
+			<div class="navigation">
+				<h2 id="resultsCaption">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:results')}</h2>
+				
+				<div class="iconBar">
+					<a id="saveQuery" class="no-change" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:saveQuery')}"><i class="fa fa-save smallicon"></i></a>
+					<a id="exportResults" class="no-change" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:exportResults')}"><i class="fa fa-download smallicon"></i></a>
+					<a id="printResults" class="no-change" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:printResults')}"><i class="fa fa-print smallicon"></i></a>
+					<a id="configure" class="no-change" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:configure')}"><i class="fas fa-cogs smallicon"></i></a>
+					<a id="showFacets" class="no-change" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:showFacets')}"><i class="fas fa-filter smallicon"></i></a>
+					<s:data.newArray
+							name="linkArguments"
+							keys="{0: 'q'}"
+							values="{
+								0: { default : '*' }
+							}"
+							omitEmptyFields="1" >
+						<f:link.action
+							action="index"
+							arguments="{linkArguments}"
+							pageUid="{settings.mahu.materialSearchPageID}"
+							id="resetQuery"
+							class="no-change"
+							title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:resetQuery')}">
+							<i class="far fa-times-circle smallicon"></i>
+						</f:link.action>
+					</s:data.newArray>
+					
+					<f:render partial="Components/ResultCount" arguments="{_all}"/>
+				</div>
+			</div>
+			
+			<ul id="c{config.uid}-resultList" class="resultList" start="{config.counterStart}">
+				<v:variable.set name="customprops" value="{v:iterator.explode(content:arguments.cpp, glue:',')}" />
+				<f:alias map="{atts:'{m:AdditionalResultInfos(query:arguments.q,schema:settings.mahu.schema,documents:results.documents,customprops:customprops)}', maxscore:results.maxscore}">
+				<f:for each="{results.documents}" as="doc">
+					<f:alias map="{document:'{m:HideMaterialProperties(material:doc)}'}">
+					<f:render partial="Display/Result" arguments="{_all}"/>
+					</f:alias>
+				</f:for>
+				</f:alias>
+			</ul>
+	
+			<div class="bottom">
+				<f:render partial="Pager/ListPager" arguments="{_all}"/>
+			</div>
+			</div>
+			<f:render partial="Facets/Facets" arguments="{_all}"/>
+		  </f:then>
+		  <f:else>
+		  	<f:render partial="mahu/ResultsPage/NoResultsMessage" arguments="{_all}"/>
+		  </f:else>
+		</f:if>
+		
+		</f:else>
+	</f:if>
+</div>

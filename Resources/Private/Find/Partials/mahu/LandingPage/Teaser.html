@@ -1,0 +1,51 @@
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+<f:comment>
+Displays (predefined) material categories as an entry point into a material search.
+</f:comment>
+ 
+<div class="sectionContent">
+	<div class="teaser">
+		<s:data.newArray
+			name="linkArguments"
+			keys="{0: 'q'}"
+			values="{
+				0: { default : '*' }
+			}"
+			omitEmptyFields="1" >
+			<f:link.action
+				action="index"
+				arguments="{linkArguments}"
+				additionalAttributes="{'aria-labelledby':'ti1txt' }"
+				pageUid="{settings.mahu.materialSearchPageID}"
+				class="teaserItem no-change" >
+					<img src="/typo3conf/ext/mahu_frontend/Resources/Public/Images/organisch-synthetisch.jpg" alt="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.symbolicimage')}"/>
+					<span class="cropText" id="ti1txt">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.teaser.materials')}</span>
+					<span class="count">{settings.mahu.teaserCounts.materials}</span>
+			</f:link.action>
+		</s:data.newArray>
+
+		<f:link.page pageUid="{settings.mahu.materialSearchPageID}" section="materialcategories" class="teaserItem no-change" additionalAttributes="{'aria-labelledby':'ti2txt'}">
+			<img src="/typo3conf/ext/mahu_frontend/Resources/Public/Images/categories.png" alt="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.symbolicimage')}"/>
+			<span class="cropText" id="ti2txt">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.teaser.categories')}</span>
+			<span class="count">{settings.mahu.teaserCounts.categories}</span>
+		</f:link.page>
+
+		<f:link.page pageUid="{settings.mahu.materialSearchPageID}" section="usecases" class="teaserItem no-change" additionalAttributes="{'aria-labelledby':'ti3txt'}">
+			<img src="/typo3conf/ext/mahu_frontend/Resources/Public/Images/applicationareas/mechanicalengineering.jpg" alt="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.symbolicimage')}"/>
+			<span class="cropText" id="ti3txt">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.teaser.usecases')}</span>
+			<span class="count">{settings.mahu.teaserCounts.usecases}</span>
+		</f:link.page>
+
+		<f:link.page pageUid="{settings.mahu.partnerPageID}" additionalAttributes="{'aria-labelledby':'ti4txt'}" class="teaserItem no-change">
+			<img src="/typo3conf/ext/mahu_frontend/Resources/Public/Images/applicationareas/architekturdesignetc.jpg" alt="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.symbolicimage')}"/>
+			<span class="cropText" id="ti4txt">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.teaser.companies')}</span>
+			<span class="count">{settings.mahu.teaserCounts.companies}</span>
+		</f:link.page>
+
+		<f:link.page pageUid="{settings.mahu.regulationsPageID}" additionalAttributes="{'aria-labelledby':'ti5txt'}" class="teaserItem no-change">
+			<img src="/typo3conf/ext/mahu_frontend/Resources/Public/Images/applicationareas/stampingpads.jpg" alt="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.symbolicimage')}"/>
+			<span class="cropText" id="ti5txt">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.teaser.regulations')}</span>
+			<span class="count">{settings.mahu.teaserCounts.regulations}</span>
+		</f:link.page>
+	</div>
+</div>

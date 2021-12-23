@@ -1,0 +1,1 @@
+class FAQPage extends AbstractPage{render(){super.render()}addListeners(){super.addListeners(),this.initGroupedResultsViewExpanders(!0)}}

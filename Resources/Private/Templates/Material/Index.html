@@ -1,0 +1,124 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+
+<f:layout name="Default"/>
+<f:comment>
+	The main view with a table of all files in the folder of the currently logged in user.
+</f:comment>
+<f:section name="Main">
+
+<f:comment> render error messages </f:comment>
+<f:if condition="{error}">
+<f:then>
+	<f:render partial="Editor/Error" arguments="{_all}"/>
+</f:then><f:else>
+<h3>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.list.files')} <q>{companyName}</q></h3>
+</f:else>
+</f:if>
+
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/pages/MaterialListPage.js" name="mlpage"/>
+<script>
+const currentPage = "MaterialListPage";
+</script>
+
+<f:if condition="{files}">
+<f:then>
+<div class="materials" style="position:relative">
+	<table class="matDescTable propertiesTable">
+    <thead>
+        <tr>
+            <th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.list.filename')}</th>
+            <th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.list.act')}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <f:for each="{files}" as="file">
+            <tr>
+			    <td>
+					{file.name}
+			    </td>
+			    <td>
+			    	<f:link.action
+		    			controller="Material"
+		    			pageUid="{settings.materialEditorPageID}"
+						action="edit"
+						class="action"
+						arguments="{id:file.name,company:companyID}">
+						<i class="fas fa-pen smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:edit"/>
+					</f:link.action>
+					
+					<f:link.action
+		    			controller="Material"
+		    			pageUid="{settings.materialEditorPageID}"
+						action="preview"
+						class="action"
+						arguments="{id:file.name,company:companyID}">
+						<i class="fas fa-search smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:preview"/>
+					</f:link.action>
+			    
+			    	<f:link.action 
+			    		controller="Material" 
+			    		action="remove"
+			    		class="action remove"
+			    		arguments="{file:file.name,company:companyID}"
+			    		additionalAttributes="{data-file:file.name,data-class:'materials',data-ue:'&tx_mahufrontend_materialeditor[format]=part&type=1369315230'}">
+						<i class="fas fa-trash-alt smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.remove"/>
+					</f:link.action>
+					
+					<f:link.action 
+			    		controller="Material" 
+			    		action="duplicate" 
+			    		class="action duplicate"
+			    		arguments="{src:file.name,company:companyID,newname:'$$$$$'}"
+			    		additionalAttributes="{data-class:'materials',data-ue:'&tx_mahufrontend_materialeditor[format]=part&type=1369315230'}">
+						<i class="fas fa-copy smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.copy"/>
+					</f:link.action>
+			    </td>
+			</tr>
+        </f:for>
+    </tbody>
+</table>
+</div>
+
+<div style="display: none; visibility: hidden">
+	<div id="confirmDeletionmaterials" data-title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.list.remove.confirm.header')}">
+		<p><i class="fas fa-exclamation-triangle smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.list.remove.confirm.text"/></p>
+	</div>
+</div>
+
+<div style="display: none; visibility: hidden">
+	<div id="copydialogmaterials" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.copy')}">
+		<p><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.list.copy.text"/></p></p>
+
+		<form>
+			<fieldset>
+				<label for="newmatname"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:name"/>: </label>
+				<input type="text"
+					name="name" id="newmatname" value=""
+					class="text ui-widget-content ui-corner-all">
+
+				<!-- Allow form submission with keyboard without duplicating the dialog button -->
+				<input type="submit" tabindex="-1"
+					style="position: absolute; top: -1000px">
+			</fieldset>
+		</form>
+	</div>
+</div>
+
+</f:then>
+<f:else>
+	<f:if condition="{success}">
+	{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.list.nofiles')}
+	</f:if>
+</f:else>
+</f:if>
+
+<div>
+	<f:link.action
+		action="new"
+		pageUid="{settings.materialEditorPageID}"
+		arguments="{company:companyID}">
+		<i class="fas fa-plus-circle smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new"/>
+	</f:link.action>
+</div>
+</f:section>

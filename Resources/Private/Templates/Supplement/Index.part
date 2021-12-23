@@ -1,0 +1,58 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+
+<f:if condition="{files}">
+<f:then>
+
+	<table class="matDescTable propertiesTable">
+    <thead>
+        <tr>
+            <th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.list.filename')}</th>
+            <th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.list.act')}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <f:for each="{files}" as="file">
+            <tr>
+			    <td>
+					{file.name}
+			    </td>
+			    <td>
+			    	<f:link.action
+		    			controller="Supplement"
+						action="edit"
+						pageUid="{settings.supplementEditorPageID}"
+						class="action"
+						arguments="{id:file.name,company:companyID}">
+						<i class="fas fa-pen smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:edit"/>
+					</f:link.action>
+			    
+			    	<f:link.action 
+			    		controller="Supplement" 
+			    		action="remove" 
+			    		class="action remove"
+			    		arguments="{file:file.name,company:companyID}"
+			    		additionalAttributes="{data-file:file.name,data-class:'supplements',data-ue:'&tx_mahufrontend_supplementeditor[format]=part&type=1369315231'}">
+						<i class="fas fa-trash-alt smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.remove"/>
+					</f:link.action>
+					
+					<f:link.action 
+			    		controller="Supplement" 
+			    		action="duplicate" 
+			    		class="action duplicate"
+			    		arguments="{src:file.name,company:companyID,newname:'$$$$$'}"
+			    		additionalAttributes="{data-class:'supplements',data-ue:'&tx_mahufrontend_supplementeditor[format]=part&type=1369315231'}">
+						<i class="fas fa-copy smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.copy"/>
+					</f:link.action>
+			    </td>
+			</tr>
+        </f:for>
+    </tbody>
+</table>
+</f:then>
+<f:else>
+	<f:if condition="{success}">
+	{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.list.nofiles')}
+	</f:if>
+</f:else>
+</f:if>

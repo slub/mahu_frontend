@@ -1,0 +1,31 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+<div class="header clearfix">
+    <div class="mahuLogoContainer">
+    	<f:link.page pageUid="{f:cObject(typoscriptObjectPath:'lib.mahuLogoLinkPageID')}" id="mahuLogo" additionalParams="{L:'{f:cObject(typoscriptObjectPath:\'lib.currentLangID\')}'}">Material Hub</f:link.page>
+	</div>
+
+    <div id="usercontrols">
+	   	<f:if condition="{f:cObject(typoscriptObjectPath:'lib.showLanguageMenu')}=='1'">
+	    <div class="language-switch"></div></f:if>
+
+	   	<f:if condition="{f:cObject(typoscriptObjectPath:'lib.loginEnabled')}=='TRUE'">
+	   	<f:then>
+	   		<f:if condition="{f:cObject(typoscriptObjectPath:'lib.username')}!=''">
+			<div id="userIconContainer"></div>
+			</f:if>
+	   	</f:then>
+	   	<f:else>
+	   		<div id="userIconContainer"></div>
+	   	</f:else>
+		</f:if>
+	   	<a id="menuToggle" class="userIcon" data-toggle="collapse" data-target=".navbar"><i class="fas fa-2x fa-bars"></i></a>
+	</div>
+	<nav class="navbar navbar-collapse collapse" id="navcontainer">
+		<div id="nav">
+		<f:cObject typoscriptObjectPath="lib.menu" />
+		</div>
+    </nav>
+    <f:if condition="{f:cObject(typoscriptObjectPath:'lib.showRootline')}==1">
+   	<f:cObject typoscriptObjectPath="lib.rootline" />
+   	</f:if>
+</div>

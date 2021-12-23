@@ -1,0 +1,49 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Text field for the input form with support for:
+	* autocomplete (using the suggest action; configured with the autocomplete and autocompleteDictionary variables)
+	* an alternate query style which can be set by a checkbox (appears when the alternateQuery is set)
+</f:comment>
+<f:alias map="{
+	hasAlternate:'{f:if(condition:fieldInfo.queryAlternate, then:1, else:0)}'
+}">
+	<label class="fieldLabel" for="c{config.uid}-field-{fieldInfo.id}">
+		<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>:
+	</label>
+	<span class="inputContainer input-group stylish-input-group">
+		<f:form.textfield
+			id="c{config.uid}-field-{fieldInfo.id}"
+			class="inputType-text form-control"
+			name="q[{fieldInfo.id}]{f:if(
+				condition:hasAlternate,
+				then:'[term]'
+			)}"
+			value="{f:if(
+				condition:hasAlternate,
+				then:queryParameter.term,
+				else:queryParameter
+			)}"
+			placeholder="{f:translate(key:'LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}.placeholder')}"
+			additionalAttributes="<f:if condition='{fieldInfo.autocomplete}==1'><f:then>{autocompleteURL:\"{f:uri.action(
+				arguments:{dictionary:fieldInfo.autocompleteDictionary, q:'%%%%'},
+				action:'suggest',
+				pageType:'1369315139',
+				format:'data'
+			)}\"}</f:then><f:else>{a:1}</f:else></f:if>"
+		/>
+		<f:if condition="{hasAlternate}">
+			<span class="alternate">
+				<f:form.checkbox
+					id="c{config.uid}-field-{fieldInfo.id}-checkbox"
+					class="inputType-checkbox"
+					name="q[{fieldInfo.id}][alternate]"
+					value="1"
+					checked="{queryParameter.alternate}==1"
+				/>
+				<label class="fieldLabel" for="c{config.uid}-field-{fieldInfo.id}-checkbox">
+					<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}-checkbox"/>
+				</label>
+			</span>
+		</f:if>
+	</span>
+</f:alias>

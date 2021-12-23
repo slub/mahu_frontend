@@ -1,0 +1,19 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	The range field creates two text inputs for the arguments q.{fieldInfo.id}.0 and q.{fieldInfo.id}.1.
+	Example query configuration:
+		from:[* TO %2$s] AND to:[%1$s TO *]
+</f:comment>
+<span class="fieldLabel">
+	<label for="c{config.uid}-field-{fieldInfo.id}">
+		<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>:
+	</label>
+</span>
+<span class="inputContainer">
+	<f:form.checkbox
+		id="c{config.uid}-field-{fieldInfo.id}"
+		name="q[{fieldInfo.id}][0]"
+		value="true"
+		checked="{queryParameter.0}"
+	/>
+</span>

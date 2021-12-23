@@ -1,0 +1,140 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+<f:comment>
+	Previews descriptions of materials that are similar to a certain material.
+</f:comment>
+
+<div style="position:relative">
+	<h2><i class="icon fas fa-layer-group" aria-hidden="true"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplements.header')}</h2>
+</div>
+
+<f:comment>Determine whether there are diagrams attached to supplements and, if so, prepare data structures and third party libraries.</f:comment> 
+<f:for each="{supplements}" as="sup">
+	<f:if condition="{sup.diagramURL}">
+	<v:variable.set name="diagramsAvailable" value="1"/>
+	</f:if>
+</f:for>
+<f:if condition="{diagramsAvailable}">
+<script>const diagrams = [];</script>
+<script src="https://d3js.org/d3.v5.min.js" type="text/javascript"></script>
+</f:if>
+
+<div id="supplements">
+<f:for each="{supplements}" as="sup">
+<div class="materialDescription" id="{sup.id}">
+	<h3>{sup.name}</h3>
+	
+	<f:render partial="mahu/DetailPage/Properties" arguments="{ document : sup, language: config.language, embedded: 'true'}"/>
+	
+	<span class="propertyName">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplements.referencedMaterials')}</span>
+	<ul>
+	<f:for each="{sup.referenceID}" as="ref" iteration="iter">
+		<f:if condition="{ref}!={document.id}">
+		<li>
+		<s:data.newArray
+				name="linkArguments"
+				keys="{0: 'id'}"
+				values="{
+					0: '{ref}'
+				}"
+				omitEmptyFields="1" >
+			<f:link.action
+				action="index"
+				arguments="{linkArguments}"
+				class="internal" >
+				{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplements.toMaterial')} {iter.index+1}
+			</f:link.action>
+		</s:data.newArray>
+		</li>
+		</f:if>
+	</f:for>
+	</ul>
+
+	<f:if condition="{sup.citation}">
+	<span class="propertyName">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplements.source')}</span>
+	<p><i>{sup.citation.0}</i> <f:if condition="{sup.citationUrl.0}"><a href="{sup.citationUrl.0}" class="no-change"><i class="fas fa-external-link-alt smallicon"></i>PDF</a></f:if></p>
+	</f:if>
+	
+	<f:if condition="{sup.literature}">
+	<span class="propertyName">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplements.furtherReading')}</span>
+	<ul>
+	<f:for each="{sup.literature}" as="lit">
+		<li>{lit}</li>
+	</f:for>
+	</ul>
+	</f:if>
+	
+	<f:if condition="{sup.diagramURL}">
+	<div class="diagramContainer" id="dc{sup.id}">
+		<script>
+		<f:for each="{sup.diagramURL}" as="durl" iteration="durliter">
+			<v:variable.set name="cap" value="{v:variable.get(name:'sup.diagramCaption.{durliter.index}')}" />
+			<v:variable.set name="type" value="{v:variable.get(name:'sup.diagramType.{durliter.index}')}" />
+			<v:variable.set name="ocap" value="{v:variable.get(name:'sup.diagramCaptionYAxis.{durliter.index}')}" />
+			<v:variable.set name="acap" value="{v:variable.get(name:'sup.diagramCaptionXAxis.{durliter.index}')}" />
+		diagrams.push(
+			<f:format.raw>{
+				supID: "</f:format.raw>{sup.id}<f:format.raw>",
+				url: "</f:format.raw>{durl}<f:format.raw>",
+				caption: "</f:format.raw>{cap}<f:format.raw>",
+				type: "</f:format.raw>{type}<f:format.raw>",
+				yAxisCaption: "</f:format.raw>{ocap}<f:format.raw>",
+				xAxisCaption: "</f:format.raw>{acap}<f:format.raw>"
+			}</f:format.raw>
+		);
+		</f:for>
+		</script>
+	</div>
+	</f:if>
+
+
+	<h4>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplements.involved')}</h4>
+	<div class="tabs">
+	<f:if condition="{sup.fabricatorID}">
+		<f:then>
+			<div class="tab currentTab"><a class="largertext no-change" data-cid="dataProvidedBy" tabindex="0">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:providedBy')}</a></div>
+		</f:then>
+		<f:else>
+			<div class="tab currentTab"><span class="largertext no-change">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:providedBy')}</span></div>
+		</f:else>
+	</f:if>
+	<f:for each="{sup.fabricatorID}" as="fab" iteration="iter">
+		<v:variable.set name="fabComp" value="{m:getCompany(id: '{fab}')}" />
+		<v:variable.set name="fabType" value="{sup.fabricatorType.{iter.index}}" />
+		
+		<div class="tab"><a class="largertext no-change" data-cid="{iter.index}" tabindex="0">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplements.involved.type.{fabType}')}</a></div>
+	</f:for>
+	</div>
+	
+	<div class="tabContent">
+		<div class="dataProvidedBy">
+			<div style="margin:0px 20px">
+			<f:if condition="{sup.dataDelivererID}">
+				<v:variable.set name="dataProvider" value="{m:getCompany(id: '{sup.dataDelivererID}')}" />
+				<f:if condition="{dataProvider}">
+					<f:render partial="mahu/DetailPage/CompanyInfo" arguments="{ company : dataProvider }"/>
+				</f:if>
+			</f:if>
+			
+			<f:if condition="{sup.disclaimer}">
+			<div class="companyDetailAddition">
+				<h4>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:disclaimer')}</h4>
+				<p>{sup.disclaimer.0}</p>
+			</div>
+			</f:if>
+			</div>
+		</div>
+	
+	<f:for each="{sup.fabricatorID}" as="fab" iteration="iter">
+		<v:variable.set name="fabComp" value="{m:getCompany(id: '{fab}')}" />
+		<v:variable.set name="fabType" value="{sup.fabricatorType.{iter.index}}" />
+		
+		<div class="{iter.index}" style="display:none; margin:0 20px"><f:render partial="mahu/DetailPage/CompanyInfo" arguments="{ company : fabComp }"/></div>
+	</f:for>
+	
+	</div>
+
+</div>
+</f:for>
+</div>

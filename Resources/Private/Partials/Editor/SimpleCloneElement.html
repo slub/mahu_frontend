@@ -1,0 +1,90 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+
+<f:if condition="{subfields}">
+<f:then>
+	<v:variable.set name="propFieldname" value="{propid}_value" />
+</f:then>
+<f:else>
+	<v:variable.set name="propFieldname" value="{propid}" />
+</f:else>
+</f:if>
+
+<div class="form-group" data-pid="{propid}">
+	<label class="control-label" for="c{config.uid}-form-{propid}"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.{propid}" default="{label}"/><f:if condition="{required}"> <span class="required">*</span></f:if></label>
+	<div class="btn-group">
+		<a class="addBtn" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:add')}" data-clonetarget="c{config.uid}-{propid}">
+			<i class="fas fa-plus-circle smallicon" aria-hidden="true"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:add"/>
+		</a>
+	</div>
+	<f:if condition="{s:data.isArray(subject:value)}">
+		<f:then>
+			<f:for each="{value}" as="_val"  iteration="iter">
+				<f:if condition="{iter.isFirst}"><f:then>
+				<div class="input cloneable simple" id="c{config.uid}-{propid}">
+					<input 
+						class="form-control" id="c{config.uid}-form-{propid}"
+						type="text"
+						<f:if condition="{autocomplete}">
+						data-autocomplete="{autocomplete}"
+						</f:if>
+						<f:if condition="{required}">
+						required="required"
+						</f:if>
+						name="{config.prefixID}[material][{propFieldname}][{iter.index}]"
+						data-nametemplate="{config.prefixID}[material][{propFieldname}][$num$]"
+						value="{_val}">
+					<div><a class="removeBtn template" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:remove')}">
+						<i class="fas fa-trash smallicon" aria-hidden="true"></i>
+					</a></div>
+					<f:if condition="{help}">
+					<span class="help-block"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.{propid}.help"/></span>		
+					</f:if>
+				</div>
+				</f:then><f:else>
+				<div class="input cloneable simple">
+					<input 
+						class="form-control" id="c{config.uid}-form-{propid}_{iter.index}"
+						type="text"
+						<f:if condition="{autocomplete}">
+						data-autocomplete="{autocomplete}"
+						</f:if>
+						<f:if condition="{required}">
+						required="required"
+						</f:if>
+						name="{config.prefixID}[material][{propFieldname}][{iter.index}]"
+						value="{_val}">
+					<div><a class="removeBtn" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:remove')}">
+						<i class="fas fa-trash smallicon" aria-hidden="true"></i>
+					</a></div>
+					<f:if condition="{help}">
+					<span class="help-block"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.{propid}.help"/></span>		
+					</f:if>
+				</div>
+				</f:else>
+				</f:if>
+			</f:for>
+		</f:then>
+		<f:else>
+			<div class="input cloneable simple" id="c{config.uid}-{propid}">
+				<input 
+					class="form-control" id="c{config.uid}-form-{propid}"
+					type="text"
+					<f:if condition="{autocomplete}">
+					data-autocomplete="{autocomplete}"
+					</f:if>
+					<f:if condition="{required}">
+					required="required"
+					</f:if>
+					name="{config.prefixID}[material][{propFieldname}][0]"
+					data-nametemplate="{config.prefixID}[material][{propFieldname}][$num$]"
+					value="{value}">
+				<div><a class="removeBtn template" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:remove')}">
+					<i class="fas fa-trash smallicon" aria-hidden="true"></i>
+				</a></div>
+				<f:if condition="{help}">
+				<span class="help-block"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.{propid}.help"/></span>		
+				</f:if>
+			</div>
+		</f:else>
+	</f:if>
+</div>

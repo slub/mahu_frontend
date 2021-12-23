@@ -1,0 +1,81 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+
+<f:comment>
+	Adds the JavaScript files configured in the CSSPaths settings to the page’s head.
+</f:comment>
+
+<f:for each="{settings.JSPaths}" as="JSPath">
+	<s:page.script name="findJs{idx}" file="{JSPath}"/>
+</f:for>
+
+<script>
+<f:format.htmlentitiesDecode>
+<f:alias map="{pageInfo:'{v:page.info()}'}">
+<s:data.newArray
+	name="linkArguments"
+	keys="{0: 'q'}"
+	values="{
+		0: { default : 'VALUE' }
+	}"
+	omitEmptyFields="1" >
+<s:data.newArray
+	name="linkArgumentsFacet"
+	keys="{0: 'q', 1:'facet'}"
+	values="{
+		0: { default : 'QUERY' },
+		1: '{m:GetLinkParameterForFacet(facet:\'FACET\',facetValue:\'FACETVALUE\')}'
+	}"
+	omitEmptyFields="1" >
+<s:data.newArray
+	name="linkArgumentsDetail"
+	keys="{0: 'id'}"
+	values="{
+		0: 'VALUE'
+	}"
+	omitEmptyFields="1" >
+<f:format.raw>
+const mahuCfg = {
+	keepFacets : </f:format.raw><f:if condition="{settings.mahu.keepFacets}"><f:then>{settings.mahu.keepFacets}</f:then><f:else>false</f:else></f:if><f:format.raw>,
+	</f:format.raw><f:if condition="{settings.mahu.autoEnableHistory}">enableHistory:true,</f:if><f:format.raw>
+	pageConfig: {
+		LandingPage: {
+			recoLimit: 5,
+			showCountInTaxonomy: </f:format.raw><f:if condition="{settings.mahu.showNumberOfMaterialsInTaxonomy}"><f:then>{settings.mahu.showNumberOfMaterialsInTaxonomy},</f:then><f:else>false,</f:else></f:if><f:format.raw>
+			disableEmptyClasses: </f:format.raw><f:if condition="{settings.mahu.disableEmptyClassesInTaxonomy}"><f:then>{settings.mahu.disableEmptyClassesInTaxonomy}</f:then><f:else>false</f:else></f:if><f:format.raw>
+		}
+	},
+	pageUid: "</f:format.raw>{pageInfo.uid}<f:format.raw>",
+	uid: "</f:format.raw>{config.uid}<f:format.raw>",
+	languageID: "</f:format.raw>{f:cObject(typoscriptObjectPath:'lib.currentLangID')}<f:format.raw>",
+	imgRootPath: "</f:format.raw>{settings.mahu.imgRootPath}<f:format.raw>",
+	userName: "</f:format.raw>{f:cObject(typoscriptObjectPath:'lib.username')}<f:format.raw>",
+	userNameExt: "</f:format.raw>{f:cObject(typoscriptObjectPath:'lib.usernameExt')}<f:format.raw>",
+	detailPageLinkTemplate: '</f:format.raw><f:uri.action action='detail' arguments='{linkArgumentsDetail}' controller="Search" additionalParams="{L:'{f:cObject(typoscriptObjectPath:\'lib.currentLangID\')}'}"/><f:format.raw>',
+	queryLinkTemplate: '</f:format.raw><f:uri.action action='index' arguments='{linkArguments}' controller="Search" additionalParams="{L:'{f:cObject(typoscriptObjectPath:\'lib.currentLangID\')}'}"/><f:format.raw>',
+	queryAndFacetLinkTemplate: '</f:format.raw><f:uri.action action='index' arguments='{linkArgumentsFacet}' controller="Search" additionalParams="{L:'{f:cObject(typoscriptObjectPath:\'lib.currentLangID\')}'}"/><f:format.raw>',
+	landingPageURL: '</f:format.raw><f:uri.page pageUid="{f:cObject(typoscriptObjectPath:'lib.landingPageID')}" additionalParams="{L:'{f:cObject(typoscriptObjectPath:\'lib.currentLangID\')}'}"/><f:format.raw>',
+	materialSearchPageURL: '</f:format.raw><f:uri.page pageUid="{f:cObject(typoscriptObjectPath:'lib.materialSearchPageID')}" additionalParams="{L:'{f:cObject(typoscriptObjectPath:\'lib.currentLangID\')}'}"/><f:format.raw>',
+	profilePageURL: '</f:format.raw><f:uri.page pageUid="{f:cObject(typoscriptObjectPath:'lib.profilePageID')}" additionalParams="{L:'{f:cObject(typoscriptObjectPath:\'lib.currentLangID\')}'}"/><f:format.raw>',
+	registrationPageURL: '</f:format.raw><f:uri.page pageUid="{f:cObject(typoscriptObjectPath:'lib.registrationPageID')}" additionalParams="{L:'{f:cObject(typoscriptObjectPath:\'lib.currentLangID\')}'}"/><f:format.raw>',
+	languageLinks: [
+		{
+			langName: "DE",
+			langID: 0,
+			uri: '<f:uri.page addQueryString="TRUE" additionalParams="{L:0}"/>',
+		},
+		{
+			langName: "EN",
+			langID: 1,
+			uri: '<f:uri.page addQueryString="TRUE" additionalParams="{L:1}"/>'
+		}
+	]
+};
+</f:format.raw>
+</s:data.newArray>
+</s:data.newArray>
+</s:data.newArray>
+</f:alias>
+</f:format.htmlentitiesDecode>
+</script>

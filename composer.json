@@ -1,0 +1,40 @@
+{
+	"name" : "slub/mahu-frontend",
+	"description" : "Material Hub Frontend for Find extension",
+	"version" : "0.9.6",
+	"type" : "typo3-cms-extension",
+	"keywords" : [
+		"TYPO3 CMS"
+	],
+	"license": "GPL-2.0-or-later",
+	"authors" : [{
+			"name" : "Christof Rodejohann",
+			"email" : "christof.rodejohann@slub-dresden.de",
+			"role" : "Developer"
+		}, {
+			"name" : "Carsten Radeck",
+			"email" : "carsten.radeck@slub-dresden.de",
+			"role" : "Developer"
+		}
+	],
+	"require" : {
+		"typo3/cms-core" : ">=9.5,<=10.4.99",
+		"fluidtypo3/vhs" : ">6.0",
+		"slub/find" : "dev-slub-timing",
+		"slub/mahu-partners" : ">=0.9",
+		"in2code/femanager" : "^6.3"
+	},
+	"replace" : {
+		"typo3-ter/mahu-frontend" : "*"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Slub\\MahuFrontend\\" : "Classes/"
+		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "mahu_frontend"
+		}
+	}
+}

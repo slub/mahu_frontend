@@ -1,0 +1,109 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+{namespace mp=Slub\MahuPartners\ViewHelpers}
+<f:comment>
+	Renders a table listing all certificates mentioned in a given material description.
+</f:comment>
+
+<f:if condition="{document.cert_name}">
+	<f:then>
+	<h2><i class="icon fas fa-certificate" aria-hidden="true"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:certificates')}</h2>
+	<div id="certificates" class="materialDescription row">
+		<f:if condition="{document.cert_description}"><p>{document.cert_description}</p></f:if>
+		<table class="propertiesTable" >
+			<thead>
+				<tr>
+					<th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:certificates.name')}</th>
+					<th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:certificates.country')}</th>
+					<th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:certificates.part')}</th>
+					<th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:certificates.remark')}</th>
+					<th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:certificates.valid')}</th>
+					<th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:certificates.cert')}</th>
+				</tr>
+			</thead>
+			<tbody>
+			<f:for each="{document.cert_name}" as="certName" iteration="iter">
+				<f:if condition="{document.cert_country}">
+					<v:variable.set name="country" value="{v:variable.get(name: 'document.cert_country.{iter.index}')}" />
+				</f:if>
+				<f:if condition="{document.cert_part}">
+					<v:variable.set name="part" value="{v:variable.get(name: 'document.cert_part.{iter.index}')}" />
+				</f:if>
+				<f:if condition="{document.cert_remark}">
+					<v:variable.set name="remark" value="{v:variable.get(name: 'document.cert_remark.{iter.index}')}" />
+				</f:if>
+				<f:if condition="{document.cert_url}">
+					<v:variable.set name="certURL" value="{v:variable.get(name: 'document.cert_url.{iter.index}')}" />
+					<f:comment> handle occurrences of ~~. In this case a German (before the delimiter) and an English (after delimiter) certificate link URL are encoded in the value of cert_url.</f:comment>
+					<v:variable.set name="cuparts" value="{v:iterator.explode(content: certURL,glue:' ~~ ')}" />
+					<f:if condition="{language}=='en'">
+						<f:then>
+							<f:if condition="{cuparts.1}"> <f:then>							
+							<v:variable.set name="certURL" value="{cuparts.1}" />
+							</f:then><f:else>
+							<v:variable.set name="certURL" value="{cuparts.0}" />
+							</f:else>
+							</f:if>
+						</f:then><f:else>
+							<v:variable.set name="certURL" value="{cuparts.0}" />		
+						</f:else>
+					</f:if>
+
+					<v:variable.set name="certURL" value="{mp:GetURLofFileInUserFolder(fileOrURL: certURL, companyID: document.dataDelivererID)}" />
+				</f:if>
+				
+				<v:variable.set name="certLink" value="{m:GetCertificateLink(certName: certName)}" />
+
+				<tr>
+					<td><f:if condition="{certLink}">
+						<f:then>
+							<f:link.action
+								action="detail"
+								controller="Regulation"
+								arguments="{id:certLink.uid}"
+								extensionName="mahupartners"
+								pluginName="mahupartners"
+								class="no-change" 
+								pageUid="{settings.mahu.regulationsPageID}">
+								{certName}
+							</f:link.action>
+						</f:then>
+						<f:else>{certName}</f:else>
+					</f:if>
+					</td>
+					<td>
+					<f:if condition="{country}!='undefined'">
+						<f:then>{country}</f:then><f:else>&#160;</f:else>
+					</f:if>
+					</td>
+					<td>
+					<f:if condition="{part}!='undefined'">
+						<f:then>{part}</f:then><f:else>&#160;</f:else>
+					</f:if>
+					</td>
+					<td>
+					<f:if condition="{remark}!='undefined'">
+						<f:then>{remark}</f:then><f:else>&#160;</f:else>
+					</f:if>
+					</td>
+					<td>
+					<f:if condition="{document.cert_expires}">
+						<v:variable.set name="cexpires" value="{v:variable.get(name: 'document.cert_expires.{iter.index}')}" />
+						<f:if condition="{cexpires}">
+							<f:if condition="{cexpires}=='-'"><f:then>
+							{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:unlimited')}
+							</f:then><f:else>
+							{cexpires}								
+							</f:else>
+							</f:if>
+						</f:if>
+					</f:if>
+					</td>
+					<td><f:if condition="{certURL}"><a href="{certURL}" class="no-change"><i class="fas fa-external-link-alt smallicon" aria-hidden="true"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:certificates.cert.link')}</a></f:if></td>
+				</tr>
+			</f:for>
+			</tbody>
+		</table>
+	</div>
+	</f:then>
+</f:if>

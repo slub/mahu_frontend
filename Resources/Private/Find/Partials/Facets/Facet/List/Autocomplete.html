@@ -1,0 +1,21 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Uses the facet items to create a popup menu with an autocomplete field
+	(using jQuery.chosen) to let the user easily find a specific item in the
+	facet and use it as a filter.
+</f:comment>
+<s:page.linkCSS file="EXT:mahu_frontend/Resources/Public/Css/chosen.jquery.min.css"/>
+<f:alias map="{translateArguments:'{0:\"{f:translate(key:\'LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}\', default:facetInfo.id)}\"}'}">
+	<form>
+		<f:form.select
+			options="{s:find.selectOptionsForFacet(
+				values:facetData.values,
+				leadingBlank:1,
+				sortByName:1,
+				sortPrefixSeparator:facetInfo.sortPrefixSeparator,
+				localisationPrefix:'LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}.'
+			)}"
+			class="facetSearch"
+			additionalAttributes="{data-placeholder:'{f:translate(key:\"Filter by %s\", arguments:translateArguments)}'}"/>
+	</form>
+</f:alias>

@@ -1,0 +1,69 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+<f:comment>
+	Renders the facet as a list.
+	If there are more than displayDefault list items, additional ones are hidden
+	with a JavaScript link to show them.
+
+	Each list item is created by the Facets/Facet/List/Item partial.
+	A potentially configured autocomplete popup is created by the
+	Facets/Facet/List/Autocomplete partial.
+</f:comment>
+<f:if condition="{facetInfo.autocomplete}">
+	<f:if condition="{f:count(subject:facetData.values)} > {facetInfo.displayDefault}">
+		<f:render partial="Facets/Facet/List/Autocomplete" arguments="{_all}"/>
+	</f:if>
+</f:if>
+
+<ol class="facetList{f:if(condition:facetInfo.autocomplete, then:' autocomplete')}">
+
+	<f:comment>Render active terms fro the current facet</f:comment>
+	<v:variable.set name="activeFacetTerms" value="{v:variable.get(name:'config.activeFacets.{facetInfo.id}')}" />
+	<f:if condition="{activeFacetTerms}">
+		<f:for each="{activeFacetTerms}" as="itemCount" key="facetTerm" iteration="iterator">
+			<f:alias map="{
+				facetTermDisplay:'{f:if(
+					condition:facetInfo.sortPrefixSeparator,
+					then:\"{s:format.regexp(
+						string:facetTerm,
+						match:\'/^.*?{facetInfo.sortPrefixSeparator}/\',
+						replace:\'\'
+					)}\",
+					else:facetTerm
+				)}'
+			}">
+				<f:render partial="Facets/Facet/List/Item" arguments="{_all}"/>
+			</f:alias>
+		</f:for>
+	</f:if>
+	
+	<f:for each="{facetData.values}" as="itemCount" key="facetTerm" iteration="iterator">
+		<f:if condition="{s:find.facetIsActive(facetID:facetInfo.id, facetTerm:facetTerm, activeFacets:config.activeFacets)}">
+			<f:then></f:then>
+			<f:else>
+				<f:alias map="{
+					facetTermDisplay:'{f:if(
+						condition:facetInfo.sortPrefixSeparator,
+						then:\"{s:format.regexp(
+							string:facetTerm,
+							match:\'/^.*?{facetInfo.sortPrefixSeparator}/\',
+							replace:\'\'
+						)}\",
+						else:facetTerm
+					)}'
+				}">
+					<f:render partial="Facets/Facet/List/Item" arguments="{_all}"/>
+				</f:alias>
+			</f:else>
+		</f:if>
+	</f:for>
+	
+	<v:variable.set name="q" value="{v:math.subtract(a:'{f:count(subject:facetData.values)}',b:facetInfo.displayDefault,fail:0)}" />
+	<f:if condition="{f:count(subject:facetData.values)} > {facetInfo.displayDefault}">
+		<li class="facetShowAll">
+			<a href="#" onclick="return tx_find.showAllFacetsOfType(event)">
+				<f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:show"/> {q} <f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:more"/>
+			</a>
+		</li>
+	</f:if>
+</ol>

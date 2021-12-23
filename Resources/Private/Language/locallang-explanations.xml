@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+    <meta type="array">
+        <type>module</type>
+        <description>
+            Language labels for material property explanations.
+        </description>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+        </languageKey>
+
+        <languageKey index="de" type="array">
+			
+			<!-- property explanations -->
+			<label index="explanation.category">Materialkategorie</label>
+			<label index="explanation.tensileStrength">Die Zugfestigkeit ist die maximale mechanische Zugspannung, die im Werkstoff auftreten kann. Sie wird zumeist aus den Ergebnissen des Zugversuchs errechnet, aus der maximal erreichten Zugkraft bezogen auf den ursprünglichen Querschnitt der genormten Zugprobe.</label>
+			<label index="explanation.elasticModulus">... ist eine gedachte Spannung, die einen Probestab elastisch auf die doppelte Länge (also Dehnung ε=1) dehnen würde, sofern der Werkstoff diese hohe Spannung aushielte.</label>
+        </languageKey>
+    </data>
+</T3locallang>

@@ -1,0 +1,23 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+<f:comment>
+	Creates a <select> using the array provided in the field configuration’s
+	options array.
+</f:comment>
+<s:page.linkCSS file="EXT:mahu_frontend/Resources/Public/Css/chosen.jquery.min.css"/>
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/libs/chosen.jquery.min.js" name="jQueryChosen"/>
+
+<label class="fieldLabel" for="c{config.uid}-field-{fieldInfo.id}">
+	<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>:
+</label>
+<f:form.select
+	id="c{config.uid}-field-{fieldInfo.id}"
+	class="chosen-container chosen-container-multi inputContainer"
+	name="q[{fieldInfo.id}]"
+	options="{fieldInfo.options}"
+	value="{queryParameter}"
+	multiple="true"
+	additionalAttributes="{
+		data-placeholder:'{f:translate(key:\'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:selectAnOption\')}'
+	}"
+/>

@@ -1,0 +1,42 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+<f:comment>
+	Renders bookmarks, recent search queries and relevant materials (from user history).
+</f:comment>
+
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/ResearchOverview.js" name="ro"/>
+
+<a id="researchHistory" class="no-change" aria-hidden="true"></a>
+<div id="history" style="display:none;" class="landingPageSection">
+	<h2>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.history')}</h2>
+
+	<div class="sectionContent">
+		<div id="searchQueriesContainer">
+			<div style="position:relative">
+				<h3>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.history.trackedQueries')}</h3>
+			</div>
+			<div id="queryList" class="flexResultLine"></div>
+		</div>
+		
+		<div id="savedSearchQueriesContainer">
+			<div style="position:relative">
+				<h3>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.history.savedQueries')}</h3>
+			</div>
+			<div id="savedQueryList" class="flexResultLine"></div>
+		</div>		
+		
+		<div id="bookmarkContainer">
+			<div style="position:relative">
+				<h3>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.history.bookmarks')}</h3>
+			</div>
+			<div id="bookmarkList" class="flexResultLine"></div>
+		</div>
+		
+		<div id="visitedSitesContainer">
+			<div style="position:relative">
+				<h3>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.history.pagevisits')}</h3>
+			</div>
+			<div id="visitedList" class="flexResultLine"></div>
+		</div>
+	</div>
+</div>

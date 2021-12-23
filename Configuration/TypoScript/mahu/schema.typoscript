@@ -1,0 +1,1775 @@
+#
+# This datastructure describes the Material Hub schema. 
+# Thus, it defines the supported material properties under 
+# (especially) frontend-related aspects.
+#
+plugin.tx_mahufrontend.settings.schema {
+	properties {
+		abrasion {
+			id = abrasion
+			isMultivalued = true
+			defaultUnit = µm/m*K
+			units {
+				0 = µm/m*K
+			}
+			showInfo = true
+			wikiPageID {
+				de = Abrieb
+			}
+			type = mechanical
+		}
+		abrasionLoss {
+			id = abrasionLoss
+			isMultivalued = true
+			defaultUnit = mm^3
+			units {
+				0 = mm^3
+			}
+			type = mechanical
+		}
+		absorptionMoisture {
+			id = absorptionMoisture
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		absorptionWater {
+			id = absorptionWater
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		angleContact {
+			id = angleContact
+			isMultivalued = false
+			defaultUnit = °
+			units {
+				0 = °
+			}
+			showInfo = true
+			wikiPageID {
+				de = Kontaktwinkel
+				en = Contact_angle
+			}
+		}
+		antiAdhesionProperties {
+			id = antiAdhesionProperties
+			isMultivalued = true
+			isQualitative = 1
+			type = mechanical
+		}
+		capacityDischargeElectrostatic {
+			id = capacityDischargeElectrostatic
+			isMultivalued = false
+			isQualitative = 1
+			type = electrical
+		}
+		capacityThermal {
+			id = capacityThermal
+			isMultivalued = true
+			defaultUnit = kJ/(kg*K)
+			showInfo = true
+			wikiPageID {
+				de = Spezifische_Wärmekapazität
+				en = Specific_heat_capacity
+			}
+			type = thermal
+		}
+		compressibility {
+			id = compressibility
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			showInfo = true
+			wikiPageID {
+				de = Kompressionsmodul#Kompressibilität
+				en = Compressibility
+			}
+			type = mechanical
+		}
+		compressionCold {
+			id = compressionCold
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		compressionHot {
+			id = compressionHot
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		compressionSet {
+			id = compressionSet
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			showInfo = true
+			wikiPageID {
+				de = Druckverformungsrest
+				en = Compression_set
+			}
+			type = mechanical
+		}
+		conductivityElectrical {
+			id = conductivityElectrical
+			isMultivalued = true
+			defaultUnit = S/m
+			units {
+				0 = S/m
+				1 = 1/(Ω*m)
+				2 = % IACS
+			}
+			showInfo = true
+			wikiPageID {
+				de = Elektrische_Leitfähigkeit
+				en = Electrical_resistivity_and_conductivity
+			}
+			type = electrical
+		}
+		conductivityThermal {
+			id = conductivityThermal
+			isMultivalued = true
+			defaultUnit = W/m*K
+			units {
+				0 = W/m*K
+			}
+			showInfo = true
+			wikiPageID {
+				de = Wärmeleitfähigkeit
+				en = Thermal_conductivity
+			}
+			type = thermal
+		}
+		countThread {
+			id = countThread
+			isMultivalued = true
+			isDimensionlessQuantity = 1
+		}
+		deformationLoad {
+			id = deformationLoad
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		density {
+			id = density
+			isMultivalued = true
+			defaultUnit = g/cm^3
+			units {
+				0 = g/cm^3
+				1 = kg/m^3
+			}
+			showInfo = true
+			wikiPageID {
+				de = Dichte
+				en = Density
+			}
+		}
+		density_specificGravity {
+			id = density_specificGravity
+			isMultivalued = true
+			showInfo = true
+			wikiPageID {
+				de = Relative_Dichte
+				en = Relative_density
+			}
+			isDimensionlessQuantity = 1
+		}
+		diameterFilament {
+			id = diameterFilament
+			isMultivalued = false
+			defaultUnit = cm
+			units {
+				0 = mm
+				1 = cm
+				2 = m
+			}
+		}
+		dimension {
+			id = dimension
+			isMultivalued = true
+			defaultUnit = m
+			units {
+				0 = mm
+				1 = cm
+				2 = m
+			}
+		}
+		dissipationFactorDielectric {
+			id = dissipationFactorDielectric
+			isMultivalued = false
+			showInfo = true
+			wikiPageID {
+				de = Verlustfaktor
+				en = Dissipation_factor
+			}
+			isDimensionlessQuantity = 1
+			type = electrical
+		}
+		expansionThermalLinearCoefficient {
+			id = expansionThermalLinearCoefficient
+			isMultivalued = true
+			defaultUnit = 10^-6/K
+			units {
+				0 = 10^-6/K
+			}
+			showInfo = true
+			wikiPageID {
+				de = Ausdehnungskoeffizient
+				en = Thermal_expansion
+			}
+			type = thermal
+		}
+		flexibility {
+			id = flexibility
+			isMultivalued = false
+			defaultUnit = mm
+			type = mechanical
+		}
+		flowRateMeltMass {
+			id = flowRateMeltMass
+			isMultivalued = false
+			defaultUnit = g/10min
+			units {
+				0 = g/10min
+			}
+			showInfo = true
+			wikiPageID {
+				de = Schmelzflussindex
+				en = Melt_flow_index
+			}
+		}
+		flowRateMeltVolume {
+			id = flowRateMeltVolume
+			isMultivalued = false
+			defaultUnit = g/10min
+			units {
+				0 = g/10min
+			}
+			showInfo = true
+			wikiPageID {
+				de = Schmelzflussindex
+				en = Melt_flow_index
+			}
+		}
+		forceActor {
+			id = forceActor
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = MPa
+				1 = N
+			}
+			type = electrical
+		}
+		forceBreak {
+			id = forceBreak
+			isMultivalued = true
+			defaultUnit = N
+			units {
+				0 = N
+			}
+			type = mechanical
+		}
+		frictionCoefficientDynamic {
+			id = frictionCoefficientDynamic
+			isMultivalued = false
+			showInfo = true
+			wikiPageID {
+				de = Reibungskoeffizient
+				en = Coefficient_of_friction
+			}
+			isDimensionlessQuantity = 1
+			type = mechanical
+		}
+		frictionCoefficientStatic {
+			id = frictionCoefficientStatic
+			isMultivalued = false
+			showInfo = true
+			wikiPageID {
+				de = Reibungskoeffizient
+				en = Coefficient_of_friction
+			}
+			isDimensionlessQuantity = 1
+			type = mechanical
+		}
+		hardness_ShoreA {
+			id = hardness_ShoreA
+			isMultivalued = false
+			defaultUnit = Shore A
+			showInfo = true
+			wikiPageID {
+				de = Shore-Durometer
+				en = Shore_durometer
+			}
+			type = mechanical
+		}
+		hardness_ShoreD {
+			id = hardness_ShoreD
+			isMultivalued = false
+			defaultUnit = Shore D
+			showInfo = true
+			wikiPageID {
+				de = Shore-Durometer
+				en = Shore_durometer
+			}
+			type = mechanical
+		}
+		hardness_RockwellE {
+			id = hardness_RockwellE
+			isMultivalued = false
+			defaultUnit = HRE
+			showInfo = true
+			wikiPageID {
+				de = Rockwell_(Einheit)
+				en = Rockwell_scale
+			}
+			type = mechanical
+		}
+		hardness_RockwellC {
+			id = hardness_RockwellC
+			isMultivalued = true
+			defaultUnit = HRC
+			showInfo = true
+			wikiPageID {
+				de = Rockwell_(Einheit)
+				en = Rockwell_scale
+			}
+			type = mechanical
+		}
+		hardness_RockwellM {
+			id = hardness_RockwellM
+			isMultivalued = false
+			defaultUnit = HRM
+			showInfo = true
+			wikiPageID {
+				de = Rockwell_(Einheit)
+				en = Rockwell_scale
+			}
+			type = mechanical
+		}
+		hardness_RockwellR {
+			id = hardness_RockwellR
+			isMultivalued = false
+			defaultUnit = HRR
+			showInfo = true
+			wikiPageID {
+				de = Rockwell_(Einheit)
+				en = Rockwell_scale
+			}
+			type = mechanical
+		}
+		hardness_Ball {
+			id = hardness_Ball
+			isMultivalued = false
+			defaultUnit = MPa
+			type = mechanical
+		}
+		hardness_Brinell {
+			id = hardness_Brinell
+			isMultivalued = false
+			defaultUnit = HB
+			showInfo = true
+			wikiPageID {
+				de = Härte
+				en = Brinell_scale
+			}
+			type = mechanical
+		}
+		hardness_IRHD {
+			id = hardness_IRHD
+			isMultivalued = false
+			defaultUnit = IRHD
+			type = mechanical
+		}
+		hardness_Janka {
+			id = hardness_Janka
+			isMultivalued = false
+			defaultUnit = N
+			showInfo = 1
+			wikiPageID {
+				de = Janka-Härte-Test
+				en = Janka_hardness_test
+			}
+			type = mechanical
+		}
+		hardness_Pencil {
+			id = hardness_Pencil
+			isMultivalued = false
+			showInfo = true
+			wikiPageID {
+				de = Bleistift#Härtebezeichnung
+				en = Pencil#Grading_and_classification
+			}
+			isDimensionlessQuantity = 1
+			type = mechanical
+		}
+		hardnessChange {
+			id = hardnessChange
+			isMultivalued = true
+			defaultUnit = Shore A
+			units {
+				0 = Shore A
+				1 = Shore D
+				2 = IRHD
+			}
+			type = mechanical
+		}
+		ignitionLoss {
+			id = ignitionLoss
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			showInfo = true
+			wikiPageID {
+				de = Veraschen
+			}
+			type = thermal
+		}
+		increaseThickness {
+			id = increaseThickness
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		increaseWeight {
+			id = increaseWeight
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		leakageRateSpecific {
+			id = leakageRateSpecific
+			isMultivalued = false
+			defaultUnit = mg/(s*m)
+			units {
+				0 = mg/(s*m)
+			}
+			showInfo = true
+			wikiPageID {
+				de = Dichtheit
+			}
+		}
+		modulusElasticityCompressive {
+			id = modulusElasticityCompressive
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			type = mechanical
+		}
+		modulusElasticityFlexural {
+			id = modulusElasticityFlexural
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			type = mechanical
+		}
+		modulusElasticityTensile {
+			id = modulusElasticityTensile
+			isMultivalued = true
+			defaultUnit = MPa
+			units {
+				0 = MPa
+				1 = GPa
+			}
+			showInfo = true
+			wikiPageID {
+				de = Elastizitätsmodul
+				en = Elastic_modulus
+			}
+			type = mechanical
+		}
+		permeabilityMagnetic {
+			id = permeabilityMagnetic
+			isMultivalued = false
+			showInfo = true
+			wikiPageID {
+				de = Magnetische_Permeabilität
+				en = Permeability_(electromagnetism)
+			}
+			isDimensionlessQuantity = 1
+			type = electrical
+		}
+		permittivityAbsolute {
+			id = permittivityAbsolute
+			isMultivalued = false
+			defaultUnit = F/m
+			units {
+				0 = F/m
+				1 = 10^6 Hz
+			}
+			showInfo = true
+			wikiPageID {
+				de = Permittivität
+				en = Permittivity
+			}
+			type = electrical
+		}
+		permittivityRelative {
+			id = permittivityRelative
+			isMultivalued = false
+			showInfo = true
+			wikiPageID {
+				de = Permittivität
+				en = Permittivity
+			}
+			isDimensionlessQuantity = 1
+			type = electrical
+		}
+		pressureSurface {
+			id = pressureSurface
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			showInfo = true
+			wikiPageID {
+				de = Flächenpressung
+			}
+			type = mechanical
+		}
+		rangeTravel {
+			id = rangeTravel
+			isMultivalued = false
+			defaultUnit = µm
+			units {
+				0 = µm
+			}
+		}
+		rangeVoltage {
+			id = rangeVoltage
+			isMultivalued = false
+			defaultUnit = V
+			units {
+				0 = V
+			}
+			type = electrical
+		}
+		ratioPoisson {
+			id = ratioPoisson
+			isMultivalued = false
+			showInfo = true
+			wikiPageID {
+				de = Poissonzahl
+				en = Poisson's_ratio
+			}
+			isDimensionlessQuantity = 1
+			type = mechanical
+		}
+		reboundResilience {
+			id = reboundResilience
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			showInfo = true
+			wikiPageID {
+				de = Rückprallelastizität
+			}
+			type = mechanical
+		}
+		recovery {
+			id = recovery
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		recoveryCold {
+			id = recoveryCold
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		recoveryHot {
+			id = recoveryHot
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		resistanceAbrasionWet {
+			id = resistanceAbrasionWet
+			isMultivalued = false
+			showInfo = true
+			wikiPageID {
+				de = EN_13300#Nassabriebbeständigkeit
+			}
+			isQualitative = 1
+			type = mechanical
+		}
+		resistanceArc {
+			id = resistanceArc
+			isMultivalued = false
+			defaultUnit = °
+			units {
+				0 = °
+			}
+			type = electrical
+		}
+		resistanceElectricalSpecific {
+			id = resistanceElectricalSpecific
+			isMultivalued = true
+			defaultUnit = Ω
+			units {
+				0 = Ω
+			}
+			type = electrical
+		}
+		resistanceSurface {
+			id = resistanceSurface
+			isMultivalued = false
+			defaultUnit = Ω
+			units {
+				0 = Ω
+			}
+			type = electrical
+		}
+		resistanceSurfaceSpecific {
+			id = resistanceSurfaceSpecific
+			isMultivalued = false
+			defaultUnit = Ω
+			units {
+				0 = Ω
+			}
+			type = electrical
+		}
+		resistanceTrackingElectrical {
+			id = resistanceTrackingElectrical
+			isMultivalued = false
+			defaultUnit = V
+			showInfo = true
+			wikiPageID {
+				de = Kriechstromfestigkeit
+				en = Comparative_Tracking_Index
+			}
+			type = electrical
+		}
+		resistanceVolume {
+			id = resistanceVolume
+			isMultivalued = false
+			defaultUnit = Ω
+			units {
+				0 = Ω
+				1 = Ω*c
+				2 = Ω*m
+			}
+			type = electrical
+		}
+		resistanceVolumeSpecific {
+			id = resistanceVolumeSpecific
+			isMultivalued = false
+			defaultUnit = Ω
+			units {
+				0 = Ω
+			}
+			type = electrical
+		}
+		retractionTemperatureValue {
+			id = retractionTemperatureValue
+			isMultivalued = false
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			type = thermal
+		}
+		roughnessAverageArithmetic {
+			id = roughnessAverageArithmetic
+			isMultivalued = false
+			defaultUnit = µm
+			units {
+				0 = µm
+			}
+			showInfo = true
+			wikiPageID {
+				de = Oberflächengüte
+				en = Surface_roughness
+			}
+		}
+		roughnessSquared {
+			id = roughnessSquared
+			isMultivalued = false
+			defaultUnit = µm
+			units {
+				0 = µm
+			}
+			showInfo = true
+			wikiPageID {
+				de = Oberflächengüte
+				en = Surface_roughness
+			}
+		}
+		roughnessDepthAveraged {
+			id = roughnessDepthAveraged
+			isMultivalued = false
+			defaultUnit = µm
+			units {
+				0 = µm
+			}
+			showInfo = true
+			wikiPageID {
+				de = Oberflächengüte
+				en = Surface_roughness
+			}
+		}
+		roughnessDepthMaximum {
+			id = roughnessDepthMaximum
+			isMultivalued = false
+			defaultUnit = µm
+			units {
+				0 = µm
+			}
+			showInfo = true
+			wikiPageID {
+				de = Oberflächengüte
+				en = Surface_roughness
+			}
+		}
+		shrinkageArea {
+			id = shrinkageArea
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		shrinkageLength {
+			id = shrinkageLength
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		shrinkageThickness {
+			id = shrinkageThickness
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		shrinkage_radial {
+			id = shrinkage_radial
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		shrinkage_tangential {
+			id = shrinkage_tangential
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		shrinkage_TRRatio {
+			id = shrinkage_TRRatio
+			isMultivalued = false
+			isDimensionlessQuantity = 1
+		}
+		shrinkage_volume {
+			id = shrinkage_volume
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		strainCompressiveBreakNominal {
+			id = strainCompressiveBreakNominal
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		strainCompressiveStrengthNominal {
+			id = strainCompressiveStrengthNominal
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		strainCompressiveYieldNominal {
+			id = strainCompressiveYieldNominal
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		strainFlexuralBreak {
+			id = strainFlexuralBreak
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		strainFlexuralStrength {
+			id = strainFlexuralStrength
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		strainTensileBreak {
+			id = strainTensileBreak
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			showInfo = true
+			wikiPageID {
+				de = Bruchdehnung
+			}
+			type = mechanical
+		}
+		strainTensileBreakChange {
+			id = strainTensileBreakChange
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		strainTensileBreakNominal {
+			id = strainTensileBreakNominal
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		strainTensileCreep {
+			id = strainTensileCreep
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		strainTensileStrength {
+			id = strainTensileStrength
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		strainTensileYield {
+			id = strainTensileYield
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			showInfo = true
+			wikiPageID {
+				de = Streckgrenze
+				en = Yield_(engineering)
+			}
+			type = mechanical
+		}
+		strengthAdhesive {
+			id = strengthAdhesive
+			isMultivalued = false
+			showInfo = true
+			wikiPageID {
+				de = Kohäsion_(Bodenmechanik)
+				en = Cohesion (geology)
+			}
+			isQualitative = 1
+			type = mechanical
+		}
+		strengthBursting {
+			id = strengthBursting
+			isMultivalued = false
+			defaultUnit = Pa
+			units {
+				0 = Pa
+				1 = kPa
+			}
+			showInfo = true
+			wikiPageID {
+				de = Berstfestigkeit
+			}
+			type = mechanical
+		}
+		strengthCompressive {
+			id = strengthCompressive
+			isMultivalued = true
+			defaultUnit = MPa
+			units {
+				0 = Pa
+				1 = MPa
+				2 = GPa
+			}
+			showInfo = 1
+			wikiPageID {
+				de = Druckfestigkeit
+				en = Compressive_strength
+			}
+			type = mechanical
+		}
+		strengthDielectric {
+			id = strengthDielectric
+			isMultivalued = false
+			defaultUnit = kV/mm
+			units {
+				0 = kV/mm
+			}
+			showInfo = true
+			wikiPageID {
+				de = Durchschlagfestigkeit
+				en = Dielectric_strength
+			}
+			type = electrical
+		}
+		strengthFlexural {
+			id = strengthFlexural
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = Pa
+				1 = MPa
+				2 = GPa
+			}
+			showInfo = 1
+			wikiPageID {
+				de = Biegefestigkeit
+				en = Flexural_strength
+			}
+			type = mechanical
+		}
+		strengthImpact {
+			id = strengthImpact
+			isMultivalued = true
+			defaultUnit = kJ/m^2
+			units {
+				0 = kJ/m^2
+			}
+			showInfo = 1
+			wikiPageID {
+				de = Schlagzähigkeit
+				en = Izod_impact_strength_test
+			}
+			type = mechanical
+		}
+		strengthMinimumRequiredClassification {
+			id = strengthMinimumRequiredClassification
+			isMultivalued = false
+			isQualitative = 1
+			type = mechanical
+		}
+		strengthMinimumRequired {
+			id = strengthMinimumRequired
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			type = mechanical
+		}
+		strengthPullOffCoatings {
+			id = strengthPullOffCoatings
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			type = mechanical
+		}
+		strengthShear {
+			id = strengthShear
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			showInfo = true
+			wikiPageID {
+				de = Scherfestigkeit
+				en = Shear_strength
+			}
+			type = mechanical
+		}
+		strengthTensile {
+			id = strengthTensile
+			isMultivalued = true
+			defaultUnit = MPa
+			units {
+				0 = Pa
+				1 = MPa
+				2 = GPa
+			}
+			showInfo = true
+			wikiPageID {
+				de = Zugfestigkeit
+				en = Ultimate_tensile_strength
+			}
+			type = mechanical
+		}
+		strengthTensileChange {
+			id = strengthTensileChange
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			type = mechanical
+		}
+		strengthTensileFatigue {
+			id = strengthTensileFatigue
+			isMultivalued = true
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			type = mechanical
+		}
+		strengthTensileYield02 {
+			id = strengthTensileYield02
+			isMultivalued = true
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			type = mechanical
+		}
+		stressCompressiveBreak {
+			id = stressCompressiveBreak
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			showInfo = true
+			wikiPageID {
+				de = Mechanische_Spannung
+				en = Compressive_stress
+			}
+			type = mechanical
+		}
+		stressCompressiveStrain {
+			id = stressCompressiveStrain
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			showInfo = true
+			wikiPageID {
+				de = Mechanische_Spannung
+				en = Compressive_stress
+			}
+			type = mechanical
+		}
+		stressCompressiveYield {
+			id = stressCompressiveYield
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			showInfo = true
+			wikiPageID {
+				de = Mechanische_Spannung
+				en = Compressive_stress
+			}
+			type = mechanical
+		}
+		stressFlexuralBreak {
+			id = stressFlexuralBreak
+			isMultivalued = true
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			type = mechanical
+		}
+		stressFlexuralDeflectionConventional {
+			id = stressFlexuralDeflectionConventional
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			type = mechanical
+		}
+		stressPlateau {
+			id = stressPlateau
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			type = mechanical
+		}
+		stressResidual {
+			id = stressResidual
+			isMultivalued = true
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			type = mechanical
+		}
+		stressTensileBreak {
+			id = stressTensileBreak
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			showInfo = true
+			wikiPageID {
+				de = Bruchkraft
+			}
+			type = mechanical
+		}
+		stressTensileStrain {
+			id = stressTensileStrain
+			isMultivalued = true
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			showInfo = true
+			wikiPageID {
+				de = Mechanische_Spannung
+			}
+			type = mechanical
+		}
+		stressTensileYield {
+			id = stressTensileYield
+			isMultivalued = false
+			defaultUnit = MPa
+			units {
+				0 = MPa
+			}
+			wikiPageID {
+				de = Streckspannung
+			}
+			type = mechanical
+		}
+		temperatureAnnealingSoft {
+			id = temperatureAnnealingSoft
+			isMultivalued = false
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			type = thermal
+		}
+		temperatureApplication {
+			id = temperatureApplication
+			isMultivalued = true
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			type = thermal
+		}
+		temperatureApplicationShortTerm {
+			id = temperatureApplicationShortTerm
+			isMultivalued = false
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			type = thermal
+		}
+		temperatureBrittleness {
+			id = temperatureBrittleness
+			isMultivalued = false
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			type = thermal
+		}
+		temperatureCoatingWorkpiece {
+			id = temperatureCoatingWorkpiece
+			isMultivalued = false
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			type = thermal
+		}
+		temperatureDeflectionLoad {
+			id = temperatureDeflectionLoad
+			isMultivalued = true
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			showInfo = true
+			wikiPageID {
+				de = Wärmeformbeständigkeit
+				en = Heat_deflection_temperature
+			}
+			type = thermal
+		}
+		temperatureDeformationCold {
+			id = temperatureDeformationCold
+			isMultivalued = false
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			type = thermal
+		}
+		temperatureGlassTransition {
+			id = temperatureGlassTransition
+			isMultivalued = true
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			showInfo = true
+			wikiPageID {
+				de = Glasübergangstemperatur
+				en = Glass_transition
+			}
+			type = thermal
+		}
+		temperatureHardening {
+			id = temperatureHardening
+			isMultivalued = false
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			type = thermal
+		}
+		temperatureIgnitionGlowWire {
+			id = temperatureIgnitionGlowWire
+			isMultivalued = false
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			type = thermal
+		}
+		temperatureMelting {
+			id = temperatureMelting
+			isMultivalued = false
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			showInfo = true
+			wikiPageID {
+				de = Schmelzpunkt
+				en = Melting_point
+			}
+			type = thermal
+		}
+		temperatureMeltingCrystallineGrain {
+			id = temperatureMeltingCrystallineGrain
+			isMultivalued = false
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			type = thermal
+		}
+		temperatureSurrounding {
+			id = temperatureSurrounding
+			isMultivalued = false
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			type = thermal
+		}
+		temperatureSwitching {
+			id = temperatureSwitching
+			isMultivalued = false
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			type = thermal
+		}
+		temperatureVicatSoftening {
+			id = temperatureVicatSoftening
+			isMultivalued = false
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			showInfo = true
+			wikiPageID {
+				de = Wärmeformbeständigkeit
+				en = Vicat_softening_point
+			}
+			type = thermal
+		}
+		thickness {
+			id = thickness
+			isMultivalued = true
+			defaultUnit = m
+			units {
+				0 = m
+				1 = mm
+				2 = µm
+			}
+		}
+		thicknessCoating {
+			id = thicknessCoating
+			isMultivalued = true
+			defaultUnit = µm
+			units {
+				0 = µm
+			}
+			showInfo = true
+			wikiPageID {
+				de = Schichtdicke_(Beschichten)
+			}
+		}
+		toughnessFracture {
+			id = toughnessFracture
+			isMultivalued = true
+			defaultUnit = kN/m
+			units {
+				0 = kN/m
+			}
+			type = mechanical
+		}
+		tr10value {
+			id = tr10value
+			isMultivalued = false
+			defaultUnit = °C
+			units {
+				0 = °C
+			}
+			type = thermal
+		}
+		volumeChange {
+			id = volumeChange
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		weightArea {
+			id = weightArea
+			isMultivalued = true
+			defaultUnit = g/m^2
+			units {
+				0 = g/cm^2
+				1 = g/m^2
+			}
+			showInfo = true
+			wikiPageID {
+				de = Massenbelegung
+				en = Area_density
+			}
+		}
+
+	}
+	miscProperties {
+		applicationArea {
+			id = applicationArea
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+		}
+		applicationAreaGeneral {
+			id = applicationAreaGeneral
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		basicProperties {
+			id = basicProperties
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		category {
+			id = category
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+		}
+		cert {
+			id = cert
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		citation {
+			id = citation
+			isMultivalued = false
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		citationUrl {
+			id = citationUrl
+			isMultivalued = false
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		dataDeliverer {
+			id = dataDeliverer
+			isMultivalued = false
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		dataDelivererID {
+			id = dataDelivererID
+			isMultivalued = false
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		dataSheetUrl {
+			id = dataSheetUrl
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		disclaimer {
+			id = disclaimer
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		externalProperties {
+			id = externalProperties
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		freeText {
+			id = freeText
+			isMultivalued = false
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		imageUrl {
+			id = imageUrl
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		literature {
+			id = literature
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		name {
+			id = name
+			isMultivalued = false
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		obfuscate {
+			id = obfuscate
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		otherProps {
+			id = otherProps
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		producer {
+			id = producer
+			isMultivalued = false
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		producerID {
+			id = producerID
+			isMultivalued = false
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		supplier {
+			id = supplier
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		supplierID {
+			id = supplierID
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+			hideInComparison = 1
+		}
+		usecases {
+			id = usecases
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+		}
+		color {
+			id = color
+			isMultivalued = true
+			isQualitative = 1
+		}
+		compositionCompound {
+			id = compositionCompound
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+		}
+		construction {
+			id = construction
+			isMultivalued = true
+			isQualitative = 1
+		}
+		distribution {
+			id = distribution
+			isMultivalued = false
+			isQualitative = 1
+		}
+		effectMode {
+			id = effectMode
+			isMultivalued = true
+			isQualitative = 1
+		}
+		nameAbbreviation {
+			id = nameAbbreviation
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+		}
+		nameAlternative {
+			id = nameAlternative
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+		}
+		nameLanguage {
+			id = nameLanguage
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+		}
+		nameTrade {
+			id = nameTrade
+			isMultivalued = false
+			renderedSeparately = true
+			isQualitative = 1
+		}
+		processManufacture {
+			id = processManufacture
+			isMultivalued = true
+			isQualitative = 1
+		}
+
+	}
+	chemicalProperties {
+		compositionChemical {
+			id = compositionChemical
+			isMultivalued = true
+			renderedSeparately = true
+			isQualitative = 1
+		}
+		contentChlorideLeachable {
+			id = contentChlorideLeachable
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		contentChlorideTotal {
+			id = contentChlorideTotal
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		contentFluorideTotal {
+			id = contentFluorideTotal
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		contentSilicate {
+			id = contentSilicate
+			isMultivalued = true
+			defaultUnit = %
+			units {
+				0 = %
+			}
+		}
+		crossLinking {
+			id = crossLinking
+			isMultivalued = false
+			showInfo = true
+			wikiPageID {
+				de = Vernetzung_(Chemie)
+				en = Cross-link
+			}
+			isQualitative = 1
+		}
+		flammability {
+			id = flammability
+			isMultivalued = false
+			showInfo = true
+			wikiPageID {
+				de = Entflammbarkeit
+				en = Combustibility_and_flammability
+			}
+			isQualitative = 1
+		}
+		oxygenIndex {
+			id = oxygenIndex
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			showInfo = true
+			wikiPageID {
+				de = Sauerstoffindex
+				en = Oxygen_index
+			}
+		}
+		oxygenIndexLimiting {
+			id = oxygenIndexLimiting
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			showInfo = true
+			wikiPageID {
+				en = Limiting_oxygen_index
+			}
+		}
+		purityGraphite {
+			id = purityGraphite
+			isMultivalued = false
+			defaultUnit = %
+			units {
+				0 = %
+			}
+			showInfo = true
+			wikiPageID {
+				de = Reinheitsgrad_(Werkstoff)
+			}
+		}
+		resistanceChemical {
+			id = resistanceChemical
+			isMultivalued = true
+			showInfo = true
+			wikiPageID {
+				de = Chemische_Beständigkeit
+				en = Chemical_resistance
+			}
+			isQualitative = 1
+		}
+		resistanceCorrosion {
+			id = resistanceCorrosion
+			isMultivalued = false
+			showInfo = true
+			wikiPageID {
+				de = Korrosion
+				en = Corrosion
+			}
+			isQualitative = 1
+		}
+		resistanceOxidationGraphite {
+			id = resistanceOxidationGraphite
+			isMultivalued = false
+			defaultUnit = %/h
+			units {
+				0 = %/h
+			}
+			showInfo = true
+			wikiPageID {
+				de = Oxidationszahl
+				en = Oxidation_state
+			}
+		}
+
+	}
+}

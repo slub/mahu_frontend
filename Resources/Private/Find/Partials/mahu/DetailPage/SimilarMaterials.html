@@ -1,0 +1,93 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+<f:comment>
+	Previews descriptions of materials that are similar to a certain material.
+</f:comment>
+
+<f:if condition="{settings.mahu.showSimilarMaterialsSearch}">
+
+<f:alias map="{physicalPropertiesAvailable:'{m:HasValues(material:document,properties:settings.mahu.schema.properties)}'}">
+<f:if condition="{physicalPropertiesAvailable}">
+<div id="similarMaterialsContainer">
+<h2><i class="icon far fa-lightbulb" aria-hidden="true"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:similarMaterials')}</h2>
+
+	<div id="simMaterialsSearch">
+		<p>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:similarSearch.expl')}</p>
+	
+		<div><a id="addSimSearchProperty" tabindex="0" class="no-change"><i class="fas fa-plus-circle smallicon"></i> {f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:similarSearch.addprop')}</a></div>
+		<div id="simMatPropertyContainer">
+		
+			<div class="reqTag" data-genid="1">
+				<div class="simMaterialsSearchPropertySelector propSelect">
+				<label style="display:none" for="simMaterialsSearchPropSelector" class="propertyName">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:similarSearch.prop')}:</label>
+				<f:form.select
+					class="simMaterialsSearchPropSelector chosen-container inputContainer"
+					name="propSelect"
+					options="{m:GetSetProperties(material:document,schema:settings.mahu.schema.properties)}"
+					optionValueField="id"
+					optionLabelField="label"
+					additionalAttributes="{
+						data-placeholder:'{f:translate(key:\'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:selectAnOption\')}'
+					}"
+				/>
+				
+				<div style="text-align:right"><a tabindex="0" class="remove no-change" title="Entfernen"><i class="fa fa-times" aria-hidden="true"></i></a></div>
+				</div>
+				<div class="simMaterialsSearchPropertySelector valueSelect">
+				<label class="propertyName" for="slider-range">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:similarSearch.dev')}:</label>
+				<div class="devArea">
+					<div class="slider-range inputContainer"></div>
+					<span class="slider-value">5%</span>
+				</div>
+				</div>
+			</div>
+	
+		</div>
+	
+		<div class="simMatPropertyTemplate" style="display:none;">
+			<div class="reqTag">
+				<div class="simMaterialsSearchPropertySelector propSelect">
+				<label style="display:none" for="simMaterialsSearchPropSelector" class="propertyName">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:similarSearch.prop')}:</label>
+				<f:form.select
+					class="simMaterialsSearchPropSelector chosen-container inputContainer"
+					name="propSelect"
+					options="{m:GetSetProperties(material:document,schema:settings.mahu.schema.properties)}"
+					optionValueField="id"
+					optionLabelField="label"
+					additionalAttributes="{
+						data-placeholder:'{f:translate(key:\'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:selectAnOption\')}'
+					}"
+				/>
+				<div style="text-align:right"><a tabindex="0" class="remove no-change" title="Entfernen"><i class="fa fa-times" aria-hidden="true"></i></a></div>
+				</div>
+				<div class="simMaterialsSearchPropertySelector valueSelect">
+				<label class="propertyName" for="slider-range">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:similarSearch.dev')}:</label>
+				<div class="devArea">
+					<div class="slider-range inputContainer"></div>
+					<span class="slider-value">5%</span>
+				</div>
+				</div>
+			</div>
+		</div>
+	
+		<div id="similarMaterials" class="materialDescription" style="grid-template-rows: minmax(230px,auto);">
+			<p><i class="fas fa-spinner fa-spin fa-2x"></i></p>
+		</div>
+	
+		<f:form name="c{config.uid}-form"
+				method="{f:if(condition:settings.mahu.POST, then:'post', else:'get')}"
+				action="index"
+				class="simMaterialsSearchForm">
+			<f:form.submit value="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:similarSearch.searchAll')}" disabled="true" class="btn btn-primary"></f:form.submit>
+			<input id="c{config.uid}-field-default" type="hidden" name="tx_find_find[q][default]" value="*" autocomplete="off"/>
+			<div class="dynfields"></div>
+		</f:form>
+	</div>
+
+
+</div>
+</f:if>
+</f:alias>
+
+</f:if>

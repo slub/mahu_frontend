@@ -1,0 +1,165 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+
+<f:if condition="{secondField}">
+<f:else>
+	<v:variable.set name="secondField" value="type" />
+</f:else>
+</f:if>
+
+<f:if condition="{secondFieldPlaceholder}">
+<f:else>
+	<v:variable.set name="secondFieldPlaceholder" value="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.{secondField}.placeholder')}" />
+</f:else>
+</f:if>
+
+<f:if condition="{showRemarkField}">
+<f:then>
+	<v:variable.set name="colClass" value="col-md-4" />
+</f:then>
+<f:else>
+	<v:variable.set name="colClass" value="col-md-6" />
+</f:else>
+</f:if>
+
+<div data-pid="{propid}">
+	<label class="control-label" for="c{config.uid}-form-{propid}"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.{propid}"/></label>
+	<div class="btn-group">
+		<a class="addBtn" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:add')}" data-clonetarget="c{config.uid}-{propid}">
+			<i class="fas fa-plus-circle smallicon" aria-hidden="true"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:add"/>
+		</a>
+	</div>
+	<f:if condition="{s:data.isArray(subject:value)}">
+		<f:then>
+			<f:for each="{value}" as="_val"  iteration="iter">
+				<v:variable.set name="secondVal" value="{v:variable.get(name:'_val.{secondField}')}" />
+				
+				<f:if condition="{iter.isFirst}"><f:then>
+				
+				<div class="form-row cloneable" id="c{config.uid}-{propid}">
+					<div class="form-group {colClass}">
+						<div class="input">
+							<input class="form-control"
+								id="c{config.uid}-form-{propid}-value"
+								name="{config.prefixID}[material][{propid}][0][value]"
+								value="{_val.value}"
+								placeholder="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.value.placeholder')}"
+								data-nametemplate="{config.prefixID}[material][{propid}][$num$][value]"/>
+						</div>
+					</div>
+					<div class="form-group {colClass}">
+						<div class="input">
+							<input class="form-control"
+								id="c{config.uid}-form-{propid}-{secondField}"
+								name="{config.prefixID}[material][{propid}][0][{secondField}]"
+								value="{secondVal}"
+								placeholder="{secondFieldPlaceholder}"
+								data-nametemplate="{config.prefixID}[material][{propid}][$num$][{secondField}]"
+								/>
+						</div>
+					</div>
+					<f:if condition="{showRemarkField}">
+					<div class="form-group {colClass}">
+						<div class="input">
+							<input class="form-control"
+								id="c{config.uid}-form-{propid}-remark"
+								name="{config.prefixID}[material][{propid}][0][remark]"
+								value="{_val.remark}"
+								placeholder="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.remark.placeholder')}"
+								data-nametemplate="{config.prefixID}[material][{propid}][$num$][remark]"
+								/>
+						</div>
+					</div>
+					</f:if>
+
+					<div><a class="removeBtn template" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:remove')}">
+						<i class="fas fa-trash smallicon" aria-hidden="true"></i>
+					</a></div>
+				</div>
+				
+				</f:then>
+				<f:else>
+				
+				<div class="form-row cloneable">			
+					<div class="form-group {colClass}">
+						<div class="input">
+							<input class="form-control"
+								id="c{config.uid}-form-{propid}-value_{iter.index}"
+								name="{config.prefixID}[material][{propid}][{iter.index}][value]"
+								placeholder="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.value.placeholder')}"
+								value="{_val.value}" />
+						</div>
+					</div>
+					<div class="form-group {colClass}">
+						<div class="input">
+							<input class="form-control"
+								id="c{config.uid}-form-{propid}-{secondField}_{iter.index}"
+								name="{config.prefixID}[material][{propid}][{iter.index}][{secondField}]"
+								value="{secondVal}"
+								placeholder="{secondFieldPlaceholder}"
+								/>
+						</div>
+					</div>
+					<f:if condition="{showRemarkField}">
+					<div class="form-group {colClass}">
+						<div class="input">
+							<input class="form-control"
+								id="c{config.uid}-form-{propid}-remark_{iter.index}"
+								name="{config.prefixID}[material][{propid}][{iter.index}][remark]"
+								value="{_val.remark}"
+								placeholder="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.remark.placeholder')}"
+								/>
+						</div>
+					</div>
+					</f:if>
+					<div><a class="removeBtn template" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:remove')}">
+						<i class="fas fa-trash smallicon" aria-hidden="true"></i>
+					</a></div>
+				</div>
+				
+				
+				</f:else></f:if>
+			</f:for>
+		</f:then><f:else>
+			<v:variable.set name="secondVal" value="{v:variable.get(name:'value.{secondField}')}" />
+			<div class="form-row cloneable" id="c{config.uid}-{propid}">			
+				<div class="form-group {colClass}">
+					<div class="input">
+						<input class="form-control"
+							id="c{config.uid}-form-{propid}"
+							name="{config.prefixID}[material][{propid}][0][value]"
+							value="{value.value}"
+							placeholder="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.value.placeholder')}"
+							data-nametemplate="{config.prefixID}[material][{propid}][$num$][value]"/>
+					</div>
+				</div>
+				<div class="form-group {colClass}">
+					<div class="input">
+						<input class="form-control"
+							id="c{config.uid}-form-{propid}"
+							name="{config.prefixID}[material][{propid}][0][{secondField}]"
+							placeholder="{secondFieldPlaceholder}"
+							value="{secondVal}"
+							data-nametemplate="{config.prefixID}[material][{propid}][$num$][{secondField}]"
+							/>
+					</div>
+				</div>
+				<f:if condition="{showRemarkField}">
+				<div class="form-group {colClass}">
+					<div class="input">
+						<input class="form-control"
+							id="c{config.uid}-form-{propid}-remark"
+							name="{config.prefixID}[material][{propid}][0][remark]"
+							value="{_val.remark}"
+							placeholder="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.remark.placeholder')}"
+							data-nametemplate="{config.prefixID}[material][{propid}][$num$][remark]"
+							/>
+					</div>
+				</div>
+				</f:if>
+				<div><a class="removeBtn template" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:remove')}">
+					<i class="fas fa-trash smallicon" aria-hidden="true"></i>
+				</a></div>
+			</div>
+		</f:else>
+	</f:if>
+</div>

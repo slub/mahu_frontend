@@ -1,0 +1,10 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+<f:comment>
+Displays an info icon that provides access to additional information about a given material property.
+</f:comment>
+<f:if condition="{prop.showInfo}">
+	<v:variable.set name="wpageID" value="{prop.wikiPageID.{language}}"/>
+	<f:if condition="{wpageID}">
+	<i class="fas fa-info-circle propertyInfo" tabindex="0" data-pid="{wpageID}" data-wid="{language}" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-explanations.xml:explanation.{prop.id}', default:'Es sind keine Erläuterungen zu dieser Eigenschaft hinterlegt.')}"></i>
+	</f:if>
+</f:if>

@@ -1,0 +1,742 @@
+##
+## general find plugin configuration
+##
+plugin.tx_find {
+    settings {
+    	JSPaths >
+        languageRootPath = EXT:mahu_frontend/Resources/Private/Language/
+        # inject mahu css (and override fontello.css from find's setup.txt)
+        CSSPaths.20 = EXT:mahu_frontend/Resources/Public/Css/Styles.css
+        standardFields {
+            title = title
+            snippet = imprint
+        }
+    }
+    view {
+        templateRootPath >
+        templateRootPaths {
+            0 = {$plugin.tx_find.view.templateRootPath}
+            1 = EXT:mahu_frontend/Resources/Private/Find/Templates/
+        }
+        partialRootPath >
+        partialRootPaths {
+            0 = {$plugin.tx_find.view.partialRootPath}
+            1 = EXT:mahu_frontend/Resources/Private/Find/Partials/
+        }
+        layoutRootPath >
+        layoutRootPaths {
+            0 = {$plugin.tx_find.view.layoutRootPath}
+        }
+    }
+}
+
+##
+## SOLR-related configuration options for find 
+##
+plugin.tx_find.settings {
+	
+	jumpToID = 
+	
+	# SOLR connection
+    connection {
+        scheme = http
+        host = localhost
+        port = 8983
+        path = /solr/mahu/
+        timeout = 30
+    }
+    
+    additionalFilters {
+    	1 = documentType:material
+	}
+	
+    standardFields {
+        title = name
+		snippet = producer
+		alternativeSnippet = dataDeliverer
+    }
+
+	# result list paging options
+	paging {
+	    perPage = 20
+        maximumPerPage = 1000
+        detailPagePaging = 1
+		menu {
+			0 = 5
+			1 = 10
+			2 = 20
+			3 = 50
+			4 = 100
+		}
+	}
+	
+	# Limit the requested data fields for different query types:
+	# Only request the minimum by default and load all fields for displaying
+	# full records or loading data.
+	dataFields {
+		default {
+			default {
+			    f0 = score
+			    f1 = *
+			}
+		}
+		detail {
+			default {
+				f0 = *
+			}
+		}
+		data < plugin.tx_find.settings.dataFields.detail
+	}
+	
+	# define sort criteria
+	sort {
+		0 {
+			id = default
+			sortCriteria = score desc
+    	}
+     	1 {
+			id = nameAsc
+			sortCriteria = name_unstemmed asc
+    	}
+    	2 {
+			id = nameDesc
+			sortCriteria = name_unstemmed desc
+    	}
+	}
+	
+	# sort options
+	sortOptions {
+		menu {
+			0 = default
+			1 = nameAsc
+			2 = nameDesc
+		}
+		selected = default
+	}
+	
+	# configure result grouping
+	grouping {
+		field = producer_unstemmed
+		limit = 10
+		showMenu = 1
+		menu {
+			0 = 5
+			1 = 10
+			2 = 20
+			3 = 50
+			4 = 100
+		}
+	}
+	
+	# configure the more-like-this feature
+	morelikethis {
+		rows = 5
+		fields {
+			0= category_unstemmed
+			1= applicationArea_unstemmed
+		}
+	}
+	
+	highlight {
+		method = unified
+		default {
+	        fields {
+	            f1 = name
+				f2 = category
+				f3 = producer
+				f4 = applicationArea
+				f5 = applicationAreaGeneral
+				f6 = usecases
+				f7 = otherProps
+				f8 = cert_true
+				f9 = nameAlternative_value
+				f10 = freeText
+				f11 = compositionCompound_value
+				f12 = nameTrade_value
+	        }
+	    }
+	}
+}
+
+
+## 
+## Facet configuration
+##
+# default values applied to all facet configurations
+plugin.tx_find.settings.facetDefaults {
+	autocomplete = 1
+}
+plugin.tx_find.settings.facets >
+plugin.tx_find.settings.facets {
+
+	# category
+	50 {
+		id = category
+		field = category_unstemmed
+		query = category_unstemmed:"%s"
+		img = list
+		excludeOwnFilter = 1
+		queryStyle = or
+	}
+
+	# usecases
+	120 {
+		id = usecases
+		field = applicationAreaGeneral
+		query = applicationAreaGeneral:"%s"
+		img = beer
+		excludeOwnFilter = 1
+		queryStyle = or
+	}
+
+	# certificates by name
+	90 {
+		id = certificate
+		field = cert_true
+		query = cert_true:"%s"
+		img = certificate
+		excludeOwnFilter = 1
+		queryStyle = and
+	}
+	
+	# certificates by country
+	130 {
+		id = certificateByCountry
+		field = cert_country
+		query = cert_country:"%s"
+		img = globe
+		excludeOwnFilter = 1
+		queryStyle = or
+	}
+	
+	110 {
+		id = resistance
+		field = resistanceChemical_true
+		query = resistanceChemical_true:"%s"
+		img = flask
+		excludeOwnFilter = 1
+		queryStyle = and
+	}
+	
+	# producer
+	40 {
+		id = producer
+		field = producer_unstemmed
+		query = producer_unstemmed:"%s"
+		img = industry
+		excludeOwnFilter = 1
+		queryStyle = or
+	}
+
+	# supplier
+	41 {
+		id = supplier
+		field = supplier
+		query = supplier:"%s"
+		img = industry
+		excludeOwnFilter = 1
+		queryStyle = or
+	}
+	
+	# data deliverer
+	100 {
+		id = dataDeliverer
+		field = dataDeliverer
+		query = dataDeliverer:"%s"
+		img = database
+		excludeOwnFilter = 1
+		queryStyle = or
+	}
+	
+#    333 {
+#        id = typ
+#        excludeOwnFilter = 1
+#        type = Tabs
+#        hidden = 1
+#        selectedByDefault {
+#            Werkstoff = 1
+#        }
+#        facetQuery {
+#            10 {
+#                id = Verbundwerkstoff
+#                query = category_unstemmed:Verbundwerkstoffe
+#            }
+#            20 {
+#                id = Werkstoff
+#                query = category_unstemmed:Nichtmetalle
+#            }
+#        }
+#    }
+}
+
+
+
+##
+## Configure query fields, including those for extended search
+##
+plugin.tx_find.settings.queryFields >
+plugin.tx_find.settings.queryFields {
+
+	# text query field
+    10 {
+        id = default
+        query = {!edismax qf=\"name^200 category^500 compositionCompound_value producer applicationArea applicationAreaGeneral_search usecases otherProps cert_true^100 nameAlternative_value freeText nameTrade_value\"}%s
+#        queryAlternate.1 = {!edismax qf=\"name category_unstemmed producer_name applicationArea usecases otherProps cert_name cert_remark nameAlternative_value\"}%s~0.7
+        noescape = 1
+        phrase = 0
+        type = Text
+        escape {
+            advanced = 1
+        }
+		autocomplete = 1
+		autocompleteDictionary = default
+    }
+    
+    # extended search options following
+	
+	# hardness
+	40 {
+        id = hardness
+		extended = 1
+        type = Range
+        query = ((hardness_%3$s_value_min:[%1$s TO *] && hardness_%3$s_value_max:[* TO %2$s]) || hardness_%3$s_value:[%1$s TO %2$s])
+        default.0 = 0
+        default.1 = *
+        default.2 = ShoreA
+        noescape = 1
+        min = 0
+	}
+	
+	# tensile strength
+	50 {
+        id = tensileStrength
+		extended = 1
+        type = Range
+        query = ((tensileStrength_value_min:[%1$s TO *] && tensileStrength_value_max:[* TO %2$s]) || tensileStrength_value:[%1$s TO %2$s]) && tensileStrength_unit:%3$s
+        default.0 = 0
+        noescape = 1
+        default.1 = *
+        min = 0
+	}
+	
+	# density
+	60 {
+        id = density
+		extended = 1
+        type = Range
+        query = ((density_value_min:[%1$s TO *] && density_value_max:[* TO %2$s]) || density_value:[%1$s TO %2$s]) && density_unit:%3$s
+        noescape = 1
+        step = 0.1
+        min = 0
+        default.0 = 0
+        default.1 = *
+        default.2 = *
+	}
+	
+	# operation temperature
+	70 {
+		id = temperatureApplication
+		extended = 1
+		type = Range
+		query = (temperatureApplication_value_min:[* TO %1$s] && temperatureApplication_value_max:[%2$s TO *]) || temperatureApplication_value_max:[%2$s TO *] 
+		default.0 = 0
+		noescape = 1
+        default.1 = *
+        min = -273
+	}
+	
+	# indication on suitability for food contact
+	80 {
+		id = food
+		query = cert_remark:"food" || cert_true:"FDA" || cert_true:"3A-Dairy" || applicationAreaGeneral:"Lebensmittelkontakt" || otherProps:lebensmittel~0.9 || freeText:"Food compliant according to"^0.1
+		extended = 1
+		type = Check
+	}
+	
+	# chemical resistances
+	90 {
+		id = chemicalResistance
+		query = resistanceChemical_true:%s
+		extended = 1
+		type = MultiSelect
+
+		options {
+			acids = Säuren
+			acidsweak = Säuren, schwach
+			acidsstrongph13 = Säuren, stark
+			alkalies = Alkalien
+			alkaliesweak = Alkalien, schwach
+			alkaliesstrongph1114 = Alkalien, stark
+			hydrocarbonsaromatic = Aromatische Kohlenwasserstoffe
+			hydrocarbonsaliphatic = Aliphatische Kohlenwasserstoffe
+			ketonesesters = Ketone, Ester
+			solvents = Lösungsmittel
+			chlorinatedsolvents = chlorierte Lösungsmittel
+			alcohols = Alkohole
+			continuoussunlight = UV-Licht
+			inorganicsaltsolutions = Anorganische Salzlösungen
+			hotwatersteam = Heißes Wasser / Dampf
+			ozone = Ozon
+			mineraloil = Mineralöl
+			acteone = Aceton
+  			ethylacetate = Essigsäure
+  			salt = Salz
+  			temperature = Temperatur
+  			frost = Frost
+  			petrol = Benzin
+		}
+	}
+}
+
+plugin.tx_find.settings.mahu < plugin.tx_mahufrontend.settings
+
+[siteLanguage("languageId") == 1]
+# English option labels
+plugin.tx_find.settings.queryFields.90.options >
+plugin.tx_find.settings.queryFields.90.options {
+  acids = acids
+  acidsweak = acids weak
+  acidsstrongph13 = acids strong
+  alkalies = alkalies
+  alkaliesweak = alkalies, weak
+  alkaliesstrongph1114 = alkalies, strong
+  hydrocarbonsaromatic = hydrocarbons, aromatic
+  hydrocarbonsaliphatic = hydrocarbons, aliphatic
+  ketonesesters = ketones, esters
+  solvents = Solvents
+  chlorinatedsolvents = chlorinated solvents
+  alcohols = alcohols
+  continuoussunlight = continuous sunlight
+  inorganicsaltsolutions = inorganic salt solutions
+  hotwatersteam = hot water steam
+  ozone = ozone
+  mineraloil = mineral oil
+  acteone = Acetone
+  ethylacetate = Ethylacetate
+  salt = Salt
+  temperature = Temperature
+  frost = Frost
+  petrol = Petrol
+}
+[global]
+
+
+# constant $useGenericQueryFields is set to 0 --> "traditional" extended search
+[{$useGenericQueryFields} == 0]
+plugin.tx_find.settings.mahu.schema.properties.hardness {
+      id = hardness
+      defaultUnit = ShoreA
+      isMultivalued = true
+      units {
+        0 = ShoreA
+        1 = ShoreD
+        2 = RockwellE
+        3 = RockwellC
+        4 = RockwellM
+        5 = RockwellR
+        6 = Ball
+        7 = Brinell
+      }
+    }
+[global]
+# constant $useGenericQueryFields is set to 1 --> extended search with generic tags
+[{$useGenericQueryFields} == 1]
+plugin.tx_find.settings.queryFields.40 >
+plugin.tx_find.settings.queryFields.50 >
+plugin.tx_find.settings.queryFields.60 >
+plugin.tx_find.settings.queryFields.70 >
+
+############# generic query fields ######################
+plugin.tx_find.settings.queryFields.333 {
+        id = genqf1
+        extended = 1
+        type = Range
+        query = (((%4$s_value_min:[%1$s TO *] && %4$s_value_max:[* TO %2$s]) || %4$s_value:[%1$s TO %2$s]) && %4$s_unit:"%3$s")
+        default.0 = 0
+        default.1 = *
+        default.2 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.334 {
+        id = genqf2
+        extended = 1
+        type = Range
+        query = (((%4$s_value_min:[%1$s TO *] && %4$s_value_max:[* TO %2$s]) || %4$s_value:[%1$s TO %2$s]) && %4$s_unit:"%3$s")
+        default.0 = 0
+        default.1 = *
+        default.2 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.335 {
+        id = genqf3
+        extended = 1
+        type = Range
+        query = (((%4$s_value_min:[%1$s TO *] && %4$s_value_max:[* TO %2$s]) || %4$s_value:[%1$s TO %2$s]) && %4$s_unit:"%3$s")
+        default.0 = 0
+        default.1 = *
+        default.2 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.336 {
+        id = genqf4
+        extended = 1
+        type = Range
+        query = (((%4$s_value_min:[%1$s TO *] && %4$s_value_max:[* TO %2$s]) || %4$s_value:[%1$s TO %2$s]) && %4$s_unit:"%3$s")
+        default.0 = 0
+        default.1 = *
+        default.2 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.337 {
+        id = genqf5
+        extended = 1
+        type = Range
+        query = (((%4$s_value_min:[%1$s TO *] && %4$s_value_max:[* TO %2$s]) || %4$s_value:[%1$s TO %2$s]) && %4$s_unit:"%3$s")
+        default.0 = 0
+        default.1 = *
+        default.2 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.338 {
+        id = genqf6
+        extended = 1
+        type = Range
+        query = (((%4$s_value_min:[%1$s TO *] && %4$s_value_max:[* TO %2$s]) || %4$s_value:[%1$s TO %2$s]) && %4$s_unit:"%3$s")
+        default.0 = 0
+        default.1 = *
+        default.2 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+
+# generic Text query fields
+plugin.tx_find.settings.queryFields.339 {
+        id = genqft1
+        extended = 1
+        type = Text
+        query = (%2$s_value:"%1$s")
+        default.0 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.340 {
+        id = genqft2
+        extended = 1
+        type = Text
+        query = (%2$s_value:"%1$s")
+        default.0 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.341 {
+        id = genqft3
+        extended = 1
+        type = Text
+        query = (%2$s_value:"%1$s")
+        default.0 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.342 {
+        id = genqft4
+        extended = 1
+        type = Text
+        query = (%2$s_value:"%1$s")
+        default.0 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.343 {
+        id = genqft5
+        extended = 1
+        type = Text
+        query = (%2$s_value:"%1$s")
+        default.0 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.344 {
+        id = genqft6
+        extended = 1
+        type = Text
+        query = (%2$s_value:"%1$s")
+        default.0 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+
+
+# generic temperature query fields (require slightly different query structure)
+plugin.tx_find.settings.queryFields.350 {
+        id = genqftemp1
+        extended = 1
+        type = Range
+        query = ((%3$s_value_min:[* TO %1$s] && %3$s_value_max:[%2$s TO *]) || %3$s_value_max:[%2$s TO *])
+        default.0 = 0
+        default.1 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+        min = -273
+}
+plugin.tx_find.settings.queryFields.351 {
+        id = genqftemp2
+        extended = 1
+        type = Range
+        query = ((%3$s_value_min:[* TO %1$s] && %3$s_value_max:[%2$s TO *]) || %3$s_value_max:[%2$s TO *])
+        default.0 = 0
+        default.1 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+        min = -273
+}
+plugin.tx_find.settings.queryFields.352 {
+        id = genqftemp3
+        extended = 1
+        type = Range
+        query = ((%3$s_value_min:[* TO %1$s] && %3$s_value_max:[%2$s TO *]) || %3$s_value_max:[%2$s TO *])
+        default.0 = 0
+        default.1 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+        min = -273
+}
+plugin.tx_find.settings.queryFields.353 {
+        id = genqftemp4
+        extended = 1
+        type = Range
+        query = ((%3$s_value_min:[* TO %1$s] && %3$s_value_max:[%2$s TO *]) || %3$s_value_max:[%2$s TO *])
+        default.0 = 0
+        default.1 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+        min = -273
+}
+plugin.tx_find.settings.queryFields.354 {
+        id = genqftemp5
+        extended = 1
+        type = Range
+        query = ((%3$s_value_min:[* TO %1$s] && %3$s_value_max:[%2$s TO *]) || %3$s_value_max:[%2$s TO *])
+        default.0 = 0
+        default.1 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+        min = -273
+}
+plugin.tx_find.settings.queryFields.355 {
+        id = genqftemp6
+        extended = 1
+        type = Range
+        query = ((%3$s_value_min:[* TO %1$s] && %3$s_value_max:[%2$s TO *]) || %3$s_value_max:[%2$s TO *])
+        default.0 = 0
+        default.1 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+        min = -273
+}
+
+
+# generic fields for dimensionless quantities
+plugin.tx_find.settings.queryFields.360 {
+        id = genqfdq1
+        extended = 1
+        type = Range
+        query = ((%3$s_value_min:[%1$s TO *] && %3$s_value_max:[* TO %2$s]) || %3$s_value:[%1$s TO %2$s])
+        default.0 = 0
+        default.1 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.361 {
+        id = genqfdq2
+        extended = 1
+        type = Range
+        query = ((%3$s_value_min:[%1$s TO *] && %3$s_value_max:[* TO %2$s]) || %3$s_value:[%1$s TO %2$s])
+        default.0 = 0
+        default.1 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.362 {
+        id = genqfdq3
+        extended = 1
+        type = Range
+        query = ((%3$s_value_min:[%1$s TO *] && %3$s_value_max:[* TO %2$s]) || %3$s_value:[%1$s TO %2$s])
+        default.0 = 0
+        default.1 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.363 {
+        id = genqfdq4
+        extended = 1
+        type = Range
+        query = ((%3$s_value_min:[%1$s TO *] && %3$s_value_max:[* TO %2$s]) || %3$s_value:[%1$s TO %2$s])
+        default.0 = 0
+        default.1 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.364 {
+        id = genqfdq5
+        extended = 1
+        type = Range
+        query = ((%3$s_value_min:[%1$s TO *] && %3$s_value_max:[* TO %2$s]) || %3$s_value:[%1$s TO %2$s])
+        default.0 = 0
+        default.1 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.365 {
+        id = genqfdq6
+        extended = 1
+        type = Range
+        query = ((%3$s_value_min:[%1$s TO *] && %3$s_value_max:[* TO %2$s]) || %3$s_value:[%1$s TO %2$s])
+        default.0 = 0
+        default.1 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+plugin.tx_find.settings.queryFields.366 {
+        id = genqfdq7
+        extended = 1
+        type = Range
+        query = ((%3$s_value_min:[%1$s TO *] && %3$s_value_max:[* TO %2$s]) || %3$s_value:[%1$s TO %2$s])
+        default.0 = 0
+        default.1 = *
+        noescape = 1
+        hidden = 1
+        generic = 1
+}
+
+
+[global]
+########################################################

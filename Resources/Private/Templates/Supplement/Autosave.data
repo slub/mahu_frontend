@@ -1,0 +1,6 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+<f:format.htmlentitiesDecode>
+	<f:format.raw>
+		<s:format.json data="{response}"/>
+	</f:format.raw>
+</f:format.htmlentitiesDecode>

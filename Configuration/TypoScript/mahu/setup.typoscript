@@ -1,0 +1,36 @@
+##
+## mahu extension settings
+##
+plugin.tx_mahufrontend.settings {
+	
+	imgRootPath = /typo3conf/ext/mahu_frontend/Resources/Public/Images/
+	
+	# indicates whether score bars should be shown
+	showScores = true
+	
+	# enable or disable the development mode (shows under construction indicator and debug area)
+	dev = 0
+	
+	# defines whether the number of materials per material class should be shown in the taxonomy widget on the landing page
+	showNumberOfMaterialsInTaxonomy = true
+	
+	# indicates whether the search form should use HTTP POST requests. If set to false or 0, GET requests are applied.
+	POST = true
+	
+	# indicates whether logos of companies / institutes should be displayed on the Landing Page and on the Partner Page
+	showLogos = true
+}
+plugin.tx_mahufrontend {
+    view {
+        templateRootPath >
+        templateRootPaths {
+            0 = {$plugin.tx_mahufrontend.view.templateRootPath}
+            1 = EXT:mahu_frontend/Resources/Private/Find/Templates/
+        }
+        partialRootPath >
+        partialRootPaths {
+            0 = {$plugin.tx_mahufrontend.view.partialRootPath}
+            1 = EXT:mahu_frontend/Resources/Private/Find/Partials/
+        }
+    }
+}

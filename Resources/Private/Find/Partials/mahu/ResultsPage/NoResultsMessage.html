@@ -1,0 +1,54 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+
+<f:comment>
+	Renders a message if no results have been found for the current query.
+</f:comment>
+
+<div class="noresultsMessage">
+	<h3>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.heading')}</h3>
+	{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.1')}
+	<ul>
+		<s:data.newArray
+				name="linkArguments"
+				keys="{0: 'q'}"
+				values="{
+					0: { default : '*' }
+				}"
+				omitEmptyFields="1" >
+		<li>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.2')}
+			<f:link.action
+				action="index"
+				arguments="{linkArguments}"
+				pageUid="{settings.mahu.materialSearchPageID}"
+				class="internal" >
+				<f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.2.1"/>
+			</f:link.action></li>
+		</s:data.newArray>
+		
+		<f:if condition="{m:queryHasFilters(config:config)}">
+		<s:data.newArray
+				name="linkArguments"
+				keys="{0: 'q'}"
+				values="{
+					0: { default : '{config.query.default}' }
+				}"
+				omitEmptyFields="1" >
+		<li>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.6')}
+			<f:link.action
+				action="index"
+				arguments="{linkArguments}"
+				pageUid="{settings.mahu.materialSearchPageID}"
+				class="internal" >
+				<f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.6.1"/>
+			</f:link.action></li>
+		</s:data.newArray>
+		</f:if>
+		<f:if condition="{settings.mahu.wizardPageID}">
+		<li>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.3')}<f:link.page pageUid="{settings.mahu.wizardPageID}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.3.1')}</f:link.page></li>
+		</f:if>
+		<li>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.4')}<f:link.page section="materialcategories" pageUid="{settings.mahu.materialSearchPageID}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.4.1')}</f:link.page> {f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.4.2')} <f:link.page section="usecases" pageUid="{settings.mahu.materialSearchPageID}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.4.3')}</f:link.page>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.4.4')}</li>
+		<li>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.5')}<f:link.page pageUid="{settings.mahu.partnerPageID}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.5.1')}</f:link.page></li>
+		<li>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.7')}<f:link.page pageUid="{settings.mahu.regulationsPageID}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noresults.7.1')}</f:link.page></li>
+	</ul>
+</div>

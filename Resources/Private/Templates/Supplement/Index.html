@@ -1,0 +1,115 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+
+<f:layout name="Default"/>
+<f:comment>
+	The main view with a table of all files in the folder of the currently logged in user.
+</f:comment>
+<f:section name="Main">
+
+<f:comment> render error messages </f:comment>
+<f:if condition="{error}">
+<f:then>
+	<f:render partial="Editor/Error" arguments="{_all}"/>
+</f:then><f:else>
+<h3>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.list.files')} <q>{companyName}</q></h3>
+</f:else>
+</f:if>
+
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/pages/MaterialListPage.js" name="mlpage"/>
+<script>
+const currentPage = "MaterialListPage";
+</script>
+
+<f:if condition="{files}">
+<f:then>
+<div class="supplements" style="position:relative">
+	<table class="matDescTable propertiesTable">
+    <thead>
+        <tr>
+            <th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.list.filename')}</th>
+            <th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.list.act')}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <f:for each="{files}" as="file">
+            <tr>
+			    <td>
+					{file.name}
+			    </td>
+			    <td>
+			    	<f:link.action
+		    			controller="Supplement"
+						action="edit"
+						pageUid="{settings.supplementEditorPageID}"
+						class="action"
+						arguments="{id:file.name,company:companyID}">
+						<i class="fas fa-pen smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:edit"/>
+					</f:link.action>
+			    
+			    	<f:link.action 
+			    		controller="Supplement" 
+			    		action="remove" 
+			    		class="action remove"
+			    		arguments="{file:file.name,company:companyID}"
+			    		additionalAttributes="{data-file:file.name,data-class:'supplements',data-ue:'&tx_mahufrontend_supplementeditor[format]=part&type=1369315231'}">
+						<i class="fas fa-trash-alt smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.remove"/>
+					</f:link.action>
+					
+					<f:link.action 
+			    		controller="Supplement" 
+			    		action="duplicate" 
+			    		class="action duplicate"
+			    		arguments="{src:file.name,company:companyID,newname:'$$$$$'}"
+			    		additionalAttributes="{data-class:'supplements',data-ue:'&tx_mahufrontend_supplementeditor[format]=part&type=1369315231'}">
+						<i class="fas fa-copy smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.copy"/>
+					</f:link.action>
+			    </td>
+			</tr>
+        </f:for>
+    </tbody>
+</table>
+</div>
+
+<div style="display: none; visibility: hidden">
+	<div id="confirmDeletionsupplements" data-title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.list.remove.confirm.header')}">
+		<p><i class="fas fa-exclamation-triangle smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.list.remove.confirm.text"/></p>
+	</div>
+</div>
+
+<div style="display: none; visibility: hidden">
+	<div id="copydialogsupplements" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.copy')}">
+		<p><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.list.copy.text"/></p></p>
+
+		<form>
+			<fieldset>
+				<label for="newmatname"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:name"/>: </label>
+				<input type="text"
+					name="name" id="newmatname" value=""
+					class="text ui-widget-content ui-corner-all">
+
+				<!-- Allow form submission with keyboard without duplicating the dialog button -->
+				<input type="submit" tabindex="-1"
+					style="position: absolute; top: -1000px">
+			</fieldset>
+		</form>
+	</div>
+</div>
+
+</f:then>
+<f:else>
+	<f:if condition="{success}">
+	{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.list.nofiles')}
+	</f:if>
+</f:else>
+</f:if>
+
+<div>
+	<f:link.action
+		action="new"
+		pageUid="{settings.supplementEditorPageID}"
+		arguments="{company:companyID}">
+		<i class="fas fa-plus-circle smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.new"/>
+	</f:link.action>
+</div>
+</f:section>

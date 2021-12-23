@@ -1,0 +1,143 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+
+<f:comment>
+	Creates a list item for document stored in the document variable.
+
+	It uses the standardFields configured in settings, result highlighting
+	(if configured) and a link to the document’s page.
+</f:comment>
+
+<f:if condition="{document.category}"><f:then>
+<li id="c{config.uid}-result-{document.id}" data-cat="{m:getCategory(material:document)}" data-mscat="{v:iterator.last(haystack:document.category)}">
+</f:then><f:else>
+<li id="c{config.uid}-result-{document.id}">
+</f:else>
+</f:if>
+	<article class="flexResultLine">
+		<div class="baseInfo">
+		<div class="matImage">
+		<f:if condition="{document.imageUrl}">
+			<f:then>
+			<img src="{document.imageUrl.0}" onerror="mahu.handleImageError(arguments[0])" alt="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.imageUrl')}"/>
+			</f:then>
+			<f:else>
+			<img src="/typo3conf/ext/mahu_frontend/Resources/Public/Images/placeholder.png" class="hidden"/>
+			</f:else>
+		</f:if>
+		</div>
+		<h3>
+			<f:link.action
+				action="detail"
+				arguments="{id:document.id}"
+				section="{settings.jumpToID}"
+				class="internal no-change"
+				onclick="{f:if(
+					condition:'{settings.paging.detailPagePaging}==1',
+					then:'return tx_find.detailViewWithPaging(this);'
+				)}">
+				<f:if condition="{document.nameTrade_value}">
+					<f:then>
+					<span class="field-name">{document.nameTrade_value}</span>
+					</f:then>
+					<f:else>
+					<span class="field-name">{document.name}</span>
+					</f:else>
+				</f:if>
+			</f:link.action>
+			<f:if condition="{document.nameTrade_value}">
+				<f:if condition="{document.name}">
+				<span class="alternativeName">({document.name})</span>
+				</f:if>
+			</f:if>
+		</h3>
+		<p>
+		<f:if condition="{s:data.valueForKey(array:document.fields, key:settings.standardFields.snippet)}">
+			<f:then>
+			<f:render
+				partial="Display/Field/Inline"
+				arguments="{
+					config:config,
+					results:results,
+					document:document,
+					field:settings.standardFields.snippet,
+					separator:', '
+				}"/>
+			</f:then>
+			<f:else>
+			<f:render
+				partial="Display/Field/Inline"
+				arguments="{
+					config:config,
+					results:results,
+					document:document,
+					field:settings.standardFields.alternativeSnippet,
+					separator:', '
+				}"/>
+			</f:else>
+		</f:if>
+		</p>
+		
+		<v:variable.set name="explanation" value="{m:GetExplanation(results:results,defaultFields:settings.standardFields,document:document)}" />
+		<f:if condition="{explanation}">
+		<div class="explanation">
+			<a class="no-change" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:relevance')}" tabindex="0"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+			<span class="hidden">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:relevanceIndicator')} <f:for each="{explanation}" as="e" key="name" iteration="iter"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:{e}"/><f:if condition="{iter.isLast}"><f:then></f:then><f:else>, </f:else></f:if></f:for></span>
+		</div>
+		</f:if>
+		
+		<f:if condition="{settings.mahu.showScores}"><f:then>
+		<div class="scoreBarContainer">
+			<v:variable.set name="sc" value="{m:GetNormalizedScore(material:document,maxscore:maxscore)}" />
+			<div class="scoreBar" style="width:{sc.score}%; background:{sc.color}"></div>
+		</div>
+		</f:then><f:else>
+		<div style="margin-top:10px"></div>
+		</f:else>
+		</f:if>
+		
+		</div>
+	
+	
+		<f:comment>show some core material properties</f:comment>
+		<div class="additionalInfoContainer">
+		<f:for each="{atts}" as="att" key="number">
+			<v:variable.set name="values" value="{m:GetValue(material:document,name:att,schema:settings.mahu.schema)}" />
+			
+			<div class="additionalInfo">
+				<span class="propertyName cropText" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties:properties.{att}')}"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties:properties.{att}"/></span>
+				<f:if condition="{values}">
+					<f:then>
+						<f:if condition="{values.obfuscated}">
+						<f:then>
+						<span class="propertyValue blurred" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:resultspage.result.blurred')}">
+							<i class="fas fa-info-circle"></i>
+						</f:then><f:else>
+						<span class="propertyValue cropText">
+						</f:else></f:if>
+					 	<v:variable.set name="v" value="{v:iterator.last(haystack:values.value)}"/>
+					 	<f:if condition="{v}!='NaN'">
+					 	<f:if condition="{att}=='category'"><f:then><f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.category.{v}" default="{v}"/></f:then><f:else><f:format.raw>{v}</f:format.raw></f:else></f:if>
+					 	<f:if condition="{values.unit}">&nbsp;<span class="unit"><v:iterator.last haystack='{values.unit}'></v:iterator.last></span></f:if>
+					 	</f:if>
+					 	<f:if condition="{values.remark}">
+							<f:if condition="{s:data.isArray(subject:'{values.remark}')}">
+								<f:then>
+									<v:variable.set name="remarkinner" value="{v:iterator.last(haystack:values.remark)}"/>
+									<f:if condition="{remarkinner}!='-'">
+									<i class="fas fa-info-circle remarkInfo" tabindex="0" title="{remarkinner}"></i>
+									</f:if>
+								</f:then>
+								<f:else>({values.remark})</f:else>
+							</f:if>
+						</f:if>
+					 	</span>
+					 </f:then>
+	 				<f:else>&ndash;</f:else>
+				</f:if>
+			</div>
+		</f:for>
+		</div>
+	</article>
+</li>

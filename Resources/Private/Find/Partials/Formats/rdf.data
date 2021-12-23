@@ -1,0 +1,11 @@
+{namespace s=Subugoe\Find\ViewHelpers}<f:format.htmlentitiesDecode><s:format.strip>
+	<f:render
+		partial="Formats/linked-data"
+		arguments="{
+			documents:documents,
+			LDFormat:'rdf',
+			schema:settings.mahu.schema,
+			settings:settings.mahu
+		}"
+	/>
+</s:format.strip></f:format.htmlentitiesDecode>

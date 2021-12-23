@@ -1,0 +1,78 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+<f:comment>
+	Renders information about a given company, e.g., a producer or data provider. 
+</f:comment>
+
+<v:variable.set name="producer" value="{m:getCompany(id:'{document.producerID}')}" />
+
+<f:comment>producer</f:comment>
+<f:if condition="{producer}">
+	<h2><i class="icon fas fa-industry" aria-hidden="true"></i><f:if condition="{useShortLabel}"><f:then>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:producer')}</f:then><f:else>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:providedBy')} {f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:producer')}</f:else></f:if></h2>
+	
+	<div class="materialDescription row">
+	<f:comment><i class="expander fa fa-chevron-circle-up"></i></f:comment>
+	
+	<f:render partial="mahu/DetailPage/CompanyInfo" arguments="{ company: producer}"/>
+
+	<f:if condition="{document.dataSheetUrl}">
+		<p class="companyDetailAddition"><a href="{document.dataSheetUrl.0}" target="_blank" class="no-change"><i class="fas fa-external-link-alt smallicon" aria-hidden="true"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:producer.materialPage')}</a></p>
+	</f:if>
+	
+		<p class="companyDetailAddition">
+		<s:data.newArray
+				name="linkArguments"
+				keys="{0: 'q', 1:'facet'}"
+				values="{
+					0: { default : '*' },
+					1: '{m:GetLinkParameterForFacet(facet:producer.facet,facetValue:producer.facetValue)}'
+				}"
+				omitEmptyFields="1" >
+			<f:link.action
+				action="index"
+				arguments="{linkArguments}"
+				class="internal" >
+				<f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:partnerpage.link"/> {producer.name}
+			</f:link.action>
+		</s:data.newArray>
+		</p>
+	</div>
+</f:if>
+
+
+<f:comment>supplier(s)</f:comment>
+<f:if condition="{document.supplierID}">
+	<h2><i class="icon fa fa-industry" aria-hidden="true"></i><f:if condition="{useShortLabel}"><f:then>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplier')}</f:then><f:else>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:providedBy')} {f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplier')}</f:else></f:if></h2>
+
+	<f:for each="{document.supplierID}" as="sid"> 
+		<v:variable.set name="supplier" value="{m:getCompany(id:'{sid}')}" />
+
+		<div class="materialDescription row">
+		
+		<f:render partial="mahu/DetailPage/CompanyInfo" arguments="{company: supplier}"/>
+	
+		<f:if condition="{document.dataSheetUrl}">
+			<p class="companyDetailAddition"><a href="{document.dataSheetUrl.0}" target="_blank" class="no-change"><i class="fas fa-external-link-alt smallicon" aria-hidden="true"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:producer.materialPage')}</a></p>
+		</f:if>
+		
+		<p class="companyDetailAddition">
+		<s:data.newArray
+				name="linkArguments"
+				keys="{0: 'q', 1:'facet'}"
+				values="{
+					0: { default : '*' },
+					1: '{m:GetLinkParameterForFacet(facet:supplier.facet,facetValue:supplier.facetValue)}'
+				}"
+				omitEmptyFields="1" >
+			<f:link.action
+				action="index"
+				arguments="{linkArguments}"
+				class="internal" >
+				<f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:partnerpage.link"/> {supplier.name}
+			</f:link.action>
+		</s:data.newArray>
+		</p>
+		</div>
+	</f:for>
+</f:if>

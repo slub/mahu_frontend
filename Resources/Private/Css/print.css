@@ -1,0 +1,45 @@
+a[href]:after {
+	display: none;
+	visibility: hidden;
+}
+
+.tx_find .results .navigation {
+	border-bottom: none !important;
+}
+
+.feedback, #similarMaterialsContainer, .dev, #debugArea, #toTop, #usercontrols, #navcontainer, .cc-revoke, .rootline, 
+.footerLinks, .contextMenuButton, form.searchForm, .propertyInfo, #externalCategoryInfo, .actionsList, .queryAndPager {
+	display: none !important;
+	visibility: hidden !important;
+	height: 0 !important;
+}
+
+h1, h2, h3 {
+	padding:0 !important;
+}
+.header {
+	padding: 0 !important;
+	text-align: initial !important;
+}
+.header #mahuLogo {
+	width: 100%;
+	height: 100%;
+	overflow: visible !important;
+	text-indent: unset !important;
+	white-space: nowrap;
+	background: none !important;
+	display: block;
+	font-size: 40px;
+	font-weight: bold;
+}
+.mahuLogoContainer {
+	height: auto !important;
+}
+.companyLogo {
+	max-width: 200px !important;
+}
+
+.siOverlay {
+	bottom: unset !important;
+	right: 0 !important;
+}

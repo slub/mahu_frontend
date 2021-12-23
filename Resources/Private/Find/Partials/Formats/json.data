@@ -1,0 +1,26 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+
+<f:if condition="{results.data.response.docs}">
+	<f:then>
+	<f:format.htmlentitiesDecode>
+		[
+		<f:for each="{results.data.response.docs}" as="doc" iteration="iter">
+		<f:alias map="{normdoc:'{m:HideMaterialProperties(material:doc)}'}">
+		<f:alias map="{mat:'{m:GetNormalizedMaterial(material:normdoc)}'}">
+			<s:format.json data="{mat}"/>
+		</f:alias>
+		</f:alias>
+		<f:if condition="{iter.isLast}">
+			<f:then></f:then>
+			<f:else>,</f:else>
+		</f:if>
+		</f:for>
+		]
+	</f:format.htmlentitiesDecode>
+	</f:then>
+	<f:else>
+		<f:format.raw><s:format.json data="{settings.mahu.schema}"/></f:format.raw>
+	</f:else>
+</f:if>
+

@@ -1,0 +1,30 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+<f:comment>
+	Creates an individual facet using the arguments:
+		* facetInfo: with the facet configuration
+		* facetData: with the facet entries
+		* config: with the extension’s current setup
+
+	Each facet is created by the partial in Facets/Facet with the name of the
+	facet’s configured type (deaulting to  »List«).
+</f:comment>
+<f:if condition="{f:count(subject:facetData.values)} > 0">
+	<article class="facet facet-id-{facetInfo.id}{f:if(condition:facetInfo.type, then:' facet-type-{facetInfo.type}')}">
+		<h4>
+			<f:if condition="{facetInfo.img">
+			<i class="fas fa-{facetInfo.img}" aria-hidden="true"></i>
+			</f:if>
+			<f:translate key="LLL:{settings.languageRootPath}locallang-facets.xml:facet.{facetInfo.id}" default="{facetInfo.id}"/>
+			
+
+			<v:variable.set name="propInfo" value="{m:GetPropertyInfo(propertyID: facetInfo.id, schema:settings.mahu.schema)}" />
+			<v:variable.set name="unit" value="{v:variable.get(name: 'propInfo.defaultUnit')}" />
+			<f:if condition="{unit}">
+			<span class="unitSpan">in {unit}</span>
+			</f:if>
+		</h4>
+		<f:alias map="{facetType:'{f:if(condition:facetInfo.type, then:facetInfo.type, else:\"List\")}'}">
+			<f:render partial="Facets/Facet/{facetType}" arguments="{_all}"/>
+		</f:alias>
+	</article>
+</f:if>

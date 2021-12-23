@@ -1,0 +1,22 @@
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+<f:comment>
+Displays (predefined) material categories as an entry point into a material search.
+</f:comment>
+ 
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/MaterialClassSelectorD3.js" name="matClass"/>
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/MobileMaterialClassSelector.js" name="matClassMobile"/>
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/UserMaterialClasses.js" name="userMatClasses"/>
+
+<f:comment> <script src="https://cdn.jsdelivr.net/npm/d3@5.12.0/dist/d3.min.js"></script> </f:comment>
+   
+<div class="landingPageSection"><a id="materialcategories" class="no-change" aria-hidden="true"></a>
+	<h2>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.categories')}</h2>
+	
+	<div class="sectionContent">
+		<h3>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.categories.relevant')}</h3>
+		<div id="userMaterialClasses" ></div>
+		
+		<h3>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.categories.classification')}</h3>
+		<div id="materialClassification"></div>
+	</div>
+</div>

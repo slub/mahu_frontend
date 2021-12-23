@@ -1,0 +1,97 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	This partial renders the actual field content. It is invoked from the
+	Display/Field/General partial and uses the variables passed from there.
+	Features include building the appropriate query links for linked result terms
+	and invoking search term highlighting.
+</f:comment>
+<f:if condition="{linkFieldContent}">
+	<f:then>
+		<f:alias map="{
+			fieldName:'{f:translate(key:\"LLL:{settings.languageRootPath}locallang-fields.xml:field.{field}\", default:field)}',
+			highlightedFieldContent:'{s:find.highlightField(
+				results:results,
+				document:document,
+				field:field,
+				index:iterator.index,
+				highlightTagOpen:\"<span class=\'highlight\'>\",
+				highlightTagClose:\"</span>\"
+			)}'
+		}">
+			<f:if condition="{s:data.isArray(subject:'{s:data.valueForKey(array:document.fields, key:field)}')}">
+				<f:then>
+					<s:data.newArray
+						name="fieldContent"
+						global="1"
+						keys="{0:0}"
+						values="{0:{0:'{s:data.valueForKey(
+							array:\"{s:data.valueForKey(array:document.fields, key:field)}\",
+							key:iterator.index
+						)}'}}"
+					/>
+				</f:then>
+				<f:else>
+					<s:data.newArray
+						name="fieldContent"
+						global="1"
+						keys="{0:0}"
+						values="{0:'{s:data.valueForKey(
+							array:document.fields,
+							key:field
+						)}'}"
+					/>
+				</f:else>
+			</f:if>
+			<s:data.newArray
+				name="queryArray"
+				keys="{0:'{f:if(
+					condition:\"{s:data.valueForKey(
+						array:settings.queryFieldForDataField,
+						key:field
+					)}\",
+					then:\"{s:data.valueForKey(
+						array:settings.queryFieldForDataField,
+						key:field
+					)}\",
+					else:\"raw\"
+				)}'}"
+				values="{0:'{f:if(
+					condition:\"{s:data.valueForKey(
+						array:settings.queryFieldForDataField,
+						key:field
+					)}\",
+					then:fieldContent.0,
+					else:\'{field}:\"{fieldContent.0}\"\'
+				)}'}"
+			>
+				<f:link.action
+					action="index"
+					arguments="{
+						q:queryArray,
+						facet:linkFacets
+					}"
+					class="internal"
+					title="{f:translate(
+						key:'Alle Datensätze mit %1$s »%2$s« zeigen.',
+						arguments:'{1:fieldName, 2:fieldContent}'
+					)}"
+				>
+					{highlightedFieldContent->f:format.raw()}
+				</f:link.action>
+			</s:data.newArray>
+		</f:alias>
+	</f:then>
+	<f:else>
+		<f:format.htmlentitiesDecode>
+		<s:find.highlightField
+			field="{field}"
+			document="{document}"
+			results="{results}"
+			index="{iterator.index}"
+			alternateField="{s:data.valueForKey(array:config.highlight.alternateFields, key:field)}" 
+			highlightTagOpen="<span class='highlight'>"
+			highlightTagClose="</span>"
+		/>
+		</f:format.htmlentitiesDecode>
+	</f:else>
+</f:if>

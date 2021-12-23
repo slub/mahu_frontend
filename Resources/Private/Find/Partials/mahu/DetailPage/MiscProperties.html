@@ -1,0 +1,25 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+<f:comment>
+	Renders a grid of further material properties if there are such.
+</f:comment>
+
+<f:alias map="{micPropertiesAvailable:'{m:HasValues(material:document,properties:settings.mahu.schema.miscProperties)}'}">
+<f:if condition="{micPropertiesAvailable}">
+
+	<f:for each="{settings.mahu.schema.miscProperties}" as="prop" key="fieldName" iteration="iter">
+		<f:if condition="{prop.renderedSeparately}"><f:else> 
+		<v:variable.set name="values" value="{m:GetValue(material:document,name:prop.id,schema:settings.mahu.schema)}" />
+		
+		<f:if condition="{values.value}">
+		<div class="propertyContainer">
+			<span class="propertyName"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.{prop.id}"/><f:render partial="mahu/DetailPage/PropInfo" arguments="{ prop: prop, language: language }"/></span>
+
+			<v:iterator.implode content="{values.value}" glue="; "></v:iterator.implode>
+		</div>
+		</f:if>
+		</f:else></f:if>
+	</f:for>
+
+</f:if>
+</f:alias>

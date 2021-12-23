@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+    <meta type="array">
+        <type>module</type>
+        <description>
+            Language labels for form labels.
+            The file »locallang-form.xml« will be loaded from the path set as
+            »settings.languageRootPath« in TypoScript.
+
+            Localisation keys / label indexes follow the convention:
+            * label for input FOO: input.FOO
+            * label for child-item BAR in control FOO (e.g. select options): input.FOO-BAR
+            * placeholder for input FOO: input.FOO.placeholder
+        </description>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index="input.default">All Fields</label>
+            <label index="input.default.placeholder">Search in the Material Hub</label>
+            <label index="input.default-checkbox">Fuzzy search</label>
+            <label index="input.raw">Solr Query</label>
+            <label index="input.add">Add filter</label>
+
+            <label index="input.sort">Sort By</label>
+            <label index="input.sort-default">Relevance</label>
+            <label index="input.sort-hardness">Hardness</label>
+            <label index="input.sort-density">Density</label>
+            <label index="input.sort-nameAsc">Name A-Z</label>
+            <label index="input.sort-nameDesc">Name Z-A</label>
+
+            <label index="input.count">Results per Page</label>
+            
+            <label index="input.group">Group results by organization</label>
+            <label index="input.grouplimit">Max results per group</label>
+			
+			<label index="input.tensileStrength">tensile strength</label>
+			<label index="input.food">indication of suitability for food contact</label>
+			<label index="input.chemicalResistance">chemical resistance</label>
+			<label index="input.reboundResilience">rebound resilience</label>
+			<label index="input.temperatureRange_air">operation temperature</label>
+			<label index="input.category">Category</label>
+        </languageKey>
+
+        <languageKey index="de" type="array">
+            <label index="input.default">Alle Felder</label>
+            <label index="input.default.placeholder">Durchsuchen Sie das Material Hub</label>
+            <label index="input.default-checkbox">Unscharfe Suche</label>
+            <label index="input.raw">Solr Abfrage</label>
+            <label index="input.add">Filter hinzufügen</label>
+
+            <label index="input.sort">Sortierung</label>
+            <label index="input.sort-default">Relevanz</label>
+            <label index="input.sort-hardness">Härte</label>
+            <label index="input.sort-density">Dichte</label>
+            <label index="input.sort-nameAsc">Name A-Z</label>
+            <label index="input.sort-nameDesc">Name Z-A</label>
+            
+            <label index="input.count">Ergebnisse pro Seite</label>
+            
+            <label index="input.group">Ergebnisse nach Organisation gruppieren</label>
+            <label index="input.grouplimit">Max Ergebnisse pro Gruppe</label>
+            
+			<label index="input.hardness">Härte</label>
+			<label index="input.density">Dichte</label>
+			<label index="input.reboundResilience">Rückprallelastizität</label>
+			<label index="input.food">Hinweis auf Freigaben für Lebensmittelkontakt</label>
+			<label index="input.chemicalResistance">Chemische Beständigkeit</label>
+			<label index="input.tensileStrength">Zugfestigkeit</label>
+			<label index="input.temperatureRange_air">Einsatztemperatur</label>
+			<label index="input.category">Materialklasse</label>
+        </languageKey>
+    </data>
+</T3locallang>

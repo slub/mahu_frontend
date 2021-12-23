@@ -1,0 +1,1 @@
+{namespace s=Subugoe\Find\ViewHelpers}<f:format.htmlentitiesDecode><s:format.json data="{suggestions}"/></f:format.htmlentitiesDecode>

@@ -1,0 +1,1 @@
+class WizardPage extends AbstractPage{render(){super.render(),new Wizard($("div[class^='wizardpage']")).render()}addListeners(){super.addListeners(),this.initGroupedResultsViewExpanders(!0)}}

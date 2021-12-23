@@ -1,0 +1,165 @@
+##
+## Page configuration
+##
+page = PAGE
+page {
+    config {
+        metaCharset = utf-8
+        additionalHeaders = Content-Type:text/html;charset=utf-8
+        baseURL = /
+    	defaultGetVars {
+        	L = 0
+    	}
+	    linkVars = L
+    }
+    shortcutIcon = EXT:mahu_frontend/Resources/Public/Images/mahuIcon.png
+    
+    10 = FLUIDTEMPLATE
+    10 {
+        #template = FILE
+        #template.file = EXT:mahu_frontend/Resources/Private/Page/Templates/Default.html
+		file = EXT:mahu_frontend/Resources/Private/Page/Templates/Default.html
+        layoutRootPaths {
+            10 = EXT:mahu_frontend/Resources/Private/Page/Layouts
+        }
+        partialRootPaths {
+            10 = EXT:mahu_frontend/Resources/Private/Page/Partials
+        }
+        variables {
+            content < styles.content.get
+            content.select.where = colPos = 0
+        }
+    }
+
+	# CSS
+    includeCSS.bootstrap = EXT:mahu_frontend/Resources/Public/Css/bootstrap-3.3.7/css/bootstrap.min.css
+    includeCSS.fontsawesome = https://use.fontawesome.com/releases/v5.7.2/css/all.css
+    includeCSS.fontsawesome.external = 1
+    includeCSS.fontsawesome.excludeFromConcatenation = 1
+    includeCSS.jqueryui = EXT:mahu_frontend/Resources/Public/Css/jquery-ui.min.css
+    #includeCSS.animate = EXT:mahu_frontend/Resources/Public/Css/animate.min.css
+    includeCSS.print = EXT:mahu_frontend/Resources/Public/Css/print.css
+    includeCSS.print.media = print
+    
+    # JavaScript
+	includeJS.jquery = EXT:mahu_frontend/Resources/Public/JavaScript/libs/jquery-3.4.1.min.js
+	includeJS.jqueryEasing = EXT:mahu_frontend/Resources/Public/JavaScript/libs/jquery.easing.min.js
+    includeJS.table2CSV = EXT:mahu_frontend/Resources/Public/JavaScript/libs/table2CSV.min.js
+    includeJS.mahuUtils = EXT:mahu_frontend/Resources/Public/JavaScript/mahuUtils.js
+    includeJS.history = EXT:mahu_frontend/Resources/Public/JavaScript/history.js
+    includeJS.mahu = EXT:mahu_frontend/Resources/Public/JavaScript/mahu.js
+    includeJS.cview = EXT:mahu_frontend/Resources/Public/JavaScript/CompareView.js
+    includeJS.cviewplot = EXT:mahu_frontend/Resources/Public/JavaScript/CompareViewPlot.js
+    includeJS.msel = EXT:mahu_frontend/Resources/Public/JavaScript/MaterialSelector.js
+    includeJS.amenu = EXT:mahu_frontend/Resources/Public/JavaScript/ActionsMenu.js
+    includeJS.almenu = EXT:mahu_frontend/Resources/Public/JavaScript/ActionsList.js
+    
+	includeJS.jQueryUi = EXT:mahu_frontend/Resources/Public/JavaScript/libs/jquery-ui.min.js
+	includeJS.bootstrapNotify = EXT:mahu_frontend/Resources/Public/JavaScript/libs/bootstrap-notify.min.js
+	includeJS.bootstrapCollapse = EXT:mahu_frontend/Resources/Public/JavaScript/libs/bootstrap.collapsable.js
+	
+	includeJS.apage = EXT:mahu_frontend/Resources/Public/JavaScript/pages/AbstractPage.js
+}
+
+tx_mahufrontend_page_json = PAGE
+tx_mahufrontend_page_json {
+	typeNum = 1369315166
+	10 < tt_content.list.20.mahufrontend_materialeditor
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders {
+			10 {
+				header = Content-type:application/json;charset=utf-8
+				replace = 1
+			}
+		}
+	}
+}
+
+tx_mahufrontend_page_json2 = PAGE
+tx_mahufrontend_page_json2 {
+	typeNum = 1369315165
+	10 < tt_content.list.20.mahufrontend_supplementeditor
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders {
+			10 {
+				header = Content-type:application/json;charset=utf-8
+				replace = 1
+			}
+		}
+	}
+}
+
+tx_mahufrontend_page_rdf = PAGE
+tx_mahufrontend_page_rdf {
+	typeNum = 1369315140
+	10 < tt_content.list.20.find_find
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders {
+			10 {
+				header = Content-type:application/rdf+xml;charset=utf-8
+				replace = 1
+			}
+		}
+	}
+}
+
+# pages for asynch requests delivering HTML fragments
+tx_mahufrontend_page_part = PAGE
+tx_mahufrontend_page_part {
+	typeNum = 1369315230
+	10 < tt_content.list.20.mahufrontend_materialeditor
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders {
+			10 {
+				header = Content-type:text/plain;charset=utf-8
+				replace = 1
+			}
+		}
+	}
+}
+tx_mahufrontend_page_part2 = PAGE
+tx_mahufrontend_page_part2 {
+	typeNum = 1369315231
+	10 < tt_content.list.20.mahufrontend_supplementeditor
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders {
+			10 {
+				header = Content-type:text/plain;charset=utf-8
+				replace = 1
+			}
+		}
+	}
+}
+
+# include mahu plugin configuration
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mahu_frontend/Configuration/TypoScript/mahu/setup.typoscript">
+
+# include data structures describing the MaHu schema, companies and certificates
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mahu_frontend/Configuration/TypoScript/mahu/schema.typoscript">
+#<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mahu_frontend/Configuration/TypoScript/mahu/companies.txt">
+#<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mahu_frontend/Configuration/TypoScript/mahu/certificates.txt">
+
+# include find configuration
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:mahu_frontend/Configuration/TypoScript/find/setup.typoscript">
+
+
+page.11 = FLUIDTEMPLATE
+page.11 {
+    #template = FILE
+    #template.file = EXT:mahu_frontend/Resources/Private/Page/Templates/Mahu.html
+	file = EXT:mahu_frontend/Resources/Private/Page/Templates/Mahu.html
+    layoutRootPaths {
+        10 = EXT:mahu_frontend/Resources/Private/Page/Layouts
+    }
+    partialRootPaths {
+        10 = EXT:mahu_frontend/Resources/Private/Page/Partials
+    }
+    settings {
+    	mahu < plugin.tx_find.settings.mahu
+    }
+}

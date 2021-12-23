@@ -1,0 +1,75 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+<f:comment>
+	Renders a dialog with an introductory text and hints. It is only shown once per session.  
+</f:comment>
+
+<script>
+$(document).ready(function() {
+	// only show welcome dialog once in a session
+	if (sessionStorage.getItem("MaHu-welcomedialogshown"))
+		return;
+	
+	// helper method for finding elements that match the given type and text content 
+	let findElements = function(tag, text) {
+		let elements = document.getElementsByTagName(tag);
+		let found = [];
+		for (var i = 0; i < elements.length; i++) {
+			if (elements[i].innerHTML === text) {
+				found.push(elements[i]);
+			}
+		}
+
+		return found;
+	}
+	
+	// add mouse events to links
+	$("#dialogKF").mouseenter(function() {
+		let els = findElements('a', 'Kontakt');
+		if (!els || els.length == 0) {
+			els = findElements('a', 'Contact');
+		}
+		
+		if (!els || els.length == 0) return;
+		
+		$(els[0]).effect("highlight", {
+			color : "#d8000d"
+		}, 2000);
+	});
+	$("#dialogFB").mouseenter(function() {
+		let els = findElements('a', 'Feedback');
+		
+		if (!els || els.length == 0 || els[0] == this) return;
+
+		$(els[0]).effect("highlight", {
+			color : "#d8000d"
+		}, 2000);
+		
+		/*$(".feedbackHeader").effect("highlight", {
+			color : "#d8000d"
+		}, 2000);*/
+	}).click(function(){
+		$(".feedbackHeader").click();
+	});
+	
+	// initialize the dialog using jquery-ui
+	$("#dialog-message").dialog({
+		modal : true,
+		resizable : false,
+		width: Math.min(550, window.innerWidth-20),
+		buttons : {
+			Ok : function() {
+				$(this).dialog("close");
+			}
+		}
+	});
+	// store the info that the dialog has already been displayed in the current session
+	sessionStorage.setItem("MaHu-welcomedialogshown","1");
+});
+</script>
+
+<div id="dialog-message" title="Willkommen im Material Hub" style="display:none">
+	<p>Wir verzichten aktuell noch auf eine Registrierung. Um dennoch zu erfahren wer unsere Nutzer sind, bitten wir Sie, uns den Namen Ihrer Firma über das <a style="color:#059;font-weight:bold" id='dialogKF' href='<f:uri.page pageUid="{settings.mahu.contactPageID}"/>'>Kontaktformular</a> zuzusenden. Die Daten werden ausschließlich dem Team des Material Hub sowie unseren Partnern beim VDMA zugänglich sein.</p>
+	<p>Wir würden uns sehr freuen, wenn Sie uns im Anschluss an Ihren Besuch ein kurzes <a style="color:#059;font-weight:bold" id="dialogFB">Feedback</a> geben (Dauer ca. 2-3 Minuten).</p>
+	<p>Im aktuellen Prototypstadium ist Material Hub nur mit Chrome und Firefox getestet. Bitte verwenden Sie einen dieser beiden Browser für eine optimale Darstellung.</p>
+</div>

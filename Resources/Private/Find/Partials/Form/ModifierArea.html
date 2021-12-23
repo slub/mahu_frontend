@@ -1,0 +1,45 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+
+<div id="modifierArea">
+	<f:form name="c{config.uid}-form"
+		method="{f:if(condition:settings.mahu.POST, then:'post', else:'get')}"
+		id="modifierForm">
+
+	<f:if condition="{f:count(subject:config.sortOptions.menu)} > 1">
+		<div class="sortOrder">
+			<label for="c{config.uid}-sortSelect">
+				<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.sort"/>
+			</label>
+			<f:form.select id="c{config.uid}-sortSelect" name="sort" options="{config.sortOptions.menu}" value="{config.sortOptions.selected}"/>
+		</div>
+	</f:if>
+
+	<f:if condition="{f:count(subject:config.resultCountOptions.menu)} > 1">
+		<div class="resultCountPicker">
+			<label for="c{config.uid}-resultCountSelect">
+				<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.count"/>
+			</label>
+			<f:form.select id="c{config.uid}-resultCountSelect" name="count" options="{config.resultCountOptions.menu}" value="{config.resultCountOptions.selected}"/>
+		</div>
+	</f:if>
+	
+	<div class="groupingSelector">
+		<label for="c{config.uid}-groupingSelector">
+			<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.group"/>
+		</label>
+		<f:form.checkbox id="c{config.uid}-groupingSelector" name="group" value="1" checked="{arguments.group}"/>
+	</div>
+
+	<f:if condition="{arguments.group}">
+		<f:if condition="{settings.grouping.showMenu}==1">
+	<div class="groupingSelector">
+			<label for="c{config.uid}-groupingLimit">
+				<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.grouplimit"/>
+			</label>
+			<f:form.select id="c{config.uid}-groupingLimit" name="grouplimit" options="{config.grouplimitOptions.menu}" value="{config.grouplimitOptions.selected}"/>
+	</div>
+		</f:if>
+	</f:if>
+	
+	</f:form>
+</div>

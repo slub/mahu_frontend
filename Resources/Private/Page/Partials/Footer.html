@@ -1,0 +1,31 @@
+<div class="footer">
+	<a id="slublogo" href="https://www.slub-dresden.de/startseite/"><img src="/typo3conf/ext/mahu_frontend/Resources/Public/Images/logo-slub_300.png" alt="Logo SLUB"/></a>
+	<div>{f:cObject(typoscriptObjectPath:'lib.footerMenu')}
+		<div class="footerLinks"><a href="https://www.linkedin.com/showcase/materialhub/"><i class="fab fa-linkedin smallicon" aria-hidden="true"></i>LinkedIn</a></div>
+	</div>
+	<img src="/typo3conf/ext/mahu_frontend/Resources/Public/Images/logo-eu_300.png" alt="Logo EFRE" class="pull-right" id="efrelogo"/>
+</div>
+
+<f:if condition="{f:cObject(typoscriptObjectPath:'lib.includeMatomo')}">
+	<!-- Matomo -->
+	<script type="text/javascript">
+	  var _paq = window._paq || [];
+	  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+	  _paq.push(['requireCookieConsent']);
+	  _paq.push(['trackPageView']);
+	  _paq.push(['enableLinkTracking']);
+	  (function() {
+	    var u="{f:cObject(typoscriptObjectPath:'lib.matomoURL')}";
+	    _paq.push(['setTrackerUrl', u+'matomo.php']);
+	    _paq.push(['setSiteId', '{f:cObject(typoscriptObjectPath:"lib.matomoSiteID")}']);
+	    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+	    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+	  })();
+	</script>
+	<noscript><p><img src="{f:cObject(typoscriptObjectPath:'lib.matomoURL')}matomo.php?idsite={f:cObject(typoscriptObjectPath:'lib.matomoSiteID')}&amp;rec=1" style="border:0;" alt="" /></p></noscript>
+	<!-- End Matomo Code -->
+	
+	<script data-ignore="1" data-cookieconsent="statistics" type="text/plain" >
+		_paq.push(['setCookieConsentGiven']);
+	</script>
+</f:if>

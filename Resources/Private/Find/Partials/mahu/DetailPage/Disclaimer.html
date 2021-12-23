@@ -1,0 +1,63 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+<f:comment>
+	Renders information about the provider of a given material description. 
+</f:comment>
+
+<v:variable.set name="dataProvider" value="{m:getCompany(id: '{document.dataDelivererID}')}" />
+
+<f:if condition="{renderDataDeliverer}"><f:then><v:variable.set name="closeDiv" value="TRUE" />
+<h2><i class="icon fa fa-database" aria-hidden="true"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:providedBy')}</h2>
+
+<div id="disclaimer" class="materialDescription row">
+	<a class="expander fa fa-chevron-circle-up no-change"></a>
+
+	<f:if condition="{dataProvider}">
+		<f:render partial="mahu/DetailPage/CompanyInfo" arguments="{ company : dataProvider}"/>
+		
+		<p class="companyDetailAddition">
+		<s:data.newArray
+				name="linkArguments"
+				keys="{0: 'q', 1:'facet'}"
+				values="{
+					0: { default : '*' },
+					1: '{m:GetLinkParameterForFacet(facet:dataProvider.facet,facetValue:dataProvider.facetValue)}'
+				}"
+				omitEmptyFields="1" >
+			<f:link.action
+				action="index"
+				arguments="{linkArguments}"
+				class="internal">
+				<f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:partnerpage.link"/> {dataProvider.name}
+			</f:link.action>
+		</s:data.newArray>
+		</p>
+				
+		<f:if condition="{document.citation}">
+			<p class="companyDetailAddition">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplements.source')}: 
+			<f:if condition="{document.citationUrl}"><f:then>
+			<a href="{document.citationUrl.0}" class="no-change"><i class="fas fa-external-link-alt smallicon"></i>{document.citation.0}</a>
+			</f:then><f:else>
+			{document.citation.0}
+			</f:else></f:if>
+			</p>
+		</f:if>
+	</f:if>
+
+</f:then><f:else><f:if condition="{document.disclaimer}"><div id="disclaimer" class="materialDescription row"><v:variable.set name="closeDiv" value="TRUE" /></f:if></f:else></f:if>
+
+<f:if condition="{s:logic.or(conditions:'{
+						0:\"{document.disclaimer}\",
+						1:\"{dataProvider.disclaimer}\"
+					}')}">
+<div class="companyDetailAddition">
+	<h4>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:disclaimer')}</h4>
+	<p>{document.disclaimer.0}</p>
+	<f:if condition="{dataProvider.disclaimer}"><p>{dataProvider.disclaimer}</p></f:if> 
+</div>
+</f:if>
+<f:if condition="{closeDiv}">
+</div>
+</f:if>
+

@@ -1,0 +1,44 @@
+<f:comment>
+Displays those material properties that a producer declares as important/basic.
+</f:comment>
+<f:if condition="{document.basicProperties}">
+	<h2><i class="icon fa fa-tag" aria-hidden="true"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.miscProperties')} <i class="fa fa-info-circle propertyInfo" style="font-size:initial;vertical-align:super;" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.miscProperties.info')}"></i></h2>
+	
+	<div class="materialDescription row" id="baseProperties">
+		<f:for each="{document.basicProperties}" as="prop" key="fieldName" iteration="iter">
+			<v:variable.set name="values" value="{m:GetValue(material:document,name:prop,schema:settings.mahu.schema)}" />
+
+			<f:if condition="{values}">
+			<div class="flexPropItem propertyContainer">
+				<span class="propertyName">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties:properties.{prop}')}<f:if condition="{prop.showInfo}"><i class="fa fa-info-circle propertyInfo" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-explanations.xml:explanation.{prop}', default:'Es sind keine Erläuterungen zu dieser Eigenschaft hinterlegt.')}"></i></f:if></span>
+				<f:for each="{values.value}" as="value"  iteration="iterInner">
+				<f:if condition="{value}">
+					<f:then>
+						<v:variable.set name="idx" value="{v:variable.get(name:'iterInner.index')}" />
+						<f:if condition="{values.unit}"><f:then>
+							<span class="value"><f:format.raw>{value}</f:format.raw></span>
+							<span class="unit">
+							<f:if condition="s:data.isArray(subject:'{values.unit}')">
+								<f:then>
+									<v:variable.set name="unit" value="{v:variable.get(name: 'values.unit.{idx}')}"/>
+									{unit}
+								</f:then>
+								<f:else>{values.unit}</f:else>
+							</f:if>
+							<f:if condition="{iterInner.isLast}"><f:else>,</f:else></f:if>
+							</span>
+						</f:then><f:else>
+							<span class="value"><f:format.raw>{value}</f:format.raw><f:if condition="{iterInner.isLast}"><f:else>,</f:else></f:if></span>	
+						</f:else>
+						</f:if>
+					</f:then>
+					<f:else>
+					&ndash;
+					</f:else>
+				</f:if>
+				</f:for>
+			</div>
+			</f:if>
+		</f:for>
+	</div>
+</f:if>

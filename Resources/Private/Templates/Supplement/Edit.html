@@ -1,0 +1,363 @@
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+{namespace mp=Slub\MahuPartners\ViewHelpers}
+{namespace s=Subugoe\Find\ViewHelpers}
+
+<f:layout name="Default" />
+<f:comment>
+	Template for a basic Detail view of all fields in the document.
+
+	Sets up the page with its title, CSS, JavaScript, the search form and pager,
+	uses the field configured as a heading and creates
+	a definition list of all field contents.
+
+	This can be a good starting point for refining the detail view for your
+	data model.
+</f:comment>
+
+<f:section name="Main">
+
+<f:if condition="{showForm}"><f:then>
+	<f:if condition="{material}">
+		<s:page.linkCSS file="EXT:mahu_frontend/Resources/Public/Css/chosen.jquery.min.css"/>
+		<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/libs/chosen.jquery.min.js" name="jQueryChosen"/>
+		<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/pages/SupplementEditorPage.js" name="mepage"/>
+		<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/MaterialTaxonomy.js" name="taxononmy"/>
+
+		<script>
+		const currentPage = "SupplementEditorPage";
+		</script>
+
+		<article class="detail partnerPageContent" data-cuid="c{config.uid}">
+
+		<f:form name="c{config.uid}-form"
+			method="post"
+			controller="Supplement"
+			action="edit"
+			enctype="multipart/form-data"
+			absolute="1"
+			class="editform">
+			
+			<input type="hidden" name="{config.prefixID}[company]" value="{companyID}" />
+
+			<h2><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.basicProperties"/></h2>
+
+			<div class="form-group">
+				<label class="control-label" for="c{config.uid}-form-name"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.name"/> <span class="required">*</span></label>
+				<div class="input">
+					<input required="required"
+						class=" form-control" id="c{config.uid}-form-name"
+						type="text"
+						name="{config.prefixID}[material][name]"
+						value="{material.name}">
+					<span class="help-block"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.name.help"/></span>
+				</div>
+			</div>
+			
+			<v:variable.set name="lbl" value="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.label')}" />
+			<f:render partial="Editor/SimpleCloneElement" arguments="{ propid: 'referenceID', label: lbl, autocomplete: 'nameTrade_value', value: material.referenceID, help:'true', config: config, required:'true' }"/>
+
+			<div class="form-group">
+				<label class="control-label" for="c{config.uid}-form-freeText"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.freeText"/></label>
+				<div class="input">
+					<textarea class="xxlarge form-control"
+						id="c{config.uid}-form-freeText"
+						name="{config.prefixID}[material][freeText]">{material.freeText}</textarea>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label" for="c{config.uid}-form-citation"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.citation"/>
+				</label>
+				<div class="input">
+					<textarea
+						class="xxlarge form-control" id="c{config.uid}-form-citation"
+						name="{config.prefixID}[material][citation]">{material.citation}</textarea>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label" for="c{config.uid}-form-citationUrl"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.citationUrl"/>
+				</label>
+				<div class="input">
+					<input
+						class=" form-control" id="c{config.uid}-form-citationUrl"
+						type="url"
+						name="{config.prefixID}[material][citationUrl]"
+						value="{material.citationUrl}">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label" for="c{config.uid}-form-disclaimer"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.disclaimer"/></label>
+				<div class="input">
+					<textarea class="xxlarge form-control"
+						id="c{config.uid}-form-disclaimer"
+						name="{config.prefixID}[material][disclaimer][0]">{material.disclaimer.0}</textarea>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="c{config.uid}-form-logo"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.imageUrl"/></label>
+				<div class="input">
+					<span><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.logo.option1"/></span>
+					<p>
+						<input class="form-control"
+							id="c{config.uid}-form-logo" type="url"
+							name="{config.prefixID}[material][imageUrl]"
+							value="{material.imageUrl}">
+					</p>
+					
+					<div>
+						<span><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.logo.option2"/></span> 
+					    <input type="hidden" name="MAX_FILE_SIZE" value="1024000" />
+				   		<p><input name="logofile" type="file" accept="image/png, image/jpeg, image/gif" /></p> 
+					</div>
+				</div>
+			</div>
+
+			<h2><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.physicalProperties"/></h2>
+			<div class="btn-group propSelector" role="group">
+				<f:form.select
+					id="addPPSelector"
+					class="simMaterialsSearchPropSelector chosen-container inputContainer"
+					name="propSelect"
+					options="{m:SortProperties(properties:settings.schema.properties)}"
+					optionValueField="id"
+					optionLabelField="label"
+					additionalAttributes="{
+						data-placeholder:'{f:translate(key:\'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:selectAnOption\')}'
+					}"
+				/>
+				
+				<a id="addPPBtn" tabindex="0" title="Hinzufügen">
+					<i class="fas fa-plus-circle smallicon" aria-hidden="true"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:add"/>
+				</a>
+			</div>
+			<div id="physicalPropertiesFieldsets">
+			
+				<f:for each="{settings.schema.properties}" as="prop" key="fieldName" iteration="iter">
+					<v:variable.set name="_val" value="{v:variable.get(name:'material.{prop.id}')}" />
+					
+					<f:if condition="{_val}">
+					<f:render partial="Editor/AllFieldsCloneElement" arguments="{ propid: prop.id, value: _val, config: config }"/>
+					</f:if>
+				</f:for>
+			</div>
+			
+			
+			<h2><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.chemicalProperties"/></h2>
+			<div id="chemicalPropertiesFieldsets">
+				<div class="form-group">
+					<label class="control-label" for="c{config.uid}-form-crossLinking"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.crossLinking"/>
+					</label>
+					<div class="input">
+						<input
+							class=" form-control" id="c{config.uid}-form-crossLinking"
+							name="{config.prefixID}[material][crossLinking]"
+							value="{material.crossLinking}" />
+					</div>
+				</div>
+				
+				<v:variable.set name="lbl" value="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.substance.placeholder')}" />
+				<f:render partial="Editor/ValueTypeCloneElement" arguments="{ propid: 'compositionChemical', value: material.compositionChemical, showRemarkField:'true', config: config, help:'true', sticky:'true', secondField:'substance', secondFieldPlaceholder: lbl}"/>
+				
+				<f:render partial="Editor/ValueTypeCloneElement" arguments="{ propid: 'resistanceChemical', value: material.resistanceChemical, showRemarkField:'true', config: config, help:'true', sticky:'true', secondField:'substance', secondFieldPlaceholder: lbl}"/>
+				
+				<f:comment>
+				<f:render partial="Editor/AllFieldsCloneElement" arguments="{ propid: 'compositionChemical', value: material.compositionChemical, config: config, help:'true', sticky:'true', special:'substance'}"/>
+				
+				<f:render partial="Editor/AllFieldsCloneElement" arguments="{ propid: 'resistanceChemical', value: material.resistanceChemical, config: config, help:'true', sticky:'true', special:'substance'}"/>
+				
+				<f:render partial="Editor/ValueTypeCloneElement" arguments="{ propid: 'resistanceCorrosion', config: config, help:'true'}"/>
+				
+				<f:render partial="Editor/ValueTypeCloneElement" arguments="{ propid: 'resistanceOxidationGraphite', config: config, help:'true'}"/>
+				</f:comment>
+			</div>
+			
+			
+			<h2><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.new.diagrams"/></h2>
+			<div>
+				<label class="control-label" for="DDSelector"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.diagramType"/></label>
+				<div class="input">
+					<select>
+						<option value="groupedBarChart">Grouped Bar Chart</option>
+						<option value="barChart">Bar Chart</option>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label" for="c{config.uid}-form-diagramCaption"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.diagramCaption"/></label>
+					<div class="input">
+						<input required="required"
+							class=" form-control" id="c{config.uid}-form-diagramCaption"
+							type="text"
+							name="{config.prefixID}[material][diagramCaption]"
+							value="{material.diagramCaption}">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label" for="c{config.uid}-form-diagramCaptionYAxis"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.diagramCaptionYAxis"/></label>
+					<div class="input">
+						<input required="required"
+							class=" form-control" id="c{config.uid}-form-diagramCaptionYAxis"
+							type="text"
+							name="{config.prefixID}[material][diagramCaptionYAxis]"
+							value="{material.diagramCaptionYAxis}">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label" for="c{config.uid}-form-diagramCaptionXAxis"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.diagramCaptionXAxis"/></label>
+					<div class="input">
+						<input required="required"
+							class=" form-control" id="c{config.uid}-form-diagramCaptionXAxis"
+							type="text"
+							name="{config.prefixID}[material][diagramCaptionXAxis]"
+							value="{material.diagramCaptionXAxis}">
+					</div>
+				</div>
+				
+				<div>
+					<label class="control-label" for="csvfile"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.diagramFile"/></label>
+				    <input type="hidden" name="MAX_FILE_SIZE" value="1024000" />
+			   		<p><input name="csvfile" type="file" accept="text/csv" /></p> 
+				</div>
+			</div>
+			
+			
+			<h2><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.new.companies"/></h2>
+			
+			<div class="form-group">
+				<label class="control-label" for="DDSelector"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:dataDeliverer"/></label>
+				<div class="input">{material.dataDeliverer}
+					<f:form.hidden name="material[dataDelivererID]" value="{material.dataDelivererID}" />
+				</div>
+			</div>
+			
+			
+			<p class="propertyName"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplements.involved"/></p>
+			<a id="addFabricatorBtn" tabindex="0" title="Hinzufügen">
+				<i class="fas fa-plus-circle smallicon" aria-hidden="true"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:add"/>
+			</a>
+			<div id="fabricators">
+				<f:if condition="{material.fabricatorID}">
+				<f:for each="{material.fabricatorID}" as="fabID" iteration="iter">
+					<v:variable.set name="fabType" value="{v:variable.get(name:'material.fabricatorType.{iter.index}')}" />
+				
+					<div class="form-row cloneable">
+						<div class="form-group col-md-4">
+							<label class="control-label" for="c{config.uid}-form-fabricatorID">Organisation</label>
+							<div class="input">
+							<f:form.select
+									id="c{config.uid}-form-fabricatorID"
+									class="chosen-container chosen-container-single inputContainer"
+									name="material[fabricatorID]"
+									options="{m:GetAllCompanies()}"
+									optionValueField="id"
+									optionLabelField="name"
+									multiple="false"
+									value="{fabID}"
+									additionalAttributes="{
+										data-placeholder:'{f:translate(key:\'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:selectAnOption\')}'
+										data-nametemplate='{config.prefixID}[material][fabricatorID][{iter.index}]'
+									}"
+								/>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<label class="control-label" for="c{config.uid}-form-fabricatorType">Art der Beteiligung</label>
+							<f:form.textfield class="form-control"
+								id="c{config.uid}-form-fabricatorType"
+								name="material[fabricatorType]"
+								value="{fabType}"
+								additionalAttributes="{
+									data-nametemplate='{config.prefixID}[material][fabricatorType][{iter.index}]'
+								}"
+								/>
+						</div>
+					</div>
+				</f:for>
+				</f:if>
+			</div>
+
+			
+			<div style="margin-top:50px">
+				<f:form.submit name="mySubmit" value="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.new.submit')}" class="btn btn-primary" />
+				<v:variable.set name="linkArguments" value="{m:getMaterialOverviewPageLinkParameters(company:companyID, settings:settings)}" />
+				<button id="abort" class="btn btn-primary" data-url="{f:uri.page(pageUid='{settings.materialsOverviewPageID}', additionalParams='{linkArguments}')}"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:abort"/></button>
+
+			</div>
+		</f:form>	
+			<div id="physicalPropertiesTemplate" style="display:none;visibility:hidden">
+				<f:render partial="Editor/AllFieldsCloneElement" arguments="{ propid: '$prop$', config: config }"/>
+			</div>
+			<div id="involvedTemplate" style="display:none;visibility:hidden">
+				<div class="form-row cloneable">
+					<div class="form-group col-md-4">
+						<label class="control-label" for="c{config.uid}-form-fabricatorID">Organisation</label>
+						<div class="input">
+						<f:form.select
+								id="c{config.uid}-form-fabricatorID"
+								class="chosen-container chosen-container-single inputContainer"
+								name="material[fabricatorID]"
+								options="{m:GetAllCompanies()}"
+								optionValueField="id"
+								optionLabelField="name"
+								multiple="false"
+								additionalAttributes="{
+									data-placeholder:'{f:translate(key:\'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:selectAnOption\')}'
+									data-nametemplate='{config.prefixID}[material][fabricatorID][$num$]'
+								}"
+							/>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<label class="control-label" for="c{config.uid}-form-fabricatorType">Art der Beteiligung</label>
+						<f:form.textfield class="form-control"
+							id="c{config.uid}-form-fabricatorType"
+							name="material[fabricatorType]"
+							additionalAttributes="{
+								data-nametemplate='{config.prefixID}[material][fabricatorType][$num$]'
+							}"
+							/>
+					</div>
+				</div>
+			</div>
+		</article>
+	</f:if>
+</f:then><f:else>
+	<f:if condition="{success}">
+	<div>
+		<p><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplement.new.success.0"/> <b>{material.name}</b> <f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.edit.success.1"/></p>
+		<p><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.workflowremark"/></p>
+		
+		<p>
+			<v:variable.set name="linkArguments" value="{m:getMaterialOverviewPageLinkParameters(company:companyID, settings:settings)}" />
+			<f:link.page 
+				pageUid="{settings.materialsOverviewPageID}"
+				class="no-change"
+				style="margin-right:10px"
+				additionalParams="{linkArguments}">
+				<i class="fas fa-long-arrow-alt-left smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.back"/>
+			</f:link.page>
+			
+			<f:link.action
+		   		controller="Material"
+				action="preview"
+				class="action"
+				arguments="{id:file.name,company:companyID}">
+				<i class="fas fa-search smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:preview"/>
+			</f:link.action>
+		</p>
+	</div>
+	</f:if>
+</f:else>
+</f:if>
+
+<f:comment> render error messages </f:comment>
+<f:if condition="{error}">
+	<f:render partial="Editor/Error" arguments="{_all}"/>
+</f:if>
+
+</f:section>

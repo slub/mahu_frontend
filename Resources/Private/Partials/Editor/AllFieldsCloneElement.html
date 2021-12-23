@@ -1,0 +1,222 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+
+<v:variable.set name="prop" value="{m:GetPropertyInfo(propertyID:propid, schema:settings.schema)}" />
+
+<div class="propertyFields" data-pid="{propid}">
+	<label class="control-label" for="c{config.uid}-form-{propid}"><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.{propid}"/></label>
+	<div class="btn-group">
+		<a class="addBtn" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:add')}" data-clonetarget="c{config.uid}-{propid}_0">
+			<i class="fas fa-plus-circle smallicon" aria-hidden="true"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:add"/>
+		</a>
+	</div>
+	<f:if condition="{s:data.isArray(subject:value)}">
+		<f:then>
+			<f:for each="{value}" as="_val"  iteration="iter">
+				<f:if condition="{iter.isFirst}">
+					<f:then><f:if condition="{sticky}">
+						<f:then>
+					<div class="form-row cloneable full noremove" id="c{config.uid}-{propid}_{iter.index}">
+						</f:then>
+						<f:else>
+					<div class="form-row cloneable full" id="c{config.uid}-{propid}_{iter.index}">
+						</f:else>
+					</f:if></f:then><f:else>
+					<div class="form-row cloneable full" id="c{config.uid}-{propid}_{iter.index}">
+					</f:else>
+				</f:if>
+					
+						<f:if condition="{special}">
+						<v:variable.set name="sp" value="{v:variable.get(name:'_val.{special}')}" />
+						<div class="form-group col-md-2">
+							<label for="c{config.uid}-form-{propid}-{special}_{iter.index}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.{special}.placeholder')}</label>
+							<div class="input">
+								<input class="form-control"
+									id="c{config.uid}-form-{propid}-{special}_{iter.index}"
+									name="{config.prefixID}[material][{propid}][{iter.index}][{special}]"
+									value="{sp}"
+									data-nametemplate="{config.prefixID}[material][{propid}][$num$][{special}]" />
+							</div>
+						</div>
+						</f:if>
+						<div class="form-group col-md-2">
+							<label for="c{config.uid}-form-{propid}-value_{iter.index}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.value.placeholder')}</label>
+							<div class="input">
+								<input class="form-control"
+									id="c{config.uid}-form-{propid}-value_{iter.index}"
+									name="{config.prefixID}[material][{propid}][{iter.index}][value]"
+									value="{_val.value}"
+									data-nametemplate="{config.prefixID}[material][{propid}][$num$][value]"
+									/>
+							</div>
+						</div>
+						<f:if condition="{prop.isQualitative}"><f:else>
+						<div class="form-group col-md-2">
+							<label for="c{config.uid}-form-{propid}-unit_{iter.index}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.unit.placeholder')}</label>
+							<div class="input">
+								<f:form.select
+ 									class="form-control units"
+									id="c{config.uid}-form-{propid}-unit_{iter.index}"
+									name="material[{propid}][{iter.index}][unit]"
+									value="{_val.unit}"
+									options="{m:GetUnits(property:prop)}"
+									additionalAttributes="{
+										data-nametemplate:'{config.prefixID}[material][{propid}][$num$][unit]'
+									}"
+								/>
+							</div>
+						</div>
+						</f:else></f:if>
+						<div class="form-group col-md-2">
+							<label for="c{config.uid}-form-{propid}-remark_{iter.index}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.remark.placeholder')}</label>
+							<div class="input">
+								<input class="form-control"
+									id="c{config.uid}-form-{propid}-remark_{iter.index}"
+									name="{config.prefixID}[material][{propid}][{iter.index}][remark]"
+									value="{_val.remark}"
+									data-nametemplate="{config.prefixID}[material][{propid}][$num$][remark]"
+									/>
+							</div>
+						</div>
+						<div class="form-group col-md-2">
+							<label for="c{config.uid}-form-{propid}-norm_{iter.index}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.norm.placeholder')}</label>
+							<div class="input">
+								<input class="form-control"
+									id="c{config.uid}-form-{propid}-norm_{iter.index}"
+									name="{config.prefixID}[material][{propid}][{iter.index}][norm]"
+									value="{_val.norm}"
+									data-nametemplate="{config.prefixID}[material][{propid}][$num$][norm]"
+									/>
+							</div>
+						</div>
+						<div class="form-group col-md-2">
+							<label for="c{config.uid}-form-{propid}-testCondition_{iter.index}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.testcondition.placeholder')}</label>
+							<div class="input">
+								<input class="form-control"
+									id="c{config.uid}-form-{propid}-testCondition_{iter.index}"
+									name="{config.prefixID}[material][{propid}][{iter.index}][testCondition]"
+									value="{_val.testCondition}"
+									data-nametemplate="{config.prefixID}[material][{propid}][$num$][testCondition]"
+									/>
+							</div>
+						</div>
+						<div class="form-group col-md-2">
+							<label for="c{config.uid}-form-{propid}-method_{iter.index}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.method.placeholder')}</label>
+							<div class="input">
+								<input class="form-control"
+									id="c{config.uid}-form-{propid}-method_{iter.index}"
+									name="{config.prefixID}[material][{propid}][{iter.index}][method]"
+									value="{_val.method}"
+									data-nametemplate="{config.prefixID}[material][{propid}][$num$][method]"
+									/>
+							</div>
+						</div>
+						<div>
+							<a class="removeBtn" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:remove')}">
+								<i class="fas fa-trash smallicon" aria-hidden="true"></i>
+							</a>
+						</div>
+					</div>
+
+			</f:for>
+		</f:then><f:else>
+				<f:if condition="{sticky}">
+					<f:then>
+				<div class="form-row cloneable full noremove" id="c{config.uid}-{propid}_0">
+					</f:then>
+					<f:else>
+				<div class="form-row cloneable full" id="c{config.uid}-{propid}_0">
+					</f:else>
+				</f:if>
+				<f:if condition="{special}">
+				<v:variable.set name="sp" value="{v:variable.get(name:'value.{special}')}" />
+				<div class="form-group col-md-2">
+					<label for="c{config.uid}-form-{propid}-{special}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.{special}.placeholder')}</label>
+					<div class="input">
+						<input class="form-control"
+							id="c{config.uid}-form-{propid}-{special}"
+							name="{config.prefixID}[material][{propid}][0][{special}]"
+							value="{sp}"
+							data-nametemplate="{config.prefixID}[material][{propid}][$num$][{special}]" />
+					</div>
+				</div>
+				</f:if>
+				<div class="form-group col-md-2">
+					<label for="c{config.uid}-form-{propid}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.value.placeholder')}</label>
+					<div class="input">
+						<input class="form-control"
+							id="c{config.uid}-form-{propid}"
+							name="{config.prefixID}[material][{propid}][0][value]"
+							value="{value.value}"
+							data-nametemplate="{config.prefixID}[material][{propid}][$num$][value]"/>
+					</div>
+				</div>
+				<f:if condition="{prop.isQualitative}"><f:else>
+				<div class="form-group col-md-2">
+					<label for="c{config.uid}-form-{propid}-unit_{iter.index}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.unit.placeholder')}</label>
+					<div class="input">
+						<f:form.select
+							class="form-control units"
+							id="c{config.uid}-form-{propid}-unit_{iter.index}"
+							name="material[{propid}][0][unit]"
+							value="{value.unit}"
+							options="{m:GetUnits(property:prop)}"
+							additionalAttributes="{
+								data-nametemplate:'{config.prefixID}[material][{propid}][$num$][unit]'
+							}"
+						/>
+					</div>
+				</div>
+				</f:else></f:if>
+				<div class="form-group col-md-2">
+					<label for="c{config.uid}-form-{propid}-remark">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.remark.placeholder')}</label>
+					<div class="input">
+						<input class="form-control"
+							id="c{config.uid}-form-{propid}-remark"
+							name="{config.prefixID}[material][{propid}][0][remark]"
+							value="{value.remark}"
+							data-nametemplate="{config.prefixID}[material][{propid}][$num$][remark]"
+							/>
+					</div>
+				</div>
+				<div class="form-group col-md-2">
+					<label for="c{config.uid}-form-{propid}-norm">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.norm.placeholder')}</label>
+					<div class="input">
+						<input class="form-control"
+							id="c{config.uid}-form-{propid}-norm"
+							name="{config.prefixID}[material][{propid}][0][norm]"
+							value="{value.norm}"
+							data-nametemplate="{config.prefixID}[material][{propid}][$num$][norm]"
+							/>
+					</div>
+				</div>
+				<div class="form-group col-md-2">
+					<label for="c{config.uid}-form-{propid}-testCondition">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.testcondition.placeholder')}</label>
+					<div class="input">
+						<input class="form-control"
+							id="c{config.uid}-form-{propid}-testCondition"
+							name="{config.prefixID}[material][{propid}][0][testCondition]"
+							value="{value.testCondition}"
+							data-nametemplate="{config.prefixID}[material][{propid}][$num$][testCondition]"
+							/>
+					</div>
+				</div>
+				<div class="form-group col-md-2">
+					<label for="c{config.uid}-form-{propid}-method">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.method.placeholder')}</label>
+					<div class="input">
+						<input class="form-control"
+							id="c{config.uid}-form-{propid}-method"
+							name="{config.prefixID}[material][{propid}][0][method]"
+							value="{value.method}"
+							data-nametemplate="{config.prefixID}[material][{propid}][$num$][method]"
+							/>
+					</div>
+				</div>
+				<div>
+					<a class="removeBtn" tabindex="0" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:remove')}">
+						<i class="fas fa-trash smallicon" aria-hidden="true"></i>
+					</a>
+				</div>
+			</div>
+		</f:else>
+	</f:if>
+</div>

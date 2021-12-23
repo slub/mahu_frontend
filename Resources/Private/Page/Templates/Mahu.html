@@ -1,0 +1,104 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+
+<noscript>
+	<div>
+		<p><i class="fas fa-exclamation-triangle smallicon"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:noscript')}</p>
+	</div>
+</noscript>
+<f:comment>If we are operating on Internet Explorer, show a warning that there may be layout and functionality issues.</f:comment>
+<script>
+(function(){
+	if (window.document.documentMode) {
+		let d= document.createElement("div");
+		d.style.position="fixed";
+		d.style.zIndex= "1000";
+		d.style.background ="#059";
+		d.style.color="white";
+		d.style.boxShadow = "0px 0px 5px grey";
+		d.style.padding = "10px 10px 0 10px";
+		d.style.width = "500px";
+		d.style.minHeight = "50px";
+		d.style.top="30px";
+		d.style.left="50%";
+		d.style.marginLeft= "-250px";
+		d.style.textAlign="center";
+		
+		d.innerHTML = '<p><i class="fas fa-exclamation-triangle smallicon"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:unsupportedBrowser')}</p>';
+		document.body.appendChild(d);
+	}
+})();
+</script>
+
+<a id="toTop" title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:totop')}" href="#mahuLogo"><i class="fas fa-angle-double-up fa-2x" aria-hidden="true"></i></a>
+
+<f:if condition="{settings.mahu.dev}">
+<i class="dev fas fa-hammer fa-4x"></i>
+</f:if>
+
+<f:if condition="{settings.mahu.feedbackURL}">
+<div class="feedback">
+	<div class="feedbackHeader" tabindex="0"><i class="far fa-comments smallicon" aria-hidden="true"></i>Feedback</div>
+	<div class="feedbackContent">
+		<p>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:feedback.text')}</p> 
+		<f:if condition="{settings.mahu.contactPageID}"><p><a href="<f:uri.page pageUid="{settings.mahu.contactPageID}"/>"><i class="fas fa-external-link-alt smallicon" aria-hidden="true"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:feedback.contactform')}</a></p></f:if>
+		<p><a href="{settings.mahu.feedbackURL}"><i class="fas fa-external-link-alt smallicon" aria-hidden="true"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:feedback.button')}</a></p>
+		<img class="qrcode" src="{settings.mahu.feedbackURLQRCode}" alt="QR Code"/>
+	</div>
+</div>
+</f:if>
+
+<script>
+<f:format.htmlentitiesDecode>
+<f:alias map="{pageInfo:'{v:page.info()}'}">
+<f:format.raw>
+$(document).ready(function(){
+	mahu.init({
+		pageConfig: {},
+		pageUid: "</f:format.raw>{pageInfo.uid}<f:format.raw>",
+		languageID: "</f:format.raw>{f:cObject(typoscriptObjectPath:'lib.currentLangID')}<f:format.raw>",
+		imgRootPath: "</f:format.raw>{settings.mahu.imgRootPath}<f:format.raw>",
+		userName: "</f:format.raw>{f:cObject(typoscriptObjectPath:'lib.username')}<f:format.raw>",
+		userNameExt: "</f:format.raw>{f:cObject(typoscriptObjectPath:'lib.usernameExt')}<f:format.raw>",
+		landingPageURL: '</f:format.raw><f:uri.page pageUid="{f:cObject(typoscriptObjectPath:'lib.landingPageID')}" additionalParams="{L:'{f:cObject(typoscriptObjectPath:\'lib.currentLangID\')}'}"/><f:format.raw>',
+		materialSearchPageURL: '</f:format.raw><f:uri.page pageUid="{f:cObject(typoscriptObjectPath:'lib.materialSearchPageID')}" additionalParams="{L:'{f:cObject(typoscriptObjectPath:\'lib.currentLangID\')}'}"/><f:format.raw>',
+		profilePageURL: '</f:format.raw><f:uri.page pageUid="{f:cObject(typoscriptObjectPath:'lib.profilePageID')}" additionalParams="{L:'{f:cObject(typoscriptObjectPath:\'lib.currentLangID\')}'}"/><f:format.raw>',
+		registrationPageURL: '</f:format.raw><f:uri.page pageUid="{f:cObject(typoscriptObjectPath:'lib.registrationPageID')}" additionalParams="{L:'{f:cObject(typoscriptObjectPath:\'lib.currentLangID\')}'}"/><f:format.raw>',
+		loginPageURL: '</f:format.raw><f:uri.page pageUid="{f:cObject(typoscriptObjectPath:'lib.loginPageID')}" additionalParams="{L:'{f:cObject(typoscriptObjectPath:\'lib.currentLangID\')}'}"/><f:format.raw>',
+		languageLinks: [
+			{
+				langName: "DE",
+				langID: 0,
+				uri: '<f:uri.page addQueryString="TRUE" additionalParams="{L:0}"/>',
+			},
+			{
+				langName: "EN",
+				langID: 1,
+				uri: '<f:uri.page addQueryString="TRUE" additionalParams="{L:1}"/>'
+			}
+		]
+	});
+});
+</f:format.raw>
+</f:alias>
+</f:format.htmlentitiesDecode>
+</script>
+
+<f:if condition="{f:cObject(typoscriptObjectPath:'lib.currentLang')}=='de'">
+	<f:then>
+		<m:script name="de_properties.js" file="EXT:mahu_frontend/Resources/Public/JavaScript/localization/de_properties.js"/>
+		<m:script name="de.js" file="EXT:mahu_frontend/Resources/Public/JavaScript/localization/de.js"/>
+	</f:then>
+	<f:else>
+		<m:script name="en_properties.js" file="EXT:mahu_frontend/Resources/Public/JavaScript/localization/en_properties.js"/>
+		<m:script name="en.js" file="EXT:mahu_frontend/Resources/Public/JavaScript/localization/en.js"/>
+	</f:else>
+</f:if>
+
+
+<script data-ignore="1" data-cookieconsent="marketing" type="text/plain">
+setTimeout(function(){
+	mahu.enableHistory();
+}, 100);
+</script>

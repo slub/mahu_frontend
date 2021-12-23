@@ -1,0 +1,276 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+<f:layout name="Default"/>
+<f:comment>
+	Template for a basic Detail view of all fields in the document.
+
+	Sets up the page with its title, CSS, JavaScript, the search form and pager,
+	uses the field configured as a heading and creates
+	a definition list of all field contents.
+
+	This can be a good starting point for refining the detail view for your
+	data model.
+</f:comment>
+
+<f:section name="Main">
+	<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/pages/SearchFormPage.js" name="sfpage"/>
+	<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/pages/DetailPage.js" name="dpage"/>
+	<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/pages/PreviewPage.js" name="prevpage"/>
+	<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/MaterialTaxonomy.js" name="taxononmy"/>
+	<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/ImageLinkResolver.js" name="ilr"/>
+	<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/WikipediaTooltip.js" name="wtt"/>
+
+	<s:page.title>{document.id} – {config.pageTitle}</s:page.title>
+	
+	<script>const currentPage = "PreviewPage";</script>
+
+	<f:if condition="{document}">
+		<v:variable.set name="document" value="{m:hideMaterialProperties(material:document)}" />
+		<p>
+			<v:variable.set name="linkArguments" value="{m:getMaterialOverviewPageLinkParameters(company:companyID, settings: settings)}" />
+			<f:link.page 
+				pageUid="{settings.materialsOverviewPageID}"
+				class="no-change"
+				style="margin-right:10px"
+				additionalParams="{linkArguments}">
+				<i class="fas fa-long-arrow-alt-left smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:material.new.back"/>
+			</f:link.page>
+
+			<f:link.action
+		    	controller="Material"
+				action="edit"
+				class="action"
+				arguments="{id:fileName,company:companyID}">
+				<i class="fas fa-pen smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:edit"/>
+			</f:link.action>
+		</p>
+		
+	<article class="detail preview" id="c{config.uid}-result-{document.id}">
+	
+		<f:comment>Materialname und Bild</f:comment>
+		<div style="position: relative;">
+			<f:if condition="{document.nameTrade_value}"><f:then>
+			<h1><span id="materialName">{document.nameTrade_value}</span><span class="alternativeName" style="font-size:0.6em;"> ({document.name})</span></h1>
+			</f:then><f:else>
+			<h1 id="materialName">{document.name}</h1>
+			</f:else>
+			</f:if>
+		</div>
+	<div id="descriptionheader" class="propertyContainer">
+		<div id="description">
+		<f:if condition="{document.freeText}">
+			<p>{document.freeText}</p>
+		</f:if>
+		<f:if condition="{document.dataSheetUrl}">
+		<p><i class="fas fa-info-circle smallicon"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:externalProps.0')}<f:if condition="{document.obfuscate}">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:externalProps.2')}<f:for each="{document.obfuscate}" as="e" key="name" iteration="iter"><f:if condition="{iter.isFirst}"><f:else><f:if condition="{iter.isLast}"><f:then> {f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:and')}</f:then><f:else>,</f:else></f:if></f:else></f:if> <f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.{e}"/></f:for></f:if> <a href="{document.dataSheetUrl}" class="no-change"><i class="fas fa-external-link-alt smallicon" aria-hidden="true"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:externalProps.1')}</a>
+		</p>
+		</f:if>
+		</div>
+
+		<div class="centering" id="materialImageContainer">
+		<f:if condition="{document.imageUrl}">
+			<f:then>
+			<img src="{document.imageUrl}" id="materialImage" onerror="mahu.handleImageError(arguments[0])" alt="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.imageUrl')}"/>
+			</f:then>
+			<f:else>
+			<img src="/typo3conf/ext/mahu_frontend/Resources/Public/Images/placeholder.png" style="display:none" id="materialImage" alt="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:placeholder')}"/>
+			<img src="" style="visibility:hidden" class="placeholder" alt="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.symbolicimage')}"/>
+			</f:else>
+		</f:if>
+		</div>
+		
+		<f:if condition="{document.category}">
+		<div class="propertyContainer" style="clear:left">
+			<span class="propertyName">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.category')}<f:render partial="mahu/DetailPage/PropInfo" arguments="{ prop: settings.mahu.schema.miscProperties.category, language: config.language }"/></span>
+			<span class="categoryPath">
+			<f:for each="{document.category}" iteration="iasd" as="c"><f:if condition="{iasd.isLast}"><f:else>{c}&nbsp;&gt; </f:else></f:if></f:for>
+			</span>
+
+			<span id="category">
+				<f:if condition="{document.category}">
+					<f:format.htmlentitiesDecode>
+					<f:alias map="{cat:'{v:iterator.last(haystack:document.category)}'}">
+					<s:data.newArray
+						name="linkArguments"
+						array="{s:find.facetLinkArguments(facetID:'category', facetTerm:cat)}"
+						keys="{0: 'q'}"
+						values="{
+							0: { default : '*' }
+						}"
+						omitEmptyFields="1" >
+					<f:link.action
+						addQueryString="FALSE"
+						action="index"
+						arguments="{linkArguments}"
+						title="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:detailpage.category.link')}"
+						class="facetAdd internal">
+						{cat}
+					</f:link.action>
+					</s:data.newArray>
+					</f:alias>
+					</f:format.htmlentitiesDecode>
+				</f:if>
+			</span>
+		</div>
+		</f:if>
+		
+		<f:if condition="{document.compositionCompound_value}">
+		<div id="compoundComposition" class="propertyContainer">
+			<span class="propertyName">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.compositionCompound')}</span>	
+			<ul>
+				<f:for each="{document.compositionCompound_value}" as="val" iteration="iter">
+					<f:if condition="{document.compositionCompound_type}">
+						<v:variable.set name="type" value="{v:variable.get(name: 'document.compositionCompound_type.{iter.index}')}"/>
+					</f:if>
+					<f:if condition="{document.compositionCompound_norm}">
+						<v:variable.set name="norm" value="{v:variable.get(name: 'document.compositionCompound_norm.{iter.index}')}"/>
+					</f:if>
+					<f:if condition="{document.compositionCompound_remark}">
+						<v:variable.set name="remark" value="{v:variable.get(name: 'document.compositionCompound_remark.{iter.index}')}"/>
+					</f:if>
+					<li><span class="value"><f:if condition="{type}">{type}: </f:if>{val}<f:if condition="{norm}"> ({norm})</f:if><f:if condition="{remark}"> ({remark})</f:if></span></li>
+				</f:for>
+			</ul>
+		</div>
+		</f:if>
+		
+		<f:if condition="{document.applicationArea}">
+		<div class="propertyContainer">
+			<span class="propertyName">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.applicationArea')}<f:render partial="mahu/DetailPage/PropInfo" arguments="{ prop: settings.schema.miscProperties.applicationArea, language: config.language }"/></span>
+			<span id="appAreas">
+			<v:iterator.implode content="{document.applicationArea}" glue="; "></v:iterator.implode>
+			</span>
+		</div>
+		</f:if>
+
+		<f:if condition="{document.usecases}">
+		<div class="propertyContainer">
+			<span class="propertyName">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.usecases')}<f:render partial="mahu/DetailPage/PropInfo" arguments="{ prop: settings.mahu.schema.miscProperties.usecases, language: config.language }"/></span>
+			<span id="useCases">
+			<v:iterator.implode content="{document.usecases}" glue="; "></v:iterator.implode>
+			</span>
+		</div>
+		</f:if>
+		
+		<f:if condition="{document.applicationAreaGeneral}">
+		<div class="hidden" id="appAreasGeneral"><v:iterator.implode content="{document.applicationAreaGeneral}" glue="; "></v:iterator.implode></div>
+		</f:if>
+		
+		<f:comment> handle non-core misc properties with default rendering </f:comment>
+		<f:render partial="mahu/DetailPage/MiscProperties" arguments="{ document : document, language: config.language }"/>
+		
+		<f:if condition="{m:HasAlternativeNames(material:document)}">
+		<div class="propertyContainer">
+			<span class="propertyName">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.nameAlternative')}</span>
+			<span id="alternativeNames">
+			<ul>
+			<f:if condition="{document.nameAlternative_norm}"><f:then>
+			<f:for each="{m:GetGroupedAlternativeNames(material:document)}" as="name" key="norm" iteration="iter">
+				<f:if condition="{s:data.isArray(subject:'{name}')}"><f:then>
+					<li>{norm}: <span class="alternativeName"><v:iterator.implode content="{name}" glue=", "></v:iterator.implode></span></li>
+				</f:then><f:else>
+				<f:if condition="{name}!='-'">
+					<li>{norm}: <span class="alternativeName">{name}</span></li>
+				</f:if>
+				</f:else></f:if>
+			</f:for>
+			</f:then><f:else>
+				<f:for each="{document.nameAlternative_value}" as="anameval"  iteration="iter">
+					<li><span class="alternativeName">{anameval}</span></li>
+				</f:for>
+			</f:else></f:if>
+			
+			<f:if condition="{document.nameAbbreviation_value}">
+				<li>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.nameAbbreviation')}: <span class="alternativeName"><v:iterator.implode content="{document.nameAbbreviation_value}" glue=", "></v:iterator.implode></span></li>
+			</f:if>
+			<f:if condition="{document.nameLanguage_value}">
+				<f:for each="{document.nameLanguage_value}" as="nameLang" iteration="iter">
+					<v:variable.set name="langType" value="{v:variable.get(name: 'document.nameLanguage_type.{iter.index}')}"/>
+				
+					<li><f:if condition="{langType}">{langType}: </f:if><span class="alternativeName">{nameLang}</span></li>
+				</f:for>
+			</f:if>
+			</ul>
+			</span>
+		</div>
+		</f:if>
+
+		<f:if condition="{document.otherProps}">
+		<div class="propertyContainer">
+			<span class="propertyName">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.otherProps')}</span>
+			<ul>
+				<f:for each="{document.otherProps}" as="p">
+				    <li>{p}</li>
+				</f:for>
+			</ul>
+		</div>
+		</f:if>
+
+	</div>
+	
+		<f:comment>Basiseigenschaften laut Herstellerangaben</f:comment>
+		<f:render partial="mahu/DetailPage/BaseProperties" arguments="{ document : document }"/>
+	
+		<f:comment>Physikalische Eigenschaften</f:comment>
+		<f:render partial="mahu/DetailPage/Properties" arguments="{ document : document, language: config.language}"/>
+		
+		<f:comment>Chemische Eigenschaften</f:comment>
+		<f:render partial="mahu/DetailPage/ChemicalProperties" arguments="{ document : document, language: config.language}"/>
+		
+		<f:comment>Zertifikate</f:comment>
+		<f:render partial="mahu/DetailPage/Certificates" arguments="{ document : document, language: config.language }"/>
+
+		<f:if condition="{supplements}"><f:comment>Ergänzende Daten</f:comment>
+			<f:render partial="mahu/DetailPage/Supplements" arguments="{ document : document, supplements: supplements}"/>
+		</f:if>
+
+		<v:variable.set name="renderDataDeliverer" value="TRUE" />
+		<f:if condition="{document.dataDelivererID}">
+		<f:if condition="{document.producerID}">
+			<f:then>
+				<f:if condition="{document.dataDelivererID} == {document.producerID}"><f:then><v:variable.set name="renderDataDeliverer" value="FALSE" /></f:then>
+				<f:else>
+					<f:if condition="{document.supplierID}">
+					<f:if condition="{document.dataDelivererID} == {document.supplierID.0}"><f:then><v:variable.set name="renderDataDeliverer" value="FALSE" /></f:then>
+					<f:else>
+						<v:variable.set name="renderDataDeliverer" value="TRUE" />
+					</f:else>
+					</f:if>
+					</f:if>
+				</f:else>
+				</f:if>
+			</f:then>
+			<f:else>
+				<f:if condition="{document.supplierID}">
+				<f:if condition="{document.dataDelivererID} == {document.supplierID.0}"><f:then><v:variable.set name="renderDataDeliverer" value="FALSE" /></f:then>
+				<f:else>
+					<v:variable.set name="renderDataDeliverer" value="TRUE" />
+				</f:else>
+				</f:if>
+				</f:if>
+			</f:else>
+		</f:if>
+		</f:if>
+
+		<f:comment>Infos zum Hersteller</f:comment>
+		<f:render partial="mahu/DetailPage/Producer" arguments="{document : document, useShortLabel: renderDataDeliverer}"/>
+
+		<f:comment>Disclaimer</f:comment>
+		<f:render partial="mahu/DetailPage/Disclaimer" arguments="{document : document, renderDataDeliverer: renderDataDeliverer}"/>
+		
+		<f:comment>Ähnliche Materialien</f:comment>
+		<f:render partial="mahu/DetailPage/SimilarMaterials" arguments="{document:document, mlt:mlt, config:config}"/>
+		
+		<f:comment>Zurück-Button</f:comment>
+		<f:render partial="Components/DetailResultPager" arguments="{_all}"/>
+
+	</article>
+	</f:if>
+
+<f:comment> render error messages </f:comment>
+<f:if condition="{error}">
+	<f:render partial="Editor/Error" arguments="{_all}"/>
+</f:if>
+
+</f:section>

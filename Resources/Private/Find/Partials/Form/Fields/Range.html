@@ -1,0 +1,107 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+<f:comment>
+	The range field creates two text inputs for the arguments q.{fieldInfo.id}.0 and q.{fieldInfo.id}.1.
+	Example query configuration:
+		from:[* TO %2$s] AND to:[%1$s TO *]
+</f:comment>
+<span class="fieldLabel">
+	<label for="c{config.uid}-field-{fieldInfo.id}-from">
+		<f:translate key="LLL:{settings.languageRootPath}locallang-form.xml:input.{fieldInfo.id}" default="{fieldInfo.id}"/>:
+	</label>
+</span>
+<span class="inputContainer">
+	<f:if condition="{fieldInfo.step}">
+		<f:then><v:variable.set name="step" value="{fieldInfo.step}"/></f:then>
+		<f:else><v:variable.set name="step" value="1"/></f:else>
+	</f:if>
+
+	<f:if condition="{fieldInfo.min}">
+		<f:then><v:variable.set name="min" value="{fieldInfo.min}"/></f:then>
+		<f:else><v:variable.set name="min" value="0"/></f:else>
+	</f:if>
+
+  	<input id="c{config.uid}-field-{fieldInfo.id}-from" type="number" name="tx_find_find[q][{fieldInfo.id}][0]" min="{min}"
+  			value="{s:data.valueForKey(array:queryParameter, key:'0')}" step="{step}" />
+  	-
+  	<input id="c{config.uid}-field-{fieldInfo.id}-to" type="number" name="tx_find_find[q][{fieldInfo.id}][1]" class="noleftmargin" min="{min}"
+  			value="{s:data.valueForKey(array:queryParameter, key:'1')}" step="{step}" />
+
+	<v:variable.set name="field" value="{m:GetPropertyInfo(propertyID: fieldInfo.id, schema:settings.mahu.schema)}" />
+
+	<v:variable.set name="qp" value="{s:data.valueForKey(array:queryParameter, key:'2')}" />
+
+	<f:if condition="{field.units}">
+	
+		<f:if condition="{field.units -> f:count()} > 4">
+		<f:then>
+			<select class="unitSelector selected" name="q[{fieldInfo.id}][2]" data="c{config.uid}-field-{fieldInfo.id}-unit">
+				<f:for each="{field.units}" as="u" key="fieldName">
+					<f:if condition="{qp}">
+				 	<f:then>
+				 		<f:if condition="{u} == {qp}">
+				 			<f:then>
+				 				<option value="{u}" selected="selected">{u}</option>
+				 			</f:then>
+				 			<f:else>
+				 				<option value="{u}">{u}</option>
+				 			</f:else>
+				 		</f:if>
+				 	</f:then>
+				 	<f:else>
+				 		<f:if condition="{u} == {field.defaultUnit}">
+				 			<f:then>
+								<option value="{u}" selected="selected">{u}</option>
+				 			</f:then>
+				 			<f:else>
+								<option value="{u}">{u}</option>
+				 			</f:else>
+				 		</f:if>
+				 	</f:else>
+				</f:if>
+				</f:for>
+			</select>
+
+		</f:then>
+		<f:else>
+			<f:for each="{field.units}" as="u" key="fieldName" iteration="itemIteration">
+				<f:if condition="{qp}">
+				 	<f:then>
+				 		<f:if condition="{u} == {qp}">
+				 			<f:then>
+				 				<button class="unitSelector selected" data="c{config.uid}-field-{fieldInfo.id}-unit">{u}</button>
+				 			</f:then>
+				 			<f:else>
+				 				<button class="unitSelector" data="c{config.uid}-field-{fieldInfo.id}-unit">{u}</button>
+				 			</f:else>
+				 		</f:if>
+				 	</f:then>
+				 	<f:else>
+				 		<f:if condition="{u} == {field.defaultUnit}">
+				 			<f:then>
+								<button class="unitSelector selected" data="c{config.uid}-field-{fieldInfo.id}-unit">{u}</button>			 				
+				 			</f:then>
+				 			<f:else>
+								<button class="unitSelector" data="c{config.uid}-field-{fieldInfo.id}-unit">{u}</button>			 				
+				 			</f:else>
+				 		</f:if>
+				 	</f:else>
+				</f:if>
+		    </f:for>
+	    </f:else>
+	    </f:if>
+    </f:if>
+
+    <f:if condition="{s:data.valueForKey(array:queryParameter, key:'2')}">
+    	<f:then>
+    	    <input id="c{config.uid}-field-{fieldInfo.id}-unit" type="hidden" name="tx_find_find[q][{fieldInfo.id}][2]" 
+  				value="{s:data.valueForKey(array:queryParameter, key:'2')}"/>
+    	</f:then>
+    	<f:else>
+    	    <input id="c{config.uid}-field-{fieldInfo.id}-unit" type="hidden" name="tx_find_find[q][{fieldInfo.id}][2]"
+  			value=""/>
+    	</f:else>
+    </f:if>
+
+</span>

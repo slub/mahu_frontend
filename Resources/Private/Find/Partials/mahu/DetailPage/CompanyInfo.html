@@ -1,0 +1,50 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace s=Subugoe\Find\ViewHelpers}
+<f:comment>
+	Renders information about a given company, e.g., a producer or data provider. 
+</f:comment>
+<f:if condition="{company}">
+	<p class="companyName">{company.name}</p>
+	<div class="companyDetail">
+		<f:if condition="{settings.mahu.showLogos}"><f:if condition="{company.logo}">
+		<img class="companyLogo smallCompanyLogo" src="{company.logo}"></img>
+		</f:if></f:if>
+		
+		<f:for each="{company.contacts}" as="contact">
+			<p class="contactDetails">
+			<f:if condition="{s:logic.or(conditions:'{
+						0:\"{contact.surname}\",
+						1:\"{contact.familyname}\"
+						
+					}')}">
+			<f:if condition="{contact.title}">{contact.title} </f:if>{contact.surname} {contact.familyname}<br/>
+			</f:if>
+			<f:if condition="{contact.phone}">
+			<i class="fa fa-phone smallicon" aria-hidden="true"></i>{contact.phone}<br/>
+			</f:if>
+			<f:if condition="{contact.email}">
+			<a class="mail no-change" href="mailto:{contact.email}"><i class="far fa-envelope smallicon" aria-hidden="true"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:producer.writeMail')}</a><br/>
+			</f:if>
+			</p>			
+		</f:for>
+		<p><a href="{company.www}" target="_blank" class="external no-change"><i class="fas fa-external-link-alt smallicon" aria-hidden="true"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:producer.website')}</a></p>
+		<p>
+		<s:data.newArray
+					name="linkArguments"
+					keys="{0: 'tx_mahupartners_mahupartners[id]', 1:'tx_mahupartners_mahupartners[action]',2:'tx_mahupartners_mahupartners[controller]'}"
+					values="{
+						0: '{company.id}',
+						1: 'detail',
+						2: 'Partner'
+					}"
+					omitEmptyFields="1" >
+				<f:link.page 
+					pageUid="{settings.mahu.partnerPageID}"
+					additionalParams="{linkArguments}"
+					class="internal no-change">
+					{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:supplements.partnerDetails')}
+				</f:link.page>
+			</s:data.newArray>
+		</p>
+	</div>
+</f:if>

@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+    <meta type="array">
+        <type>module</type>
+        <description>
+            Language labels for form labels.
+            The file »locallang-form.xml« will be loaded from the path set as
+            »settings.languageRootPath« in TypoScript.
+
+            Localisation keys / label indexes follow the convention:
+            * label for input FOO: input.FOO
+            * label for child-item BAR in control FOO (e.g. select options): input.FOO-BAR
+            * placeholder for input FOO: input.FOO.placeholder
+        </description>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+        	<label index="langName.DE">DE</label>
+        	<label index="langName.EN">EN</label>
+        	
+        	<label index="exception.detailNoresult">No document found!</label>
+        	<label index="abort">Abort</label>
+        	<label index="edit">Edit</label>
+			<label index="and">and</label>
+        	<label index="preview">Preview</label>
+            <label index="results">Search Results</label>
+            <label index="resultspage.result.blurred">Data has been hidden at the request of the manufacturer.</label>
+            <label index="totop">Scroll to top</label>
+            <label index="placeholder">placeholder</label>
+			<label index="add">Add</label>
+			<label index="remove">Remove</label>
+            
+            <label index="noscript">Please activate Javascript to be able to use Material Hub with the full range of functions.</label>
+            <label index="unsupportedBrowser">Your browser is not supported by Material Hub! This may result in unexpected visualization and limited functionality.</label>
+            
+            <label index="legalnotice">Legal notice</label>
+            <label index="privacypolicy">Privacy policy</label>
+    		<label index="termsofuse">Terms of use</label>
+            
+            <label index="resetQuery">Reset query</label>
+			<label index="welcomeHeader">Welcome to the Material Hub!</label>
+			<label index="welcomeBody">In the Material Hub, you can easily find information sources from industry and research on a wide range of material classes free of charge. Once you have found the right material for your application, you can contact the company or research institute directly.</label>
+			<label index="selectAnOption">Select options...</label>
+			<label index="relevance">Explain relevance</label>
+			<label index="relevanceIndicator">Relevant because of hits in the following fields:</label>
+			<label index="expandCollapseAll">expand / collapse all groups</label>
+			<label index="showFacets">show facets</label>
+			<label index="configure">Settings</label>
+
+			<label index="similarSearch.heading">Search similar materials</label>
+			<label index="similarSearch.expl">Select the material properties on the basis of which similar materials are to be identified. By adding further properties as well as adjusting the respective deviation, the result list can be influenced. A selection of the most similar materials is displayed here. To get the full list, press the "Show all results" button.</label>
+			<label index="similarSearch.prop">Material properties</label>
+			<label index="similarSearch.addprop">Add material property</label>
+			<label index="similarSearch.dev">Deviation</label>
+			<label index="similarSearch.searchAll">Show all results</label>
+			<label index="similarSearch.search">Reload results</label>
+			
+			<label index="noresults.heading">No results found!</label>
+			<label index="noresults.1">Please...</label>
+			<label index="noresults.2">... try a </label>
+			<label index="noresults.2.1">new query.</label>
+			<label index="noresults.3">... use the </label>
+			<label index="noresults.3.1">wizard.</label>
+			<label index="noresults.4">... use </label>
+			<label index="noresults.4.1">material categories</label>
+			<label index="noresults.4.2">or</label>
+			<label index="noresults.4.3">application areas</label>
+			<label index="noresults.4.4"> as a starting point.</label>
+			<label index="noresults.5">... search for </label>
+			<label index="noresults.5.1">producers or suppliers.</label>
+			<label index="noresults.6">... try your </label>
+			<label index="noresults.6.1">query without filters.</label>
+			<label index="noresults.7">... start your research </label>
+			<label index="noresults.7.1">at regulations and standards.</label>
+			
+			<label index="feedback.text">Please feel free to give us feedback on the Material Hub.</label>
+			<label index="feedback.contactform">Contact form</label>
+			<label index="feedback.button">Usability questionnaire</label>
+			
+			<label index="landingpage.heading">Materials</label>
+			<label index="landingpage.categories">Material Categories</label>
+			<label index="landingpage.categories.relevant">Your material classes</label>
+			<label index="landingpage.categories.classification">Material classification</label>
+			<label index="landingpage.appareas">Application Areas</label>
+			<label index="landingpage.appareas.relevant">Your application areas</label>
+			<label index="landingpage.appareas.overview">All application areas</label>
+			<label index="landingpage.history">Continue your Research</label>
+			<label index="landingpage.history.trackedQueries">Your recent queries</label>
+			<label index="landingpage.history.savedQueries">Your saved queries</label>
+			<label index="landingpage.history.bookmarks">Your bookmarks</label>
+			<label index="landingpage.history.pagevisits">Your visited materials</label>
+			<label index="landingpage.newpartners">New Partners in the Material Hub</label>
+			<label index="landingpage.newpartners.text1">See below for a random choice of our partners.</label>
+			<label index="landingpage.newpartners.showAll">Or show all partners.</label>
+			<label index="landingpage.newpartners.text2"></label>
+			<label index="landingpage.newpartners.link">Show the materials of</label>
+
+			<label index="landingpage.symbolicimage">symbolic image</label>
+						
+			<label index="landingpage.teaser.materials">materials</label>
+			<label index="landingpage.teaser.categories">material classes</label>
+			<label index="landingpage.teaser.usecases">usecases</label>
+			<label index="landingpage.teaser.companies">companies and institutes</label>
+			<label index="landingpage.teaser.regulations">regulations</label>
+			
+			<label index="wizard.heading">Wizard</label>
+			<label index="wizard.welcomeBody">Are you unsure how to find a suitable material? No problem: The ASSISTENT supports you in your material research. Simply answer one or more of the following questions.</label>
+			<label index="wizard.chooseClasses">Select material classes</label>
+			<label index="wizard.chooseAppAreas">Select use cases</label>
+			<label index="wizard.chooseSimMat">Select similar materials</label>
+			<label index="wizard.defineReqs">Define further requirements</label>
+			
+			<label index="partnerpage.link">Show the materials of</label>
+			
+			<label index="supplements.header">Supplemental Scientific Data</label>
+			<label index="supplements.referencedMaterials">Other materials involved in the experimental setup</label>
+			<label index="supplements.toMaterial">To material</label>
+			<label index="supplements.source">Reference</label>
+			<label index="supplements.furtherReading">Further reading</label>
+			<label index="supplements.partnerDetails">Further details</label>
+			<label index="supplements.involved">Involved parties</label>
+			<label index="supplements.involved.type.coating">Coating</label>
+			<label index="supplements.involved.type.additive manifacturing">Additive manifacturing</label>
+			
+			<label index="extended Search">extended search</label>
+			<label index="basic Search">basic search</label>
+			
+			<label index="saveQuery">Save query</label>
+			<label index="exportResults">Export results (as CSV)</label>
+			<label index="printResults">Print results</label>
+			<label index="showAll">Show all...</label>
+			<label index="show">show</label>
+			<label index="more">more</label>
+			<label index="noProducer">No information about the manufacturer</label>
+			
+			<label index="producer">Producer</label>
+			<label index="producer.website">Website</label>
+			<label index="producer.writeMail">Request via e-mail</label>
+			<label index="producer.materialPage">Material description</label>
+			<label index="supplier">Supplier</label>
+			<label index="yes">Yes</label>
+			<label index="no">No</label>
+			<label index="unlimited">unlimited</label>
+			<label index="shortterm">short-term</label>
+			<label index="substance">Substance</label>
+			
+			<label index="properties.fields.name">Name</label>
+			<label index="properties.fields.value">Value</label>
+			<label index="properties.fields.unit">Unit</label>
+			<label index="properties.fields.temperature">Temperature</label>
+			<label index="properties.fields.norm">Norm</label>
+			<label index="properties.fields.method">Method and conditions</label>
+			<label index="properties.fields.nominal">Nominal range</label>
+			
+			<label index="properties.physicalProperties">Physical Properties</label>
+			<label index="properties.physicalProperties.electrical">Electrical properties</label>
+			<label index="properties.physicalProperties.mechanical">Mechanical properties</label>
+			<label index="properties.physicalProperties.thermal">Thermal properties</label>
+			<label index="nophysicalProperties">There are no physical properties available for this material!</label>
+			<label index="properties.miscProperties">Important Properties</label>
+			<label index="properties.miscProperties.info">according to the manufacturer or data provider</label>
+			<label index="properties.chemicalProperties">Chemical Properties</label>
+
+			<!-- labels for the certificates table's header -->
+			<label index="certificates.name">Regulation</label>
+			<label index="certificates.cert">Certificate</label>
+			<label index="certificates.cert.link">document</label>
+			<label index="certificates.country">Country</label>
+			<label index="certificates.part">Part</label>
+			<label index="certificates.remark">Remark</label>
+			<label index="certificates.valid">Valid until</label>
+
+			<label index="detailpage.category.link">Show all materials with in this category</label>
+			<label index="certificates">Certificates</label>
+			<label index="nocertificates">No certificates available.</label>
+			<label index="disclaimer">Disclaimer</label>
+			<label index="providedBy">Data Provided by</label>
+			<label index="similarMaterials">Similar Materials</label>
+			<label index="similarMaterials.showAll">Show all similar materials</label>
+			
+			<label index="externalProps.0">Further informationen </label>
+			<label index="externalProps.2">for example about </label>
+			<label index="externalProps.1">can be found here.</label>
+			
+			<label index="externalProperties.Rot Resistance">rot resistance</label>
+			<label index="externalProperties.Workability">workability</label>
+			<label index="externalProperties.Toxicity">toxicity</label>
+
+			<label index="material.copy">Create copy</label>
+			<label index="material.remove">Remove</label>
+			<label index="material.new">Create new material description</label>
+			<label index="material.new.submit">Save material description</label>
+			<label index="material.new.miscproperties">Miscellaneous properties</label>
+			<label index="material.new.category.help">The material class / category according to our taxonomy. Please select the most specific class.</label>
+			<label index="material.new.category_custom.help">Here you can note a category more specific than the your selection from our taxonomy, if necessary.</label>
+			<label index="material.new.disclaimer.help">Specific disclaimer for this material.</label>
+			<label index="material.new.otherProps.help">Other properties of that material (as keyword, e. g., "weatherproof")</label>
+			<label index="material.new.basicProperties.help">Important properties are additionally visualized in a separate area to highlight them.</label>
+			<label index="material.new.companies">Information about data deliverer, producers, and suppliers</label>
+			<label index="material.new.cert.name.placeholder">name</label>
+			<label index="material.new.cert.country.placeholder">country</label>
+			<label index="material.new.cert.part.placeholder">part</label>
+			<label index="material.new.cert.remark.placeholder">remark</label>			
+			<label index="material.new.cert.expires.placeholder">valid until</label>
+			<label index="material.new.cert.url.placeholder">URL</label>
+			<label index="material.new.type.placeholder">type</label>
+			<label index="material.new.substance.placeholder">substance / element</label>
+			<label index="material.new.remark.placeholder">remark</label>
+			<label index="material.new.success.0">The description of the material</label>
+			<label index="material.new.success.1">has successfully been added.</label>
+			<label index="material.new.workflowremark">Please note that the material description will not appear and be findable in the portal immediately but only after a processing operation.</label>
+			<label index="material.new.back">Back to the overview</label>
+			<label index="material.new.nameLanguage.type.placeholder">language</label>
+			<label index="material.new.nameAlternative.type.placeholder">according classification or naming scheme</label>
+			<label index="material.new.logo.option1">Option 1: link an image (URL)</label>
+			<label index="material.new.logo.option2">Option 2: upload an image (max 1 MB)</label>
+			<label index="material.new.value.placeholder">value</label>
+			<label index="material.new.minvalue.placeholder">min. value</label>
+			<label index="material.new.maxvalue.placeholder">max. value</label>
+			<label index="material.new.unit.placeholder">unit</label>
+			<label index="material.new.remark.placeholder">remark</label>
+			<label index="material.new.norm.placeholder">norm</label>
+			<label index="material.new.testcondition.placeholder">test conditions</label>
+			<label index="material.new.method.placeholder">method</label>
+
+			<label index="material.edit.success.1">has successfully been saved.</label>
+
+			<label index="material.list.files">Material descriptions created by you for organization</label>
+			<label index="material.list.filename">Material description file</label>
+			<label index="material.list.act">Aktionen</label>
+            <label index="material.list.nofiles">You did not create any material descriptions so far.</label>
+            <label index="material.list.nologin">No user is logged in.</label>
+            <label index="material.list.remove.confirm.header">Confirm removal of '$mat$'</label>
+            <label index="material.list.remove.confirm.text">This will delete the material description permanently. Do you want to proceed?</label>
+            <label index="material.list.copy.text">Please enter the name of the new material.</label>
+            
+   			<label index="material.errors.header">An error occurred!</label>
+   			<label index="material.errors.unknownID">An organization description with the given ID does not exist!</label>
+   			<label index="material.errors.nopermission">You have no permission to view / create / edit material descriptions for that organization.</label>
+   			<label index="material.errors.insufficientarguments">Not all required parameters have been passed.</label>
+   			
+   			
+   			<label index="supplement.list.files">Scientific supplemental data added by you for organization</label>
+			<label index="supplement.list.filename">Scientific supplements</label>
+            <label index="supplement.list.copy.text">Please enter the name of the new scientific supplemental data.</label>
+            <label index="supplement.list.nofiles">You did not create any scientific supplemental data so far.</label>
+   			<label index="supplement.new">Add new scientific supplemental data</label>
+			<label index="supplement.new.submit">Save supplemental data</label>
+			<label index="supplement.new.diagrams">Graphs</label>
+			<label index="supplement.new.success.0">The scientific supplemental data</label>
+			<label index="supplement.label">material supplemented by these scientific data</label>
+			<label index="material.new.referenceID.help">State the name of the material in the Material Hub, that is supplemented by the scientific data. In case the material is not yet part of the Material Hub, please provide us with the data via upload or using the material editor.</label>
+			<label index="material.new.name.help">Please enter a name that describes the context in which the data was gathered, e.g. "Research on Erosion Behavior of Thermal Barrier Coatings"</label>
+			<label index="material.new.citationUrl.help">URL of the source publication. May be a website, PDF, DOI resolver link etc.</label>
+			<label index="material.new.citation.help">Citation of the source publication of a material, at least with information about the authors, the title and the publication year. May be plain text or BibTex code.</label>
+			<label index="material.new.literature.help">Citation of further related literature. May be a plain text citation or a URL.</label>
+			<label index="material.new.involved.help">Please enter persons or organisations which supported you (e. g. by providing or coating test specimens).</label>
+			<label index="supplement.new.companies">Information about data deliverer and organisations involved in the experiment</label>
+			
+			<label index="supplement.diagramType">Diagram type</label>
+			<label index="supplement.diagramCaption">Caption</label>
+			<label index="supplement.diagramCaptionYAxis">Caption Y axis</label>
+			<label index="supplement.diagramCaptionXAxis">Caption X axis</label>
+			<label index="supplement.diagramFile">CSV file</label>
+
+       </languageKey>
+
+       <languageKey index="de" type="array">
+			<label index="and">und</label>
+			<label index="totop">Nach oben scrollen</label>
+			<label index="placeholder">Platzhalter</label>
+			<label index="abort">Abbrechen</label>
+			<label index="edit">Bearbeiten</label>
+        	<label index="preview">Vorschau anzeigen</label>
+			<label index="add">Hinzufügen</label>
+			<label index="remove">Entfernen</label>
+			
+        	<label index="exception.detailNoresult">Kein Material mit der angeforderten ID gefunden!</label>
+			
+			<label index="noscript">Bitte aktivieren Sie Javascript, um Material Hub mit dem vollen Funktionsumfang benutzen zu können.</label>
+			<label index="unsupportedBrowser">Ihr Browser wird nicht vom Material Hub unterstützt! Das kann zu unerwarteter Darstellung führen und den Funktionsumfang einschränken.</label>
+			
+            <label index="results">Suchergebnisse</label>
+            <label index="resultspage.result.blurred">Daten wurden auf Wunsch des Herstellers ausgeblendet.</label>
+            <label index="resetQuery">Suche zurücksetzen</label>
+			<label index="welcomeHeader">Willkommen im Material Hub!</label>
+			<label index="welcomeBody">Mühelos und gebührenfrei durchsuchen Sie im Material Hub Informationsquellen aus Industrie und Forschung zu vielfältigen Materialklassen. Sobald Sie das passende Material für Ihren Anwendungsfall gefunden haben, können Sie das Unternehmen oder Forschungsinstitut direkt kontaktieren.</label>
+			<label index="selectAnOption">Wählen Sie Optionen...</label>
+			<label index="relevance">Erkläre Relevanz</label>
+			<label index="relevanceIndicator">Relevant weil Treffer in folgenden Feldern:</label>
+			<label index="expandCollapseAll">Alle Gruppen zusammen- / aufklappen</label>
+			<label index="showFacets">Facetten anzeigen</label>
+			<label index="configure">Einstellungen</label>
+			
+
+			<label index="noresults.heading">Leider keine Ergebnisse gefunden!</label>
+			<label index="noresults.1">Bitte...</label>
+			<label index="noresults.2">... versuchen Sie es mit einer </label>
+			<label index="noresults.2.1">neuen Anfrage.</label>
+			<label index="noresults.3">... verwenden Sie den </label>
+			<label index="noresults.3.1">Assistenten.</label>
+			<label index="noresults.4">... nutzen Sie die </label>
+			<label index="noresults.4.1">Materialklassen</label>
+			<label index="noresults.4.2">oder</label>
+			<label index="noresults.4.3">Anwendungsfälle</label>
+			<label index="noresults.4.4"> als Einstiegspunkt.</label>
+			<label index="noresults.5">... suchen Sie gezielt nach Ihnen bekannten </label>
+			<label index="noresults.5.1">Herstellern oder Zulieferern.</label>
+			<label index="noresults.6">... versuchen Sie es mit Ihrer </label>
+			<label index="noresults.6.1">Anfrage ohne Filter.</label>
+			<label index="noresults.7">... beginnen Sie Ihre Recherche </label>
+			<label index="noresults.7.1">ausgehend von Regularien und Standards.</label>
+			
+			<label index="similarSearch.heading">Ähnlichkeitssuche</label>
+			<label index="similarSearch.expl">Wählen Sie die Materialeigenschaften aus, anhand derer ähnliche Materialien identifiziert werden sollen. Durch Hinzufügen weiterer Eigenschaften sowie Anpassen der jeweiligen Abweichung lässt sich die Ergebnisliste beeinflussen. Hier wird eine Auswahl der ähnlichsten Materialien angezeigt. Um die gesamte Liste zu erhalten, drücken Sie auf die Schaltfläche "Vollständige Ergebnisliste anzeigen".</label>
+			<label index="similarSearch.prop">Materialeigenschaften</label>
+			<label index="similarSearch.addprop">Materialeigenschaft hinzufügen</label>
+			<label index="similarSearch.dev">Abweichung</label>
+			<label index="similarSearch.searchAll">Vollständige Ergebnisliste anzeigen</label>
+			
+			<label index="feedback.text">Geben Sie uns gern Feedback zum Material Hub.</label>
+			<label index="feedback.contactform">Kontaktformular</label>
+			<label index="feedback.button">Fragebogen zur Gebrauchstauglichkeit</label>
+			
+			<label index="landingpage.heading">Materialien</label>
+			<label index="landingpage.categories">Materialkategorien</label>
+			<label index="landingpage.categories.relevant">Von Ihnen häufig betrachtet</label>
+			<label index="landingpage.categories.classification">Klassifikation</label>
+			<label index="landingpage.appareas">Anwendungsgebiete</label>
+			<label index="landingpage.appareas.relevant">Ihre Anwendungsgebiete</label>
+			<label index="landingpage.appareas.overview">Alle Anwendungsgebiete</label>
+			<label index="landingpage.history">Recherche fortsetzen</label>
+			<label index="landingpage.history.trackedQueries">Ihre letzten Suchanfragen</label>
+			<label index="landingpage.history.savedQueries">Ihre gespeicherten Suchanfragen</label>
+			<label index="landingpage.history.bookmarks">Ihre Lesezeichen</label>
+			<label index="landingpage.history.pagevisits">Ihre betrachteten Materialien</label>
+			
+			<label index="landingpage.newpartners">Partner des Material Hub</label>
+			<label index="landingpage.newpartners.link">Zu den Materialien von</label>
+			
+			<label index="landingpage.newpartners.text1">Unten finden Sie eine zufällige Auswahl unserer Partner.</label>
+			<label index="landingpage.newpartners.showAll">Alternativ können Sie sich alle Partner anzeigen lassen.</label>
+			<label index="landingpage.newpartners.text2"></label>
+			
+			<label index="landingpage.symbolicimage">Symbolbild</label>
+			
+			<label index="landingpage.teaser.materials">Materialien</label>
+			<label index="landingpage.teaser.categories">Materialklassen</label>
+			<label index="landingpage.teaser.usecases">Anwendungsfälle</label>
+			<label index="landingpage.teaser.companies">Firmen und Institute</label>
+			<label index="landingpage.teaser.regulations">Regularien</label>
+			
+			<label index="wizard.heading">Rechercheassistent</label>
+			<label index="wizard.welcomeBody">Sind Sie sich unsicher, wie sie ein passendes Material finden? Kein Problem: Der ASSISTENT unterstützt Sie bei der Materialrecherche. Beantworten Sie einfach eine oder mehrere der folgenden Fragen.</label>
+			<label index="wizard.chooseClasses">Auswahl von Materialklassen</label>
+			<label index="wizard.chooseAppAreas">Auswahl von Anwendungsfällen</label>
+			<label index="wizard.chooseSimMat">Auswahl von ähnlichen Werkstoffen</label>
+			<label index="wizard.defineReqs">Definition weiterer Anforderungen</label>
+			
+			<label index="supplements.header">Ergänzende wissenschaftliche Daten</label>
+			<label index="supplements.referencedMaterials">Weitere am Versuchsaufbau beteiligte Materialien</label>
+			<label index="supplements.toMaterial">Zu Material</label>
+			<label index="supplements.source">Quelle</label>
+			<label index="supplements.furtherReading">Weitere Literatur</label>
+			<label index="supplements.partnerDetails">Mehr Details</label>
+			<label index="supplements.involved">Beteiligte</label>
+			<label index="supplements.involved.type.coating">Beschichtung</label>
+			<label index="supplements.involved.type.additive manifacturing">Additive Fertigung</label>
+			
+			<label index="partnerpage.link">Zu den Materialien von</label>
+			
+			<label index="extended Search">zur erweiterten Suche</label>
+			<label index="basic Search">zur einfachen Suche</label>
+			
+			<label index="saveQuery">Suchanfrage speichern</label>
+			<label index="exportResults">Ergebnisse exportieren (CSV)</label>
+			<label index="printResults">Ergebnisse drucken</label>
+			<label index="showAll">Alle anzeigen...</label>
+			<label index="show">Zeige</label>
+			<label index="more">weitere</label>
+			<label index="noProducer">Keine Angaben zum Hersteller</label>
+			
+			<label index="properties.fields.name">Name</label>
+			<label index="properties.fields.value">Wert</label>
+			<label index="properties.fields.unit">Einheit</label>
+			<label index="properties.fields.temperature">Temperatur</label>
+			<label index="properties.fields.method">Messverfahren und -bedingungen</label>
+			<label index="properties.fields.nominal">Sollbereich</label>
+			
+			<label index="properties.physicalProperties">Physikalische Eigenschaften</label>
+			<label index="properties.physicalProperties.electrical">Elektrische und magnetische Eigenschaften</label>
+			<label index="properties.physicalProperties.mechanical">Mechanische Eigenschaften</label>
+			<label index="properties.physicalProperties.thermal">Thermische Eigenschaften</label>
+			<label index="nophysicalProperties">Für dieses Material sind keine physikalischen Eigenschaften hinterlegt!</label>
+			<label index="properties.miscProperties">Wichtige Eigenschaften</label>
+			<label index="properties.miscProperties.info">laut Hersteller bzw. Datenanbieter</label>
+			<label index="properties.chemicalProperties">Chemische Eigenschaften</label>
+			
+			<!-- labels for the certificates table's header -->
+			<label index="certificates.name">Regularium</label>
+			<label index="certificates.cert">Prüfzeugnis</label>
+			<label index="certificates.cert.link">Dokument</label>
+			<label index="certificates.country">Land</label>
+			<label index="certificates.part">Bauteil</label>
+			<label index="certificates.remark">Bemerkungen</label>
+			<label index="certificates.valid">Gültig bis</label>
+			
+			<label index="producer">Hersteller</label>
+			<label index="producer.website">Webseite</label>
+			<label index="producer.website">Webseite</label>
+			<label index="producer.writeMail">Anfrage per E-Mail</label>
+			<label index="producer.materialPage">Materialbeschreibung beim Hersteller</label>
+			<label index="supplier">Händler</label>
+			<label index="yes">Ja</label>
+			<label index="no">Nein</label>
+			<label index="unlimited">unbegrenzt</label>
+			<label index="shortterm">kurzzeitig</label>
+			<label index="substance">Substanz</label>
+
+			<label index="detailpage.category.link">Zeige alle Materialien dieser Kategorie</label>
+			<label index="certificates">Freigaben</label>
+			<label index="nocertificates">Keine Freigaben vorhanden.</label>
+			<label index="disclaimer">Haftungsausschluss</label>
+			<label index="providedBy">Daten bereitgestellt von</label>
+			<label index="similarMaterials">Ähnliche Materialien</label>
+			<label index="similarMaterials.showAll">Alle ähnlichen Materialien anzeigen</label>
+			
+			<label index="externalProps.0">Weitere Informationen </label>
+			<label index="externalProps.2">zum Beispiel zu </label>
+			<label index="externalProps.1">finden Sie hier.</label>
+			
+			<label index="externalProperties.Rot Resistance">Dauerhaftigkeit</label>
+			<label index="externalProperties.Workability">Verarbeitbarkeit</label>
+			<label index="externalProperties.Toxicity">Toxizität</label>
+			
+			<label index="material.copy">Kopie erstellen</label>
+			<label index="material.remove">Löschen</label>
+			<label index="material.new.miscproperties">Sonstige Eigenschaften</label>
+			<label index="material.new">Neue Materialbeschreibung hinzufügen</label>
+			<label index="material.new.submit">Materialbeschreibung speichern</label>
+			<label index="material.new.category.help">Bitte verwenden Sie die Taxonomie des Material Hub und geben Sie die spezifischste Kategorie an.</label>
+			<label index="material.new.category_custom.help">Hier können Sie bei Bedarf eine Materialkategorie nennen, die noch spezifischer ist als die aus der Taxonomie ausgewählte.</label>
+			<label index="material.new.disclaimer.help">Spezifischer Haftungsausschluss für dieses Material.</label>
+			<label index="material.new.otherProps.help">Weitere Eigenschaften des Materials (als Schlagwort, z. B. "witterungsbeständig")</label>
+			<label index="material.new.applicationArea.help">Anwendungsgebiete des Materials, z.B. Automobilbau</label>
+			<label index="material.new.usecases.help">Einsatzbeispiele des Materials, z.B. Sicherheitsgurte</label>
+			<label index="material.new.basicProperties.help">Wichtige Eigenschaften werden zusätzlich in einem separaten Bereich auf der Detailseite genannt und hervorgehoben.</label>
+			<label index="material.new.companies">Angaben zu Datenanbieter, Herstellern und Händlern</label>
+			<label index="material.new.cert.name.placeholder">Name</label>
+			<label index="material.new.cert.country.placeholder">Land</label>
+			<label index="material.new.cert.part.placeholder">Bauteil</label>
+			<label index="material.new.cert.remark.placeholder">Bemerkung</label>			
+			<label index="material.new.cert.expires.placeholder">Gültig bis</label>
+			<label index="material.new.cert.url.placeholder">URL</label>
+			<label index="material.new.dataDeliverer.help">Als Datenlieferant eines Materials können Sie nur Organisationen auswählen, die Sie selbst angelegt haben.</label>
+			<label index="material.new.nameLanguage.type.placeholder">Sprache</label>
+			<label index="material.new.nameAlternative.type.placeholder">zugehörige Klassifikation oder Namensschema, z.B. Stahlschlüssel.</label>
+			<label index="material.new.type.placeholder">Typ</label>
+			<label index="material.new.substance.placeholder">Substanz / Element</label>
+			<label index="material.new.remark.placeholder">Bemerkung</label>
+
+			<label index="material.new.logo.option1">Option 1: Bild verlinken (URL)</label>
+			<label index="material.new.logo.option2">Option 2: Bild hochladen (maximal 4 MB)</label>
+			<label index="material.new.success.0">Die Beschreibung des Materials</label>
+			<label index="material.new.success.1">wurde erfolgreich hinzugefügt.</label>
+			<label index="material.new.workflowremark">Bitte beachten Sie, dass die Materialbeschreibung nicht sofort sondern erst nach einem Verarbeitungsvorgang im Portal erscheint und auffindbar sein wird.</label>
+			<label index="material.new.back">Zurück zur Übersicht</label>
+			<label index="material.new.value.placeholder">Wert</label>
+			<label index="material.new.unit.placeholder">Einheit</label>
+			<label index="material.new.remark.placeholder">Bemerkung</label>
+			<label index="material.new.norm.placeholder">Norm</label>
+			<label index="material.new.testcondition.placeholder">Testbedingungen</label>
+			<label index="material.new.method.placeholder">Methode</label>
+			
+			<label index="material.edit.success.1">wurde erfolgreich gespeichert.</label>
+			
+        	<label index="material.list.files">Von Ihnen angelegte Materialbeschreibungen für Organisation</label>
+			<label index="material.list.filename">Materialbeschreibung</label>
+            <label index="material.list.nofiles">Sie haben noch keine Materialbeschreibungen erstellt.</label>
+            <label index="material.list.nologin">Es ist kein Nutzer angemeldet.</label>
+            
+            <label index="material.list.remove.confirm.header">Löschen von '$mat$' bestätigen</label>
+            <label index="material.list.remove.confirm.text">Damit wird diese Materialbeschreibung unwiederbringlich gelöscht. Möchten Sie fortfahren?</label>
+            <label index="material.list.copy.text">Geben Sie hier bitte den Namen des neuen Materials an.</label>
+            
+  			<label index="material.errors.header">Es ist ein Fehler aufgetreten!</label>
+   			<label index="material.errors.unknownID">Eine Organisation mit der gegebenen ID existiert nicht!</label>
+   			<label index="material.errors.nologin">Es ist kein Nutzer angemeldet.</label>
+   			<label index="material.errors.nopermission">Ihnen fehlen die Rechte Materialbeschreibungen dieser Organisation anzusehen / zu editieren / zu erstellen.</label>
+   			<label index="material.errors.insufficientarguments">Es wurden nicht alle erforderlichen Parameter übermittelt.</label>
+   			
+   			<label index="supplement.list.files">Von Ihnen angelegte ergänzende wissenschaftliche Daten für Organisation</label>
+			<label index="supplement.list.filename">Ergänzende wissenschaftliche Daten</label>
+            <label index="supplement.list.copy.text">Geben Sie hier bitte den Namen der neuen wissenschaftlichen Daten an.</label>
+            <label index="supplement.list.nofiles">Sie haben noch keine wissenschaftlichen Ergänzungen erstellt.</label>
+   			<label index="supplement.new">Neue ergänzende wissenschaftliche Daten hinzufügen</label>
+			<label index="supplement.new.submit">Wissenschaftliche Daten speichern</label>
+			<label index="supplement.new.diagrams">Diagramme</label>
+			<label index="supplement.new.success.0">Die ergänzenden wissenschaftlichen Daten</label>
+			<label index="supplement.label">Material, das durch diese wissenschaftlichen Daten ergänzt wird</label>
+			<label index="material.new.referenceID.help">Geben Sie hier den Namen des Materials aus dem Material Hub an, das durch die wissenschaftlichen Daten ergänzt wird. Sollte das Material noch nicht im Material Hub vorhanden sein, stellen Sie uns bitte die Daten per Upload oder Materialeditor bereit.</label>
+			<label index="material.new.name.help">Bitte geben Sie hier einen Namen ein, der den Kontext beschreibt, in dem die Daten erhoben wurden, z.B. "Untersuchung zum Erosionsverhalten von Wärmedämmschichten".</label>
+			<label index="material.new.citationUrl.help">URL der zugrundeliegenden Publikation, z.B. ein Verweis auf eine Webseite, ein PDF, einen DOI etc.</label>
+			<label index="material.new.citation.help">Zitation der zugrundeliegenden Publikation, mindestens mit Angaben zu den Autoren, dem Titel und dem Veröffentlichungsjahr. Kann rein textuell oder als BibTex-Code erfolgen.</label>
+			<label index="material.new.literature.help">Zitation weiterer verwandter Literatur. Dies kann eine textuelle Angabe sein oder eine URL.</label>
+			<label index="material.new.involved.help">Geben Sie hier bitte beteiligte Personen oder Organisationen an, von denen Sie Unterstützung erhalten haben, z. B. ein Dienstleister, der Probekörper erzeugt oder beschichtet hat).</label>
+			<label index="supplement.new.companies">Angaben zu Datenanbieter und am Experiment beteiligten Organisationen</label>
+			
+			<label index="supplement.diagramType">Diagrammart</label>
+			<label index="supplement.diagramCaption">Beschriftung</label>
+			<label index="supplement.diagramCaptionYAxis">Beschriftung Y-Achse</label>
+			<label index="supplement.diagramCaptionXAxis">Beschriftung X-Achse</label>
+			<label index="supplement.diagramFile">CSV-Datei</label>
+
+        </languageKey>
+    </data>
+</T3locallang>

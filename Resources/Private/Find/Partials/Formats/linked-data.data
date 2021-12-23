@@ -1,0 +1,360 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+
+<f:comment>
+	Create triples for the documents passed.
+	
+</f:comment>
+<s:linkedData.container
+	prefixes="{
+		xsd:'http://www.w3.org/2001/XMLSchema#',
+		rdf:'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+		rdfs:'http://www.w3.org/2000/01/rdf-schema#',
+		owl:'http://www.w3.org/2002/07/owl#',
+		foaf:'http://xmlns.com/foaf/0.1/',
+		skos:'http://www.w3.org/2004/02/skos/core#',
+		gnd:'http://d-nb.info/gnd/',
+		dbpedia-ontology:'http://dbpedia.org/ontology/',
+		role:'http://purl.org/vocab/participation/schema#',
+		prov:'http://www.w3.org/ns/prov#',
+		geo:'http://www.w3.org/2003/01/geo/wgs84_pos#',
+		so:'http://schema.org/',
+		mahu:'https://www.materialhub.de/schema#'
+	}"
+	format="{LDFormat}"
+>
+
+	<f:for each="{documents}" as="doc">
+	<f:alias map="{normdoc:'{m:HideMaterialProperties(material:doc)}'}">
+	<f:alias map="{document:'{m:GetNormalizedMaterial(material:normdoc)}'}">
+	
+		<f:alias map="{
+			uri: '{f:render(partial:\'mahu/Permalink\', arguments:\'{id:document.id}\')}'
+		}">
+			<s:linkedData.item subject="{uri}" predicate="rdf:type" object="mahu:Material"/>
+			<s:linkedData.item subject="{uri}" predicate="rdfs:label" object="{document.name}"/>
+			<s:linkedData.item subject="{uri}" predicate="mahu:hasName" object="{document.name}"/>
+			<s:linkedData.item subject="{uri}" predicate="so:name" object="{document.name}"/>
+			<s:linkedData.item subject="{uri}" predicate="mahu:hasId" object="{document.id}"/>
+			<s:linkedData.item subject="{uri}" predicate="mahu:hasCategory" object="{document.category}"/>
+			<s:linkedData.item subject="{uri}" predicate="so:url" object="{uri}"/>
+
+			<f:if condition="{document.dataSheetUrl}">
+				<s:linkedData.item subject="{uri}" predicate="mahu:hasDataSheet" object="{document.dataSheetUrl}"/>
+			</f:if>
+			
+			<f:if condition="{document.imageUrl}">
+				<s:linkedData.item subject="{uri}" predicate="mahu:hasImage" object="{document.imageUrl}"/>
+			</f:if>
+	
+			<f:if condition="{document.freeText}">
+				<s:linkedData.item subject="{uri}" predicate="mahu:hasDescription" object="{document.freeText}"/>
+			</f:if>
+		
+			<f:if condition="{document.applicationArea}">
+				<s:linkedData.item subject="{uri}" predicate="mahu:hasApplicationArea" object="{document.applicationArea}"/>
+			</f:if>
+
+			<f:if condition="{document.usecases}">
+				<s:linkedData.item subject="{uri}" predicate="mahu:hasUsecases" object="{document.usecases}"/>
+			</f:if>
+
+			<f:alias map="{micPropertiesAvailable:'{m:HasValues(material:document,properties:schema.miscProperties)}'}">
+			<f:if condition="{micPropertiesAvailable}">
+				<f:for each="{schema.miscProperties}" as="prop" key="fieldName" iteration="iter">
+					<f:if condition="{prop.renderedSeparately}"><f:else> 
+					<v:variable.set name="values" value="{m:GetValue(material:document,name:prop.id,schema:schema)}" />
+					
+					<f:if condition="{values.value}">
+						<s:linkedData.item subject="{uri}" predicate="mahu:hasProperty" object="{uri}/{prop.id}{iter.index}"/>
+						<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="rdf:type" object="mahu:MaterialProperty"/>
+						<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="rdfs:label" object="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:{prop.id}')}"/>
+						<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasName" object="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:{prop.id}')}"/>
+						<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasValue" object="{value.value}"/>
+					</f:if>
+					</f:else></f:if>
+				</f:for>
+			</f:if>
+			</f:alias>
+
+			<f:if condition="{m:HasAlternativeNames(material:document)}">
+				<f:if condition="{document.nameAlternative_norm}"><f:then>
+				<f:for each="{m:GetGroupedAlternativeNames(material:document)}" as="name" key="norm" iteration="iter">
+					<s:linkedData.item subject="{uri}" predicate="mahu:hasProperty" object="{uri}/alternativeName{iter.index}"/>
+					<s:linkedData.item subject="{uri}/alternativeName{iter.index}" predicate="rdf:type" object="mahu:Naming"/>
+					<s:linkedData.item subject="{uri}/alternativeName{iter.index}" predicate="mahu:hasValue" object="{name}"/>
+					<s:linkedData.item subject="{uri}/alternativeName{iter.index}" predicate="mahu:hasNorm" object="{norm}"/>
+				</f:for>
+				</f:then><f:else>
+					<f:for each="{document.nameAlternative_value}" as="anameval"  iteration="iter">
+						<s:linkedData.item subject="{uri}" predicate="mahu:hasProperty" object="{uri}/alternativeName{iter.index}"/>
+						<s:linkedData.item subject="{uri}/alternativeName{iter.index}" predicate="rdf:type" object="mahu:Naming"/>
+						<s:linkedData.item subject="{uri}/alternativeName{iter.index}" predicate="mahu:hasValue" object="{anameval}"/>
+					</f:for>
+				</f:else></f:if>
+			
+				<f:if condition="{document.nameTrade_value}">
+					<s:linkedData.item subject="{uri}" predicate="mahu:hasTradeName" object="{document.nameTrade_value}"/>
+				</f:if>
+				<f:if condition="{document.nameAbbreviation_value}">
+					<s:linkedData.item subject="{uri}" predicate="mahu:hasAbbreviation" object="{document.nameAbbreviation_value}"/>
+				</f:if>
+				<f:if condition="{document.nameLanguage_value}">
+					<f:for each="{document.nameLanguage_value}" as="nameLang" iteration="iter">
+						<v:variable.set name="langType" value="{v:variable.get(name: 'document.nameLanguage_type.{iter.index}')}"/>
+
+						<s:linkedData.item subject="{uri}" predicate="mahu:hasProperty" object="{uri}/alternativeName{iter.index}"/>
+						<s:linkedData.item subject="{uri}/hasNameInLanguage{iter.index}" predicate="rdf:type" object="mahu:Naming"/>
+						<s:linkedData.item subject="{uri}/hasNameInLanguage{iter.index}" predicate="mahu:hasLanguage" object="{langType}"/>
+						<s:linkedData.item subject="{uri}/hasNameInLanguage{iter.index}" predicate="mahu:hasValue" object="{nameLang}"/>
+					</f:for>
+				</f:if>
+			</f:if>
+
+			<f:if condition="{document.otherProps}">
+				<s:linkedData.item subject="{uri}" predicate="mahu:hasFurtherProperty" object="{document.otherProps}"/>
+			</f:if>
+
+			<f:alias map="{physicalPropertiesAvailable:'{m:HasValues(material:document,properties:schema.properties)}'}">
+			<f:if condition="{physicalPropertiesAvailable}">
+				<f:for each="{schema.properties}" as="prop" key="fieldName" iteration="iter">
+					<v:variable.set name="values" value="{m:GetValue(material:document,name:prop.id,schema:schema)}" />
+					
+					<f:if condition="{values}">
+					
+						<s:linkedData.item subject="{uri}" predicate="mahu:hasProperty" object="{uri}/{prop.id}{iter.index}"/>
+						<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="rdf:type" object="mahu:MaterialProperty"/>
+						<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="rdfs:label" object="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.{prop.id}')}"/>
+						<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasName" object="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.{prop.id}')}"/>
+					
+						<f:for each="{values.value}" as="value" iteration="iter{iter.index}">
+							<v:variable.set name="idx" value="{v:variable.get(name:'iter{iter.index}.index')}" />
+							<v:variable.set name="type" value="{v:variable.get(name:'document.{prop.id}_type')}" />
+							
+							<f:if condition="{value}!='NaN'">
+							<f:then>
+								<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasValue" object="{value}"/>
+								
+								<f:if condition="{values.unit}">
+									<f:if condition="s:data.isArray(subject:'{values.unit}')">
+										<f:then>
+											<v:variable.set name="unit" value="{v:variable.get(name: 'values.unit.{idx}')}"/>
+											<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasUnit" object="{unit}"/>
+										</f:then>
+										<f:else>
+										<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasUnit" object="{values.unit}"/>
+										</f:else>
+									</f:if>
+								</f:if>
+								
+								<f:if condition="{values.remark}">
+									<v:variable.set name="remark" value="{v:variable.get(name: 'values.remark.{idx}')}"/>
+									<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasRemark" object="{remark}"/>
+								</f:if>
+							</f:then>
+							<f:else>
+								<f:if condition="{values.remark}">
+									<v:variable.set name="remark" value="{v:variable.get(name: 'values.remark.{idx}')}"/>
+									<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasRemark" object="{remark}"/>
+								</f:if>
+							</f:else>
+							</f:if>
+							
+							<v:variable.set name="method" value="{v:variable.get(name: 'values.labels.{idx}')}" />
+							<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasMethod" object="{method}"/>
+						</f:for>
+					</f:if>
+				</f:for>
+			</f:if>
+			</f:alias>
+			
+			<f:alias map="{chemicalPropertiesAvailable:'{m:HasValues(material:document,properties:schema.chemicalProperties,skipSeparatelyRenderedProperties:false)}'}">
+			<f:if condition="{chemicalPropertiesAvailable}">
+				<f:if condition="{s:logic.or(conditions:'{
+									0:\"{document.resistanceChemical_description}\",
+									1:\"{document.resistanceChemical_substance}\"
+								}')}">
+			
+						<f:if condition="{document.resistanceChemical_description}">
+							<s:linkedData.item subject="{uri}" predicate="mahu:hasResistance" object="{uri}/resistance"/>
+							<s:linkedData.item subject="{uri}/resistance" predicate="rdf:type" object="mahu:Resistance"/>
+							<s:linkedData.item subject="{uri}/resistance" predicate="mahu:hasDescription" object="{document.resistanceChemical_description}"/>
+						</f:if>
+						<f:if condition="{document.resistanceChemical_substance}">
+							<f:for each="{document.resistanceChemical_substance}" as="subst" key="fieldName" iteration="iter">
+								<v:variable.set name="value" value="{v:variable.get(name: 'document.resistanceChemical_value.{iter.index}')}"/>
+								<v:variable.set name="remark" value="{v:variable.get(name: 'document.resistanceChemical_remark.{iter.index}')}"/>
+								<s:linkedData.item subject="{uri}" predicate="mahu:hasResistance" object="{uri}/resistance{iter.index}"/>
+								<s:linkedData.item subject="{uri}/resistance{iter.index}" predicate="rdf:type" object="mahu:Resistance"/>
+								<s:linkedData.item subject="{uri}/resistance{iter.index}" predicate="rdfs:label" object="{subst}"/>
+								<s:linkedData.item subject="{uri}/resistance{iter.index}" predicate="mahu:hasName" object="{subst}"/>
+								<s:linkedData.item subject="{uri}/resistance{iter.index}" predicate="mahu:hasValue" object="{value}"/>
+								<s:linkedData.item subject="{uri}/resistance{iter.index}" predicate="mahu:hasSubstance" object="{substance}"/>
+								<s:linkedData.item subject="{uri}/resistance{iter.index}" predicate="mahu:hasRemark" object="{remark}"/>
+							</f:for>
+					</f:if>
+				</f:if>
+			
+				<f:if condition="{m:HasValues(material:document,properties:schema.chemicalProperties,skipSeparatelyRenderedProperties:'true')}">
+				<f:for each="{schema.chemicalProperties}" as="prop" key="fieldName" iteration="iter">
+					<f:if condition="{prop.renderedSeparately}"><f:else>
+					<v:variable.set name="values" value="{m:GetValue(material:document,name:prop.id,schema:schema)}" />
+					
+					<f:if condition="{values}">
+						<f:for each="{values.value}" as="value"  iteration="iter{iter.index}">
+							<v:variable.set name="idx" value="{v:variable.get(name:'iter{iter.index}.index')}" />
+							<v:variable.set name="type" value="{v:variable.get(name:'document.{prop.id}_type')}" />
+							
+							<s:linkedData.item subject="{uri}" predicate="mahu:hasProperty" object="{uri}/{prop.id}{iter.index}"/>
+							<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="rdf:type" object="mahu:MaterialProperty"/>
+							<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="rdfs:label" object="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.{prop.id}')}"/>
+							<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasName" object="{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.{prop.id}')}"/>
+							
+							<f:if condition="{value}!='NaN'">
+								<f:then>
+									<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasValue" object="{value}"/>
+									
+									<f:if condition="{values.unit}">
+										<f:if condition="s:data.isArray(subject:'{values.unit}')">
+											<f:then>
+												<v:variable.set name="unit" value="{v:variable.get(name: 'values.unit.{idx}')}"/>
+												<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasUnit" object="{unit}"/>
+											</f:then>
+											<f:else>
+											<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasUnit" object="{values.unit}"/>
+											</f:else>
+										</f:if>
+									</f:if>
+									
+									<f:if condition="{values.remark}">
+										<v:variable.set name="remark" value="{v:variable.get(name: 'values.remark.{idx}')}"/>
+										<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasRemark" object="{remark}"/>
+									</f:if>
+								</f:then>
+								<f:else>
+									<f:if condition="{values.remark}">
+										<v:variable.set name="remark" value="{v:variable.get(name: 'values.remark.{idx}')}"/>
+										<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasRemark" object="{remark}"/>
+									</f:if>
+								</f:else>
+							</f:if>
+								
+							<v:variable.set name="method" value="{v:variable.get(name: 'values.labels.{idx}')}" />
+							<s:linkedData.item subject="{uri}/{prop.id}{iter.index}" predicate="mahu:hasMethod" object="{method}"/>
+						</f:for>
+					</f:if>
+					</f:else></f:if>
+				</f:for>
+				</f:if>
+			</f:if>
+			</f:alias>
+			
+			<f:if condition="{document.compositionChemical_value}">
+				<f:for each="{document.compositionChemical_substance}" as="element" iteration="iter">
+					<v:variable.set name="value" value="{v:variable.get(name: 'document.compositionChemical_value.{iter.index}')}"/>
+					
+					<s:linkedData.item subject="{uri}" predicate="mahu:hasChemicalComposition" object="{uri}/chemicalComposition_{iter.index}"/>
+					<s:linkedData.item subject="{uri}/chemicalComposition_{iter.index}" predicate="rdf:type" object="mahu:ChemicalComposition"/>
+					<s:linkedData.item subject="{uri}/chemicalComposition_{iter.index}" predicate="rdfs:label" object="{element}"/>
+					<s:linkedData.item subject="{uri}/chemicalComposition_{iter.index}" predicate="mahu:hasSubstance" object="{element}"/>
+
+					<s:linkedData.item subject="{uri}/chemicalComposition_{iter.index}" predicate="mahu:hasValue" object="{value}"/>
+					<s:linkedData.item subject="{uri}/chemicalComposition_{iter.index}" predicate="mahu:hasUnit" object="{document.compositionChemical_unit.0}"/>
+				</f:for>
+			</f:if>
+			<f:if condition="{document.compositionCompound_value}">
+				<f:for each="{document.compositionCompound_value}" as="val" iteration="iter">
+					<v:variable.set name="type" value="{v:variable.get(name: 'document.compositionCompound_type.{iter.index}')}"/>
+					<v:variable.set name="norm" value="{v:variable.get(name: 'document.compositionCompound_norm.{iter.index}')}"/>
+					<v:variable.set name="remark" value="{v:variable.get(name: 'document.compositionCompound_remark.{iter.index}')}"/>
+					
+					<s:linkedData.item subject="{uri}" predicate="mahu:hasCompositionCompound" object="{uri}/compositionCompound_{iter.index}"/>
+					<s:linkedData.item subject="{uri}/compositionCompound_{iter.index}" predicate="rdf:type" object="mahu:CompositionCompound"/>
+					<s:linkedData.item subject="{uri}/compositionCompound_{iter.index}" predicate="mahu:hasType" object="{type}"/>
+					<s:linkedData.item subject="{uri}/compositionCompound_{iter.index}" predicate="mahu:hasValue" object="{val}"/>
+					<s:linkedData.item subject="{uri}/compositionCompound_{iter.index}" predicate="mahu:hasRemark" object="{remark}"/>
+				</f:for>
+			</f:if>
+			
+			<f:for each="{document.cert_name}" as="certName" iteration="iter">
+				<s:linkedData.item subject="{uri}" predicate="mahu:hasCertificate" object="{uri}/certificate{iter.index}"/>
+				<s:linkedData.item subject="{uri}/certificate{iter.index}" predicate="rdf:type" object="mahu:Certificate"/>
+				<s:linkedData.item subject="{uri}/certificate{iter.index}" predicate="rdfs:label" object="{certName}"/>
+				<s:linkedData.item subject="{uri}/certificate{iter.index}" predicate="mahu:hasName" object="{certName}"/>
+			
+				<v:variable.set name="country" value="{v:variable.get(name: 'document.cert_country.{iter.index}')}" />
+				<v:variable.set name="part" value="{v:variable.get(name: 'document.cert_part.{iter.index}')}" />
+				<v:variable.set name="remark" value="{v:variable.get(name: 'document.cert_remark.{iter.index}')}" />
+				<v:variable.set name="certURL" value="{v:variable.get(name: 'document.cert_url.{iter.index}')}" />
+				<v:variable.set name="certLink" value="{m:GetCertificateLink(certName: certName)}" />
+				<v:variable.set name="certExpires" value="{v:variable.get(name: 'document.cert_expires.{iter.index}')}" />
+				
+				<f:if condition="{certLink}">
+					<s:linkedData.item subject="{uri}/certificate{iter.index}" predicate="mahu:hasDescription" object="{certLink.uri}"/>
+				</f:if>
+				<f:if condition="{certURL}">
+					<s:linkedData.item subject="{uri}/certificate{iter.index}" predicate="mahu:hasURL" object="{certURL}"/>
+				</f:if>
+				<f:if condition="{country}!='undefined'">
+					<s:linkedData.item subject="{uri}/certificate{iter.index}" predicate="mahu:inCountry" object="{country}"/>
+				</f:if>
+				<f:if condition="{part}!='undefined'">
+					<s:linkedData.item subject="{uri}/certificate{iter.index}" predicate="mahu:onPart" object="{part}"/>
+				</f:if>
+				<f:if condition="{remark}!='undefined'">
+					<s:linkedData.item subject="{uri}/certificate{iter.index}" predicate="mahu:hasRemark" object="{remark}"/>
+				</f:if>
+				<f:if condition="{certExpires}">
+					<s:linkedData.item subject="{uri}/certificate{iter.index}" predicate="mahu:validUntil" object="{certExpires}"/>
+				</f:if>
+			</f:for>
+			
+			
+			<f:if condition="{document.producerID}">
+				<s:data.newArray
+					name="linkArguments"
+					keys="{0: 'tx_mahupartners_mahupartners[id]', 1:'tx_mahupartners_mahupartners[action]',2:'tx_mahupartners_mahupartners[controller]'}"
+					values="{
+						0: '{document.producerID}',
+						1: 'detail',
+						2: 'Partner'
+					}"
+					omitEmptyFields="1">
+				<s:linkedData.item subject="{uri}" predicate="mahu:hasProducer" object="{f:uri.page(absolute:'true',pageUid:'{settings.partnerPageID}',additionalParams:'{linkArguments}')}"/>				
+				</s:data.newArray>
+			</f:if>
+			
+			<f:if condition="{document.supplierID}">
+				<s:data.newArray
+					name="linkArguments"
+					keys="{0: 'tx_mahupartners_mahupartners[id]', 1:'tx_mahupartners_mahupartners[action]',2:'tx_mahupartners_mahupartners[controller]'}"
+					values="{
+						0: '{document.supplierID}',
+						1: 'detail',
+						2: 'Partner'
+					}"
+					omitEmptyFields="1">
+				<s:linkedData.item subject="{uri}" predicate="mahu:hasSupplier" object="{f:uri.page(absolute:'true',pageUid:'{settings.partnerPageID}',additionalParams:'{linkArguments}')}"/>
+				</s:data.newArray>
+			</f:if>
+			
+			<f:if condition="{document.dataDelivererID}">
+				<s:data.newArray
+					name="linkArguments"
+					keys="{0: 'tx_mahupartners_mahupartners[id]', 1:'tx_mahupartners_mahupartners[action]',2:'tx_mahupartners_mahupartners[controller]'}"
+					values="{
+						0: '{document.dataDelivererID}',
+						1: 'detail',
+						2: 'Partner'
+					}"
+					omitEmptyFields="1">
+					<s:linkedData.item subject="{uri}" predicate="mahu:hasDataDeliverer" object="{f:uri.page(absolute:'true',pageUid:'{settings.partnerPageID}',additionalParams:'{linkArguments}')}"/>
+				</s:data.newArray>
+			</f:if>
+
+		</f:alias>
+	</f:alias>
+	</f:alias>
+	</f:for>
+</s:linkedData.container>

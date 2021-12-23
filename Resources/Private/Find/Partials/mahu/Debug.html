@@ -1,0 +1,115 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+<div class="row" id="debugArea">
+	<a class="no-change"><i id="debugExpander" class="fas fa-3x fa-bug collapsed"></i></a>
+	
+	<div id="debugContent" class="collapsed" style="display:none">
+		<f:if condition="{results.query.query}">
+		<div class="debug">
+			<h4>Query</h4>
+			<pre><f:format.raw>{results.query.query}</f:format.raw></pre>
+		</div>
+		</f:if>
+	
+		<div class="debug">
+			<h4 class="box">Timing</h4>
+			<div>
+				<span>Gesamtlaufzeit im TYPO3 (ohne Rendering): {timing.BEFORE_RENDER}&thinsp;ms</span>
+				
+				<table class="propertiesTable">
+					<tbody>
+					<f:for each="{timing}" as="val" key="key">
+						<tr>
+						<td>{key}</td><td>{val}&thinsp;ms</td>
+						</tr>
+					</f:for>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<f:if condition="{arguments}">
+		<div class="debug">
+			<h4 class="box">Request arguments</h4>
+			<table class="propertiesTable">
+				<thead><tr><td>Eigenschaft</td><td>Wert</td></tr></thead>
+				<tbody>
+				<f:for each="{arguments}" as="value" key="field">
+					<tr>
+						<td>{field}</td>
+						<td><f:if condition="s:data.isArray(subject:'{value}')"><f:then><s:format.json data="{value}"/></f:then><f:else>{value}</f:else></f:if></td>
+					</tr>
+				</f:for>
+				</tbody>
+			</table>
+		</div>
+		</f:if>
+		
+		<f:if condition="{document}">
+		<div class="debug">
+			<h4 class="box">Material Descriptor from SOLR</h4>
+			<table class="propertiesTable">
+				<thead><tr><td>Eigenschaft</td><td>Wert</td></tr></thead>
+				<tbody>
+				<f:for each="{document}" as="value" key="field">
+					<tr>
+						<td>{field}</td>
+						<td><f:if condition="s:data.isArray(subject:'{value}')"><f:then><s:format.json data="{value}"/></f:then><f:else>{value}</f:else></f:if></td>
+					</tr>
+				</f:for>
+				</tbody>
+			</table>
+		</div>
+		</f:if>
+		
+		<f:if condition="{config}">
+		<div class="debug">
+			<h4 class="box">Konfiguration</h4>
+			<table class="propertiesTable">
+				<thead><tr><td>Eigenschaft</td><td>Wert</td></tr></thead>
+				<tbody>
+					<f:for each="{config}" as="val" key="key">
+						<tr>
+						<td>{key}</td><td><s:format.json data="{val}"/></td>
+						</tr>
+					</f:for>
+				</tbody>
+			</table>
+		</div>
+		</f:if>
+
+		<f:if condition="{settings}">
+		<div class="debug">
+			<h4 class="box">Settings</h4>
+			<table class="propertiesTable" style="word-wrap:break">
+				<thead><tr><td>Eigenschaft</td><td>Wert</td></tr></thead>
+				<tbody>
+					<f:for each="{settings}" as="val" key="key">
+						<f:if condition="{key}!='schema'">
+						<tr>
+						<td>{key}</td><td><s:format.json data="{val}"/></td>
+						</tr>
+						</f:if>
+					</f:for>
+				</tbody>
+			</table>
+		</div>
+		</f:if>
+
+		
+		<div class="debug">
+			<h4 class="box">Page-Info</h4>
+			<table class="propertiesTable">
+				<thead><tr><td>Eigenschaft</td><td>Wert</td></tr></thead>
+				<tbody>
+				<f:for each="{v:page.info()}" as="value" key="field">
+					<tr>
+						<td>{field}</td>
+						<td>{value}</td>
+					</tr>
+				</f:for>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

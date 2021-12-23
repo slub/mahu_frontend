@@ -1,0 +1,185 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+<f:comment>
+	Creates a table of material properties as configured in variable settings.mahu.schema.properties.
+	
+	First we evaluate if at least one property is set. If true, the table is rendered, otherwise a 
+	textual hint appears. 
+</f:comment>
+
+<f:alias map="{physicalPropertiesAvailable:'{m:HasValues(material:document,properties:settings.mahu.schema.properties)}',hnrv:'{m:HasNominalRangeValues(material:document,properties:settings.mahu.schema.properties)}'}">
+<f:if condition="{physicalPropertiesAvailable}">
+	<f:if condition="{language}">
+		<f:then/>
+		<f:else>
+			<v:variable.set name="language" value="en" />
+		</f:else>
+	</f:if>
+
+	<f:if condition="{embedded}">
+	<f:then>
+	<h4>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.physicalProperties')}</h4>
+	</f:then>
+	<f:else>
+	<h2><i class="icon fas fa-tachometer-alt" aria-hidden="true"></i>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.physicalProperties')}</h2>
+	</f:else>
+	</f:if>
+
+	<div class="materialDescription row" id="properties">
+	<table class="propertiesTable">
+		<thead>
+			<tr>
+				<th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.fields.name')}</th>
+				<th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.fields.value')}</th>
+				<f:if condition="{hnrv}">
+				<th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.fields.nominal')}</th>
+				</f:if>
+				<th>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.fields.method')}</th>
+			</tr>
+		</thead>
+		<tbody>
+	<f:for each="{m:getGroupedPhysicalProperties(properties:settings.mahu.schema.properties)}" as="propGroup" key="groupName" iteration="it">
+		<f:if condition="{m:HasValues(material:document,properties:propGroup)}">
+		<f:if condition="{it.isFirst}"><f:else>
+			<f:if condition="{hnrv}"><f:then>
+				<v:variable.set name="numCols" value="4" />
+			</f:then><f:else>
+				<v:variable.set name="numCols" value="3" />
+			</f:else></f:if>
+			<f:switch expression="{groupName}">
+			    <f:case value="electrical"><v:variable.set name="iconID" value="plug" /></f:case>
+			    <f:case value="mechanical"><v:variable.set name="iconID" value="wrench" /></f:case>
+			    <f:defaultCase><v:variable.set name="iconID" value="thermometer-three-quarters" /></f:defaultCase>
+			</f:switch>
+			<tr class="largertext" style="background:white"><td style="padding: 35px 0 20px 0" colspan="{numCols}"><i class="fas fa-{iconID} smallicon"></i><f:translate key="LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:properties.physicalProperties.{groupName}" default="{groupName}"/></td></tr>
+			<tr style="display:none"><td colspan="{numCols}">&nbsp;</td></tr>
+			
+		</f:else></f:if>
+		</f:if>
+	
+		<f:for each="{m:sortProperties(properties:propGroup)}" as="prop" key="fieldName" iteration="iter">
+			<v:variable.set name="values" value="{m:GetValue(material:document,name:prop.id,schema:settings.mahu.schema)}" />
+			
+			<f:if condition="{values}"><f:if condition="{values.obfuscated}"><f:else>
+			<f:for each="{values.value}" as="value"  iteration="iter{iter.index}">
+				<v:variable.set name="idx" value="{v:variable.get(name:'iter{iter.index}.index')}" />
+				<tr data-mid="{prop.id}">
+					<f:comment>name</f:comment>
+					<td>
+						<v:variable.set name="type" value="{v:variable.get(name:'document.{prop.id}_type')}" />
+						<v:variable.set name="typeIsArray" value="{s:data.isArray(subject:'{type}')}" />
+						<f:if condition="{idx}==0">
+							<f:then>
+								<v:variable.set name="idxIsZero" value="1" />
+							</f:then>
+							<f:else>
+								<v:variable.set name="idxIsZero" value="0" />
+							</f:else>
+						</f:if>
+
+						<f:comment>only render property name once if there is no different _type</f:comment>
+						<f:if condition="{s:logic.or(conditions:'{
+						  0:\"{idxIsZero}\",
+						  1:\"{typeIsArray}\"
+						}')}">
+						<span class="propertyName">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang-properties.xml:properties.{prop.id}')}
+							<f:if condition="{type}">
+								<f:if condition="{s:data.isArray(subject:'{type}')}">
+									<f:then><v:variable.set name="typeinner" value="{v:variable.get(name: 'type.{idx}')}"/>({typeinner})</f:then>
+									<f:else>({type})</f:else>
+								</f:if>
+							</f:if>
+							
+							<f:render partial="mahu/DetailPage/PropInfo" arguments="{ prop: prop, language: language }"/>
+						</span>
+						</f:if>
+					</td>
+					
+					<f:comment>value</f:comment>
+					<td>
+					<f:if condition="{value}!=='NaN'">
+					<f:then>
+						<f:if condition="{values.substance->f:count()} > 0"><f:then>
+							<v:variable.set name="substance" value="{v:variable.get(name: 'values.substance.{idx}')}"/>
+							<f:format.raw><f:if condition="{substance}">{substance}: </f:if><span class="value">{value}</span></f:format.raw>
+						</f:then><f:else>
+							<span class="value"><f:format.raw>{value}</f:format.raw></span>
+						</f:else></f:if>
+						
+						
+						<f:comment>unit</f:comment>
+						<span class="unit">
+						<f:if condition="{values.unit}">
+							<f:if condition="s:data.isArray(subject:'{values.unit}')">
+								<f:then>
+									<v:variable.set name="unit" value="{v:variable.get(name: 'values.unit.{idx}')}"/>
+									{unit}
+								</f:then>
+								<f:else>{values.unit}</f:else>
+							</f:if>
+						</f:if>
+						</span>
+						<f:comment>remark</f:comment>
+						<f:if condition="{values.remark}">
+							<f:if condition="{s:data.isArray(subject:'{values.remark}')}">
+								<f:then>
+									<v:variable.set name="remarkinner" value="{v:variable.get(name: 'values.remark.{idx}')}"/>
+									<f:if condition="{remarkinner}!='-'">
+									<f:comment><i class="fas fa-info-circle remarkInfo" tabindex="0" title="{remarkinner}"></i></f:comment>
+									({remarkinner})
+									</f:if>
+								</f:then>
+								<f:else>({values.remark})</f:else>
+							</f:if>
+						</f:if>
+					</f:then>
+					<f:else>
+						<f:comment>remark</f:comment>
+						<f:if condition="{values.remark}">
+							<f:if condition="{s:data.isArray(subject:'{values.remark}')}">
+								<f:then>
+									<v:variable.set name="remarkinner" value="{v:variable.get(name: 'values.remark.{idx}')}"/>
+									<f:comment><i class="fas fa-info-circle remarkInfo" tabindex="0" title="{remarkinner}"></i></f:comment>
+									({remarkinner})
+								</f:then>
+								<f:else>({values.remark})</f:else>
+							</f:if>
+						</f:if>
+					</f:else>
+					</f:if>
+					</td>
+					
+					<f:if condition="{hnrv}">
+					<td>
+					<f:if condition="{values.nominal}"><f:format.raw>
+						<f:if condition="s:data.isArray(subject:'{values.nominal}')">
+							<f:then>
+								<v:variable.set name="nom" value="{v:variable.get(name: 'values.nominal.{idx}')}"/>
+								{nom}
+							</f:then>
+							<f:else>{values.nominal}</f:else>
+						</f:if>
+						</f:format.raw>
+					</f:if>
+					</td>
+					</f:if>
+					
+					<f:comment>method</f:comment>
+					<td>
+					<f:if condition="{values.labels}">
+					<v:variable.set name="method" value="{v:variable.get(name: 'values.labels.{idx}')}" />
+					<f:format.raw>{method}</f:format.raw>
+					</f:if>
+					</td>
+				</tr>
+			</f:for>
+			</f:else></f:if></f:if>
+		</f:for>
+		</f:for>
+		</tbody>
+	</table>
+	</div>
+	
+</f:if>
+</f:alias>

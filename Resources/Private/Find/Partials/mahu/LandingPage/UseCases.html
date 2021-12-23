@@ -1,0 +1,31 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+
+<f:comment>
+Displays material use cases as an entry point into a material search.
+</f:comment>
+
+<s:page.linkCSS file="EXT:mahu_frontend/Resources/Public/Css/jqcloud.min.css"/>
+
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/libs/jqcloud-1.0.4.min.js" name="jqcloud"/>
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/TagCloud.js" name="tagcloud"/>
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/ImageGrid.js" name="imageGrid"/>
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/UserApplicationAreas.js" name="userAppAreas"/>
+
+<div class="landingPageSection"><a id="usecases" class="no-change" aria-hidden="true"></a>
+	<h2>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.appareas')}</h2>
+	
+	<div class="sectionContent">
+		<h3>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.appareas.relevant')}</h3>
+		<div id="userApplicationAreas" class="flexResultLine"></div>
+		
+		<h3>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.appareas.overview')}</h3>
+		<div>
+			<div id="appAreasWidgetToggle" style="position:relative"></div>
+			<div id="usecasesContainer">
+				<div id="usecasesContainerTC"></div>
+				<div id="usecasesContainerIG" style="display: none;"></div>
+			</div>
+		</div>
+	</div>
+</div>

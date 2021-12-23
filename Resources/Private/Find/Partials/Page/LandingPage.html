@@ -1,0 +1,45 @@
+{namespace s=Subugoe\Find\ViewHelpers}
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+
+<f:layout name="Default"/>
+<f:comment>
+	Template for a the search results view.
+
+	Sets up the page with its title, the search form, pager and result count
+	information. Then displays the configured facets and a result list using the
+	fields configured as standardFields.title and standardFields.snippet.
+	Results are linked to the respective documents’ detail pages.
+
+	This result display is sufficient for basic result lists.
+</f:comment>
+
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/pages/SearchFormPage.js" name="sfpage"/>
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/pages/LandingPage.js" name="lpage"/>
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/MaterialTaxonomy.js" name="taxononmy"/>
+<m:script file="EXT:mahu_frontend/Resources/Public/JavaScript/ImageLinkResolver.js" name="ilr"/>
+
+<script src="https://d3js.org/d3.v5.min.js" type="text/javascript"></script>
+
+<div class="landingPageContent">
+	<h1>{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:landingpage.heading')}</h1>
+	<p class="welcomeMessage">{f:translate(key:'LLL:EXT:mahu_frontend/Resources/Private/Language/locallang.xml:welcomeBody')}</p>
+	
+	<f:render partial="Form/Form" arguments="{_all}"/>
+	
+	<f:if condition="{settings.mahu.showTeaser}">
+		<f:render partial="mahu/LandingPage/Teaser"/>
+	</f:if>
+	
+	<f:comment>Kategorien</f:comment>
+	<f:render partial="mahu/LandingPage/MaterialCategories"/>
+	
+	<f:comment>Anwendungsgebiete</f:comment>
+	<f:render partial="mahu/LandingPage/UseCases"/>
+	
+	<f:comment>History</f:comment>
+	<f:render partial="mahu/LandingPage/History"/>
+	
+	<f:if condition="{settings.mahu.showWelcomeDialog}">
+	<f:render partial="mahu/LandingPage/WelcomeDialog" arguments="{language:config.language}"/>
+	</f:if>
+</div>

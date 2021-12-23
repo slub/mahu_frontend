@@ -1,0 +1,44 @@
+{namespace m=Slub\MahuFrontend\ViewHelpers}
+
+<f:comment>
+	Creates a div.resultCount.
+
+	It displays the current range and total number of results as appropriate.
+	If an error occurred it indicates the error.
+</f:comment>
+<div class="resultCount">
+
+	<f:if condition="{grouping.matches}==0">
+		<f:then>
+			<f:if condition="{error}">
+				<f:then>
+					<f:translate key="Error"/>
+				</f:then>
+				<f:else>
+					<f:translate key="no results"/>
+				</f:else>
+			</f:if>
+		</f:then>
+		<f:else>
+			<f:if condition="{grouping.matches}==1">
+				<f:then>
+					<f:translate key="1 result"/>
+				</f:then>
+				<f:else>
+					<f:if condition="{results.numfound}<{settings.count}">
+						<f:then>
+							{grouping.matches} <f:translate key="results"/>
+						</f:then>
+						<f:else>
+							<f:alias map="{groupCountInfo:'{m:CountGroupedResults(grouping:grouping)}'}">
+							{config.counterStart}-<f:if condition="{results.numfound}<{config.counterEnd}"><f:then>{groupCountInfo.overallCount}</f:then><f:else>{config.counterEnd}</f:else></f:if>
+							<f:translate key="of"/>
+							{grouping.matches}
+							</f:alias>
+						</f:else>
+					</f:if>
+				</f:else>
+			</f:if>
+		</f:else>
+	</f:if>
+</div>
